@@ -37,12 +37,12 @@ public class Arena {
 	static double[] inventar = new double[5];
 
 	public static Player plr = new Player(randy, randx);
-
+	public static Bombe bo = new Bombe(0, 0);
 	private static String signal;
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
-	// ///////////////////////////////////////////////////////////////////////////////
+//test test
 	public static void main(String[] args) {
 		draw(); // Initialisiere den Bildschirminhalt mit draw() einmal
 		welcome();
@@ -61,6 +61,7 @@ public class Arena {
 			levelset(); // Leveldaten
 
 			plr.draw(lastkey); // Player zeichnen
+			bo.draw(bo.trig);
 
 			signal = ("Duration in ms: " + (System.currentTimeMillis() - start));
 
@@ -118,7 +119,6 @@ public class Arena {
 	private static void tasten(byte levelswitch2) {
 
 		if (space) {
-			System.out.println("OK");
 
 			lastkey = 6;
 
