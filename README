@@ -16,7 +16,7 @@ Aufgaben
 1
 
 Für das Inventar brauchen wir ein Array, welches die Bomben als Objekte hin und her schiebt und einen Nullpointer setzt
-falls das Inventar überfüllt wurd. Die im Gepäch vorhanden Items sollen als kleinere Objekte in Reihe oder als Zahl angezeigt werden.
+falls das Inventar überfüllt wurde. Die im Gepäch vorhanden Items sollen als kleinere Objekte in Reihe oder als Zahl angezeigt werden.
 
 2
 
@@ -27,7 +27,7 @@ vergrößert sich mit der Anzahl der getroffenen Objekte (optional)
 3
 
 Optionale Objekte sollen im Feld platziert werden nicht zu viel aber auch nicht zu wenig
-Natürliche Hindernisse (beim Erreich dieser Steine wird die plr.x und plr.y gleichgesetzt mit den Rändern des Objekts.
+Natürliche Hindernisse (beim Erreichen dieser Steine wird die plr.x und plr.y gleichgesetzt mit den Rändern des Objekts.
 
 
 
