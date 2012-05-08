@@ -3,6 +3,9 @@ Den Bin ordner ignorieren- da sind die kompilierten Dateien drin, die zufällig 
 
 
 Die aktuellen Dateien befinden sich in "bomber". Das war ein wirrwar an Abhängigkeitsauflösung der Sounddateien...
+
+habe noch immer probleme mit den pushs bei github!!!!!!!!
+
 Im aktuellen Sourcecode habe ich die Wege verbessert wohin man teleportieren kann.
 Im Kampflevel kann man im bestimmten Modus wenn die Teleporter (Gate 0) wahr ist die Farbe des Boards zufällig ändern,
 wenn man mit der rechten Wand kollidiert.
