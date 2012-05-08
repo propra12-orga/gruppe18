@@ -1,3 +1,8 @@
+
+Den Bin ordner ignorieren- da sind die kompilierten Dateien drin, die zufällig mitgepusht wurden.- die gitignore datei wurde erst später in den neuen ordner verschoben
+
+
+
 Die aktuellen Dateien befinden sich in "bomber". Das war ein wirrwar an Abhängigkeitsauflösung der Sounddateien...
 Im aktuellen Sourcecode habe ich die Wege verbessert wohin man teleportieren kann.
 Im Kampflevel kann man im bestimmten Modus wenn die Teleporter (Gate 0) wahr ist die Farbe des Boards zufällig ändern,
