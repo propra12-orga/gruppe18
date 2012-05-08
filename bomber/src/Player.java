@@ -12,7 +12,7 @@ public class Player {
 
 	}
 
-	// Visuelle Ausgae bei Benutzereingaben für Player
+	// Visuelle ausg
 
 	public void draw(int lastkey) {
 
@@ -42,12 +42,33 @@ public class Player {
 
 		}
 
+		if ((lastkey == 6)) {
+
+			if (Arena.bo.x > Arena.w)
+				Arena.bo.x = -Arena.w;
+			if (Arena.bo.y > Arena.h) {
+				Arena.bo.x -= 1;
+				Arena.bo.y = -Arena.h;
+			}
+			;
+
+			Arena.plr.x = Arena.bo.x;
+			Arena.plr.y = Arena.bo.y;
+			StdDraw.picture(x, y, "gif/front.gif");
+			Arena.bo.trig = true;
+			Arena.bo.x += 0.1;
+			Arena.bo.y += Math.random() * 0.5;
+			if (Arena.bo.x >= Arena.w)
+				Arena.bo.x *= -1;
+
+		}
+
 		// boolische Multiplikation enspricht dem UND
 		if ((Arena.down && Arena.up && Arena.left && Arena.right)) {
 			StdDraw.picture(x, y, "gif/star.gif", 30, 30);
-			// Joker: Wenn der Benutzer alle Richtunngstasten drückt, steht ihm
+			// Joker: Wenn der Benutzer alle Richtunngstasten drÃ¼ckt, steht ihm
 			// ein Joker bereit.
-			// nach dem Benutzen des Jokers werden die Zugänge versperrt.
+			// nach dem Benutzen des Jokers werden die ZugÃ¤nge versperrt.
 			Arena.gate = 1;
 		}
 
@@ -67,10 +88,6 @@ public class Player {
 		if ((Arena.left) && (!Arena.right)) {
 
 			StdDraw.picture(x, y, "gif/left.gif");
-		}
-
-		if (Arena.space) {
-			// StdDraw.picture(x, y, "gif/orange_bomb.gif");
 		}
 
 	}
