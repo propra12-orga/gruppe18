@@ -1,0 +1,12 @@
+
+public class AudioTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+StdAudio.play("src/audio/death_comp.wav");
+
+	}
+
+}
