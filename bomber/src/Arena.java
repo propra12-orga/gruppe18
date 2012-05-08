@@ -16,7 +16,7 @@ public class Arena {
 	static double y = 0;
 	static byte gamespeed = 20; // 14 ist defaultwert
 
-	// Letzte gedrückte Taste besser ist es bei int zu lassen
+	// Letzte gedrÃ¼ckte Taste besser ist es bei int zu lassen
 	static int lastkey = 0;
 	static double[][] feld = new double[w][h];
 	// Keycodes
@@ -104,7 +104,7 @@ public class Arena {
 
 	private static void fr(byte gamespeed2) {
 
-		// Die zwei Linien nicht ändern oder schleifen sonst kommt es zu Fehlern
+		// Die zwei Linien nicht Ã¤ndern oder schleifen sonst kommt es zu Fehlern
 		// : show and clear Vorsicht!!!!
 		StdDraw.show(gamespeed);
 		StdDraw.clear();
@@ -177,7 +177,7 @@ public class Arena {
 		collision(gate);
 		tasten(levelswitch);
 
-		// Levelswitch für das schnelle wechseln von Levels
+		// Levelswitch fÃ¼r das schnelle wechseln von Levels
 
 	}
 
@@ -256,7 +256,7 @@ public class Arena {
 		StdDraw.textLeft(0, -5, message);
 		StdDraw.show(400);
 		StdDraw.picture(0, 0, "jpg/introscreen.jpg");
-		message = "Deine beiden Glückszahlen sind die: " + randx + " und "
+		message = "Deine beiden GlÃ¼ckszahlen sind die: " + randx + " und "
 				+ randy;
 		StdDraw.textLeft(-w, 0, message);
 		StdDraw.show(400);
@@ -323,7 +323,7 @@ public class Arena {
 		levelbrand();
 
 		StdDraw.setPenColor(color);
-		String message = "Setup Level: Ausrüstung / PowerUps";
+		String message = "Setup Level: AusrÃ¼stung / PowerUps";
 		StdDraw.text(0, -h, message);
 
 	}
@@ -448,7 +448,7 @@ public class Arena {
 	// ////////////////////////////////////////////////////////////////////////////////
 	// /Effekte
 	//
-	// einige levelabhängige Aktionen
+	// einige levelabhÃ¤ngige Aktionen
 	//
 	// ///////////////////////////////////////////////////////////////////////////////
 
@@ -471,7 +471,7 @@ public class Arena {
 	// /Teleporter
 	//
 	// Spezialaktion Gelangt der Spieler in eine Ecke kann er sich in
-	// die gegenüberliegende Ecke teleportieren.
+	// die gegenÃ¼berliegende Ecke teleportieren.
 	// ///////////////////////////////////////////////////////////////////////////////
 
 	// Schlumpfteleporter
@@ -539,6 +539,9 @@ public class Arena {
 		}
 		StdAudio.play("audio/robot2.wav");
 		gate = 1;
+		levelswitch = 1;
+		// hier kÃ¶nnte ein Bug auftreten wenn das levelswitch fehlt
+		// muss nochuntersucht werden
 
 	}
 
