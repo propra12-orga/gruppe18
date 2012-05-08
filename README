@@ -1,1 +1,6 @@
-Hello Nadescha!
+Die aktuellen Dateien befinden sich in "bomber". Das war ein wirrwar an Abhängigkeitsauflösung der Sounddateien...
+Im aktuellen Sourcecode habe ich die Wege verbessert wohin man teleportieren kann.
+Im Kampflevel kann man im bestimmten Modus wenn die Teleporter (Gate 0) wahr ist die Farbe des Boards zufällig ändern,
+wenn man mit der rechten Wand kollidiert.
+
+Man kann den Teleportermodus wechseln wenn man alle tasten drückt. (oben, unten, rechts, links)..
