@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="ChooseWorkspaceDialogSettings">
-<<<<<<< HEAD
-		<item value="182" key="DIALOG_Y_ORIGIN"/>
+		<item value="177" key="DIALOG_Y_ORIGIN"/>
 		<item value="202" key="DIALOG_X_ORIGIN"/>
-=======
-		<item value="190" key="DIALOG_Y_ORIGIN"/>
-		<item value="381" key="DIALOG_X_ORIGIN"/>
->>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 	</section>
 	<section name="WORKBENCH_SETTINGS">
 		<list key="ENABLED_TRANSFERS">
 		</list>
 	</section>
-<<<<<<< HEAD
-=======
 	<section name="NewWizardAction">
+		<item value="org.eclipse.jdt.ui.wizards.JavaProjectWizard" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.jdt.ui.java"/>
+		</list>
 	</section>
->>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 </section>

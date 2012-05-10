@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-<<<<<<< HEAD
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="true" key="group_libraries"/>
 		<item value="false" key="linkWithEditor"/>
@@ -14,7 +13,4 @@
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>
-=======
-	<item value="JavaSE-1.7" key="org.eclipse.jdt.ui.last.selected.execution.enviroment"/>
->>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 </section>
