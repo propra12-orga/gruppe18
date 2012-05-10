@@ -2,23 +2,22 @@ import java.awt.Color;
 
 public class Arena {
 
-
-
 	public static int b = 0;
 
 	static byte w = 25;
 	static byte h = 25;
+
 	static Color color;
 	static byte levelswitch = 0;
 	static byte soundswitch = 0;
 
 	static double x = 0;
 	static double y = 0;
+	static double a = 0.2; // Beschleunigung
 	static int n = 0;
 
 	static byte gamespeed = 20; // 14 ist defaultwert
 
-	
 	static int lastkey = 0;
 	static double[][] feld = new double[w][h];
 	// Keycodes
@@ -33,7 +32,7 @@ public class Arena {
 	static double randy = (int) (Math.random() * h);
 	// counter
 	public static int counter = 0;
-	public static int apfelcounter = 0;
+	public static int obst = 0;
 
 	// Konstruktoren
 
@@ -41,6 +40,8 @@ public class Arena {
 
 	public static Player plr = new Player(randy, randx);
 	public static Bombe bo = new Bombe(0, 0);
+	public static Apple apple = new Apple(0, 0);
+
 	private static String signal;
 
 	// ////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +62,7 @@ public class Arena {
 
 			fr(gamespeed); // Bildschirmrefresh
 			steuerung(); // Tastatureingaben
-			levelset(); // Leveldaten
+			levelswitch(); // Leveldaten
 
 			plr.draw(lastkey); // Player zeichnen
 			bo.draw(bo.trig);
@@ -190,14 +191,14 @@ public class Arena {
 
 	private static void collision() {
 
-	
 		Arena.x = plr.x;
 		Arena.y = plr.y;
 
 		if (plr.x >= w) {
 
 			plr.x = w;
-			colorwall();
+			if (levelswitch == 0)
+				colorwall();
 		}
 		if (plr.x <= -w) {
 			plr.x = -w;
@@ -205,15 +206,14 @@ public class Arena {
 		}
 		if (plr.y >= h) {
 			plr.y = h;
-			unilogo();
+
 		}
 		if (plr.y <= -h) {
 			plr.y = -h;
-			apfel();
+			if (levelswitch <= 1)
+				apfel();
 
 		}
-
-		
 
 	}
 
@@ -264,7 +264,7 @@ public class Arena {
 
 	}
 
-	private static void levelset() {
+	private static void levelswitch() {
 
 		// Objektspuren des players
 
@@ -273,25 +273,25 @@ public class Arena {
 		gate3();
 		gate4();
 
-		
-
-			StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
-
-		
+		StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
 
 		if (levelswitch == 0) {
 			mainlevel();
-		} else {
+		}
+		if (levelswitch == 1) {
 			setuplevel();
+		}
+
+		if (obst >= 3) {
+			levelswitch = 2;
+			obstlevel();
 		}
 
 	}
 
 	private static void setuplevel() {
 
-	
-
-		StdDraw.picture(0, 0, "jpg/boden.jpg", w*3 , h*3 );
+		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 3, h * 3);
 
 		StdDraw.setPenColor(color);
 		String message = "Setup Level: Ausrüstung / PowerUps";
@@ -305,12 +305,6 @@ public class Arena {
 
 	}
 
-	private static void unilogo() {
-		StdDraw.picture(-w + 2, -h + 4, "gif/uni_duesseldorf_logo.gif", 10, 7,
-				-75);
-
-	}
-
 	private static void mainlevel() {
 
 		StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
@@ -321,6 +315,59 @@ public class Arena {
 		levelbrand();
 
 		String message = "Kampflevel: Erprobe deine Skills";
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(0, -h - 1, message);
+		action1();
+
+	}
+
+	private static void obstlevel() {
+		
+		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 2, h * 2);
+		levelbrand();
+		
+		if(apple.anzahl==6)
+		{
+			StdAudio.play("audio/yeah.wav");
+			apple.anzahl=0;
+			levelswitch=0;
+			Arena.obst=0;
+		}
+		
+		if (n == 0) {
+			apple.x = -w;
+			apple.x += (int) (Math.random() * w);
+			apple.y = -h;
+			apple.y += (int) (Math.random() * h);
+
+			n++;
+		}
+
+		StdDraw.text(plr.x, h + 1, "Äpfel: " + apple.anzahl);
+
+		Arena.x = apple.x;
+		Arena.y = apple.y;
+		if ((int) Arena.x == plr.x) {
+			if ((int) Arena.y == (int) plr.y) {
+				StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
+				StdDraw.show(40);
+				apple.anzahl++;
+				n = 0;
+
+			}
+
+		}
+		apple.draw();
+
+		apple.x += Arena.a;
+		if ((apple.x > w + 5) || (apple.x < -w - 5)) {
+			a = a * -1; // Wenn apple die Wand trifft ändere die Richtung der
+						// Beschleunigung a
+			apple.y = -h;// Setze auch neue Werte der y -Koordinate
+			apple.y += (int) (Math.random() * h);
+		}
+
+		String message = "Obstlevel: Sammel Äpfel ein!";
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0, -h - 1, message);
 		action1();
@@ -342,23 +389,22 @@ public class Arena {
 
 		StdAudio.play("audio/cool.wav");
 		StdAudio.play("audio/right.wav");
-		
-			double r = (Math.random() * 9);
 
-			int R = (int) (Math.random() * 256);
-			int G = (int) (Math.random() * 256);
-			int B = (int) (Math.random() * 256);
-			Color randomColor = new Color(R, G, B);
-			StdDraw.setPenColor(randomColor);
+		double r = (Math.random() * 9);
 
-			StdDraw.filledCircle(plr.x, plr.y * r, 5 * r);
-			StdDraw.circle(plr.x, plr.y * r, 2 * r);
-			color = randomColor;
-			StdDraw.setPenColor(StdDraw.BLACK);
-			StdDraw.textLeft(-4, -h - 1,
-					"Dieser Level scheint gerade verschlossen zu sein.");
-			StdDraw.show(30);
-		
+		int R = (int) (Math.random() * 256);
+		int G = (int) (Math.random() * 256);
+		int B = (int) (Math.random() * 256);
+		Color randomColor = new Color(R, G, B);
+		StdDraw.setPenColor(randomColor);
+
+		StdDraw.filledCircle(plr.x, plr.y * r, 5 * r);
+		StdDraw.circle(plr.x, plr.y * r, 2 * r);
+		color = randomColor;
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.textLeft(-4, -h - 1,
+				"Dieser Level scheint gerade verschlossen zu sein.");
+		StdDraw.show(30);
 
 		counter = 0;
 	}
@@ -366,8 +412,8 @@ public class Arena {
 	private static void apfel() {
 		// Unterer Rand Event
 		counter++;
-		apfelcounter++;
-n=0;
+		obst++;
+		n = 0;
 		if (counter >= 1) {
 			plr.y = -h + 3;
 		}
@@ -384,7 +430,7 @@ n=0;
 		StdDraw.picture(plr.x, plr.y + 5, "gif/apple.gif", 6, 6, 200);
 		StdDraw.picture(plr.x - 1, plr.y + 3, "gif/star.gif", 2, 2, 200);
 		StdDraw.picture(plr.x + 1, plr.y + 2, "gif/star.gif", 1, 1, 180);
-		StdDraw.text(0, 0, "Obst: " + apfelcounter);
+		StdDraw.text(0, 0, "Obst: " + obst);
 		StdDraw.show(80);
 		counter = 0;
 	}
@@ -399,15 +445,12 @@ n=0;
 	private static void action1() {
 		if (space) {
 
+			StdDraw.picture(w - n, -h + n, "gif/star.gif", 3, 3, n * 12);
+			StdDraw.picture(w - n, h - n, "gif/star.gif", 3, 3, n * -12);
+			StdDraw.picture(-w + n, -h + n, "gif/star.gif", 3, 3, n * 12);
+			StdDraw.picture(-w + n, h - n, "gif/star.gif", 3, 3, n * -12);
 
-			StdDraw.picture(w-n, -h+n, "gif/star.gif", 3, 3, n*12);
-			StdDraw.picture(w-n, h-n, "gif/star.gif", 3, 3,n*-12);
-			StdDraw.picture(-w+n, -h+n, "gif/star.gif", 3, 3,n*12);
-			StdDraw.picture(-w+n, h-n,  "gif/star.gif", 3, 3, n*-12);
-
-
-		n++;
-	
+			n++;
 
 		}
 
