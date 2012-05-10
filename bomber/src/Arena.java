@@ -11,9 +11,11 @@ public class Arena {
 	static Color color;
 	static byte levelswitch = 0;
 	static byte soundswitch = 0;
-	static byte gate = 0; // Randerkennung an oder aus (1 oder 0)
+
 	static double x = 0;
 	static double y = 0;
+	static int n = 0;
+
 	static byte gamespeed = 20; // 14 ist defaultwert
 
 	// Letzte gedrückte Taste besser ist es bei int zu lassen
@@ -31,6 +33,7 @@ public class Arena {
 	static double randy = (int) (Math.random() * h);
 	// counter
 	public static int counter = 0;
+	public static int apfelcounter = 0;
 
 	// Konstruktoren
 
@@ -42,10 +45,10 @@ public class Arena {
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
-//test test
+	// test test
 	public static void main(String[] args) {
 		draw(); // Initialisiere den Bildschirminhalt mit draw() einmal
-		welcome();
+		// welcome();
 		system(); // Setze die Grafik und die Steuerung in eine Schleife
 
 	}
@@ -74,7 +77,7 @@ public class Arena {
 	private static void out(String signal2) {
 
 		StdDraw.textLeft(-w, -h, signal);
-		StdDraw.textLeft(-w + 3, -h + 3, "G: " + String.valueOf(gate));
+
 		Clicks(counter);
 	}
 
@@ -174,7 +177,7 @@ public class Arena {
 
 	private static void steuerung() {
 
-		collision(gate);
+		collision();
 		tasten(levelswitch);
 
 		// Levelswitch für das schnelle wechseln von Levels
@@ -185,63 +188,32 @@ public class Arena {
 	// / Kollision
 	// ///////////////////////////////////////////////////////////////////////////////
 
-	private static void collision(byte gate2) {
+	private static void collision() {
 
-		Arena.gate = gate2;
+	
 		Arena.x = plr.x;
 		Arena.y = plr.y;
-		if (Arena.gate == 1) {
 
-			if (plr.x >= w) {
+		if (plr.x >= w) {
 
-				event2();
+			plr.x = w;
+			colorwall();
+		}
+		if (plr.x <= -w) {
+			plr.x = -w;
 
-			}
-			if (plr.x <= -w) {
-				plr.x = -w;
-				event1();
-
-			}
-			if (plr.y >= h) {
-				plr.y = h;
-				event4();
-
-			}
-			if (plr.y <= -h) {
-				plr.y = -h;
-				event3();
-
-			}
+		}
+		if (plr.y >= h) {
+			plr.y = h;
+			unilogo();
+		}
+		if (plr.y <= -h) {
+			plr.y = -h;
+			apfel();
 
 		}
 
-		if (Arena.gate == 0) {
-
-			if (plr.x >= w) {
-				plr.x = -w;
-
-				if ((plr.x >= w) && (plr.y <= 2)) {
-					event2();
-				}
-
-			}
-
-			else {
-				if (plr.x < -w)
-					plr.x = w;
-			}
-
-			if (plr.y >= h) {
-				plr.y = -h;
-
-			}
-
-			else {
-				if (plr.y < -h)
-					plr.y = h;
-			}
-
-		}
+		
 
 	}
 
@@ -301,11 +273,11 @@ public class Arena {
 		gate3();
 		gate4();
 
-		if ((Arena.gate == 0)) {
+		
 
 			StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
 
-		}
+		
 
 		if (levelswitch == 0) {
 			mainlevel();
@@ -317,10 +289,9 @@ public class Arena {
 
 	private static void setuplevel() {
 
-		gate = 1;
+	
 
-		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 2, h * 1.75);
-		levelbrand();
+		StdDraw.picture(0, 0, "jpg/boden.jpg", w*3 , h*3 );
 
 		StdDraw.setPenColor(color);
 		String message = "Setup Level: Ausrüstung / PowerUps";
@@ -331,8 +302,13 @@ public class Arena {
 	private static void levelbrand() {
 		StdDraw.picture(-w, h, "gif/unicorn.gif", 6, 6);
 		StdDraw.picture(w - 1, h - 1, "gif/schlumpf.gif", 4, 4, 30);
+
+	}
+
+	private static void unilogo() {
 		StdDraw.picture(-w + 2, -h + 4, "gif/uni_duesseldorf_logo.gif", 10, 7,
 				-75);
+
 	}
 
 	private static void mainlevel() {
@@ -354,31 +330,8 @@ public class Arena {
 	// ////////////////////////////////////////////////////////////////////////////////
 	// /Events
 	// ///////////////////////////////////////////////////////////////////////////////
-	private static void event1() {
-		counter++;
 
-		if (counter >= 1) {
-			plr.x = -w / 1.5;
-		}
-		StdAudio.play("audio/pack.wav");
-		double r = (Math.random() * 9);
-
-		int R = (int) (Math.random() * 256);
-		int G = (int) (Math.random() * 256);
-		int B = (int) (Math.random() * 256);
-		Color randomColor = new Color(R, G, B);
-		StdDraw.setPenColor(randomColor);
-
-		// render();
-		StdDraw.picture(-w, plr.y * r, "gif/star.gif");
-		StdDraw.show(30);
-		soundswitch = 3;
-		StdDraw.textLeft(0, h + 1, "Hier geht es nicht weiter.");
-		counter = 0;
-
-	}
-
-	private static void event2() {
+	private static void colorwall() {
 		// Rechter Rand Event
 		counter++;
 		plr.x = 0;
@@ -389,7 +342,7 @@ public class Arena {
 
 		StdAudio.play("audio/cool.wav");
 		StdAudio.play("audio/right.wav");
-		if (gate == 1) {
+		
 			double r = (Math.random() * 9);
 
 			int R = (int) (Math.random() * 256);
@@ -405,15 +358,16 @@ public class Arena {
 			StdDraw.textLeft(-4, -h - 1,
 					"Dieser Level scheint gerade verschlossen zu sein.");
 			StdDraw.show(30);
-		}
+		
 
 		counter = 0;
 	}
 
-	private static void event3() {
-
+	private static void apfel() {
+		// Unterer Rand Event
 		counter++;
-
+		apfelcounter++;
+n=0;
 		if (counter >= 1) {
 			plr.y = -h + 3;
 		}
@@ -430,19 +384,9 @@ public class Arena {
 		StdDraw.picture(plr.x, plr.y + 5, "gif/apple.gif", 6, 6, 200);
 		StdDraw.picture(plr.x - 1, plr.y + 3, "gif/star.gif", 2, 2, 200);
 		StdDraw.picture(plr.x + 1, plr.y + 2, "gif/star.gif", 1, 1, 180);
-
-		StdDraw.show(50);
+		StdDraw.text(0, 0, "Obst: " + apfelcounter);
+		StdDraw.show(80);
 		counter = 0;
-	}
-
-	private static void event4() {
-		// TODO Auto-generated method stub
-		counter++;
-
-		if (counter <= 3) {
-			StdAudio.play("audio/coollow.wav");
-		}
-
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////
@@ -455,13 +399,15 @@ public class Arena {
 	private static void action1() {
 		if (space) {
 
-			StdDraw.picture(plr.x, plr.y + 3, "gif/star.gif", 1, 1, -40);
-			StdDraw.picture(plr.x, plr.y - 3, "gif/star.gif", 1, 1, 40);
-			StdDraw.picture(plr.x + 3, plr.y, "gif/star.gif", 1, 1, 40);
-			StdDraw.picture(plr.x - 3, plr.y, "gif/star.gif", 1, 1, -40);
 
-			StdAudio.play("audio/yeah.wav");
-			Arena.space = false;
+			StdDraw.picture(w-n, -h+n, "gif/star.gif", 3, 3, n*12);
+			StdDraw.picture(w-n, h-n, "gif/star.gif", 3, 3,n*-12);
+			StdDraw.picture(-w+n, -h+n, "gif/star.gif", 3, 3,n*12);
+			StdDraw.picture(-w+n, h-n,  "gif/star.gif", 3, 3, n*-12);
+
+
+		n++;
+	
 
 		}
 
@@ -519,7 +465,7 @@ public class Arena {
 		StdAudio.play("audio/robot.wav");
 		soundswitch = 2;
 		levelswitch = 0;
-		gate = 0;
+
 	}
 
 	// Unicornteleporter
@@ -538,7 +484,7 @@ public class Arena {
 			StdAudio.play("audio/pony.wav");
 		}
 		StdAudio.play("audio/robot2.wav");
-		gate = 1;
+
 		levelswitch = 1;
 		// hier könnte ein Bug auftreten wenn das levelswitch fehlt
 		// muss nochuntersucht werden
