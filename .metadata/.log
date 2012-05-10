@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 !SESSION 2012-05-08 22:20:26.177 -----------------------------------------------
+=======
+!SESSION 2012-05-08 17:53:21.236 -----------------------------------------------
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 eclipse.buildId=M20120208-0800
 java.version=1.7.0_03
 java.vendor=Oracle Corporation
@@ -6,6 +10,7 @@ BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
 Framework arguments:  -product org.eclipse.epp.package.reporting.product
 Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.reporting.product
 
+<<<<<<< HEAD
 !ENTRY org.eclipse.egit.core 4 0 2012-05-08 22:57:26.110
 !MESSAGE An exception occurred during push on URI git@github.com:propra12-orga/gruppe18.git: An internal Exception occurred during push: git@github.com:propra12-orga/gruppe18.git: session is down
 !STACK 0
@@ -98,6 +103,48 @@ org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execu
 	at org.eclipse.jface.window.Window.runEventLoop(Window.java:825)
 	at org.eclipse.jface.window.Window.open(Window.java:801)
 	at org.eclipse.egit.ui.internal.push.PushResultDialog$2.run(PushResultDialog.java:94)
+=======
+!ENTRY org.eclipse.core.resources 4 1 2012-05-08 17:55:11.731
+!MESSAGE Core exception while retrieving the content description
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource '/Bomberman/bin/StdDraw.class' is not local.
+	at org.eclipse.core.internal.resources.Resource.checkLocal(Resource.java:332)
+	at org.eclipse.core.internal.resources.File.getContentDescription(File.java:264)
+	at org.eclipse.core.internal.propertytester.FilePropertyTester.testContentType(FilePropertyTester.java:108)
+	at org.eclipse.core.internal.propertytester.FilePropertyTester.test(FilePropertyTester.java:60)
+	at org.eclipse.core.internal.expressions.Property.test(Property.java:58)
+	at org.eclipse.core.internal.expressions.TestExpression.evaluate(TestExpression.java:99)
+	at org.eclipse.core.internal.expressions.CompositeExpression.evaluateAnd(CompositeExpression.java:53)
+	at org.eclipse.core.internal.expressions.AndExpression.evaluate(AndExpression.java:29)
+	at org.eclipse.core.internal.expressions.CompositeExpression.evaluateOr(CompositeExpression.java:68)
+	at org.eclipse.core.internal.expressions.OrExpression.evaluate(OrExpression.java:21)
+	at org.eclipse.ui.internal.navigator.NavigatorPlugin$Evaluator.run(NavigatorPlugin.java:245)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.navigator.CustomAndExpression.evaluate(CustomAndExpression.java:71)
+	at org.eclipse.ui.internal.navigator.NavigatorPlugin$Evaluator.run(NavigatorPlugin.java:245)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.navigator.NavigatorPlugin.safeEvaluate(NavigatorPlugin.java:260)
+	at org.eclipse.ui.internal.navigator.extensions.NavigatorContentDescriptor.isPossibleChild(NavigatorContentDescriptor.java:454)
+	at org.eclipse.ui.internal.navigator.extensions.NavigatorContentDescriptorManager.findDescriptors(NavigatorContentDescriptorManager.java:236)
+	at org.eclipse.ui.internal.navigator.extensions.NavigatorContentDescriptorManager.findDescriptorsForPossibleChild(NavigatorContentDescriptorManager.java:206)
+	at org.eclipse.ui.internal.navigator.NavigatorContentService.findDescriptorsWithPossibleChild(NavigatorContentService.java:842)
+	at org.eclipse.ui.internal.navigator.NavigatorContentServiceContentProvider.findParents(NavigatorContentServiceContentProvider.java:608)
+	at org.eclipse.ui.internal.navigator.NavigatorContentServiceContentProvider.findPaths(NavigatorContentServiceContentProvider.java:583)
+	at org.eclipse.ui.internal.navigator.NavigatorContentServiceContentProvider.getParents(NavigatorContentServiceContentProvider.java:320)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.getParentElement(AbstractTreeViewer.java:1689)
+	at org.eclipse.jface.viewers.TreeViewer.getParentElement(TreeViewer.java:607)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.internalRemove(AbstractTreeViewer.java:1953)
+	at org.eclipse.jface.viewers.AbstractTreeViewer$6.run(AbstractTreeViewer.java:2201)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1443)
+	at org.eclipse.jface.viewers.TreeViewer.preservingSelection(TreeViewer.java:403)
+	at org.eclipse.jface.viewers.StructuredViewer.preservingSelection(StructuredViewer.java:1404)
+	at org.eclipse.jface.viewers.AbstractTreeViewer.remove(AbstractTreeViewer.java:2199)
+	at org.eclipse.ui.navigator.CommonViewer.remove(CommonViewer.java:323)
+	at org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionContentProvider$2.run(ResourceExtensionContentProvider.java:270)
+	at org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionContentProvider.runUpdates(ResourceExtensionContentProvider.java:306)
+	at org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionContentProvider.access$1(ResourceExtensionContentProvider.java:303)
+	at org.eclipse.ui.internal.navigator.resources.workbench.ResourceExtensionContentProvider$1.run(ResourceExtensionContentProvider.java:129)
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
 	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4140)
@@ -123,6 +170,7 @@ org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execu
 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:577)
 	at org.eclipse.equinox.launcher.Main.run(Main.java:1410)
 	at org.eclipse.equinox.launcher.Main.main(Main.java:1386)
+<<<<<<< HEAD
 Caused by: org.eclipse.jgit.errors.TransportException: alhep100@github.com:propra12-orga/gruppe18.git: session is down
 	at org.eclipse.jgit.transport.JschSession$JschProcess.<init>(JschSession.java:154)
 	at org.eclipse.jgit.transport.JschSession$JschProcess.<init>(JschSession.java:118)
@@ -266,3 +314,7 @@ Caused by: com.jcraft.jsch.JSchException: session is down
 
 !ENTRY org.eclipse.egit.ui 4 0 2012-05-10 09:58:20.427
 !MESSAGE Can't connect to any repository: git@github.com:propra12-orga/gruppe18.git (An internal Exception occurred during push: git@github.com:propra12-orga/gruppe18.git: session is down)
+=======
+!SUBENTRY 1 org.eclipse.core.resources 4 369 2012-05-08 17:55:11.746
+!MESSAGE Resource '/Bomberman/bin/StdDraw.class' is not local.
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801

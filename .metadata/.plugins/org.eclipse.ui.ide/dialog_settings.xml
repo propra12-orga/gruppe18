@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="ChooseWorkspaceDialogSettings">
+<<<<<<< HEAD
 		<item value="182" key="DIALOG_Y_ORIGIN"/>
 		<item value="202" key="DIALOG_X_ORIGIN"/>
+=======
+		<item value="190" key="DIALOG_Y_ORIGIN"/>
+		<item value="381" key="DIALOG_X_ORIGIN"/>
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 	</section>
 	<section name="WORKBENCH_SETTINGS">
 		<list key="ENABLED_TRANSFERS">
 		</list>
 	</section>
+<<<<<<< HEAD
+=======
+	<section name="NewWizardAction">
+	</section>
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 </section>

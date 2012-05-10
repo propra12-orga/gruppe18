@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="WorkbenchPreferenceDialogSettings">
+<<<<<<< HEAD
 		<item value="0" key="DIALOG_Y_ORIGIN"/>
 		<item value="14" key="DIALOG_X_ORIGIN"/>
 	</section>
@@ -9,5 +10,9 @@
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.jdt.ui.java"/>
 		</list>
+=======
+		<item value="-22" key="DIALOG_Y_ORIGIN"/>
+		<item value="-102" key="DIALOG_X_ORIGIN"/>
+>>>>>>> bf8c5d15ac49106c1dcfadf28002701e0b530801
 	</section>
 </section>
