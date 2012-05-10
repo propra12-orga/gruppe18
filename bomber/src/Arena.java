@@ -13,7 +13,7 @@ public class Arena {
 
 	static double x = 0;
 	static double y = 0;
-	static double a = 0.2; // Beschleunigung
+	static double a = 0.1; // Beschleunigung
 	static int n = 0;
 
 	static byte gamespeed = 20; // 14 ist defaultwert
@@ -269,7 +269,7 @@ public class Arena {
 		// Objektspuren des players
 
 		gate1();
-		gate2();
+
 		gate3();
 		gate4();
 
@@ -290,7 +290,7 @@ public class Arena {
 	}
 
 	private static void setuplevel() {
-
+		gate2();
 		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 3, h * 3);
 
 		StdDraw.setPenColor(color);
@@ -306,11 +306,14 @@ public class Arena {
 	}
 
 	private static void mainlevel() {
-
-		StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+		StdDraw.clear();
+		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
+		StdDraw.setPenColor(StdDraw.MAGENTA);
+		StdDraw.filledSquare(0, 0, w - 1);
 		StdDraw.setPenColor(color);
 		StdDraw.filledSquare(0, 0, w - 1);
+
 		StdDraw.picture(w - 7, -h + 7, "gif/Jabba_Granate.gif", 15, 15);
 		levelbrand();
 
@@ -322,18 +325,19 @@ public class Arena {
 	}
 
 	private static void obstlevel() {
-		
+
 		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 2, h * 2);
 		levelbrand();
-		
-		if(apple.anzahl==6)
-		{
+
+		if (apple.anzahl == 5) {
 			StdAudio.play("audio/yeah.wav");
-			apple.anzahl=0;
-			levelswitch=0;
-			Arena.obst=0;
+			apple.anzahl = 0;
+			levelswitch = 0;
+			Arena.obst = 0;
+			plr.y = 0;
+			a=0.03;
 		}
-		
+
 		if (n == 0) {
 			apple.x = -w;
 			apple.x += (int) (Math.random() * w);
@@ -345,16 +349,15 @@ public class Arena {
 
 		StdDraw.text(plr.x, h + 1, "Äpfel: " + apple.anzahl);
 
-		Arena.x = apple.x;
-		Arena.y = apple.y;
-		if ((int) Arena.x == plr.x) {
-			if ((int) Arena.y == (int) plr.y) {
-				StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
-				StdDraw.show(40);
-				apple.anzahl++;
-				n = 0;
-
-			}
+//Apfelkollision		
+		
+		if ((Math.abs(apple.x - plr.x) <= 2)
+				&& (Math.abs(apple.y - plr.y) <= 2)) {
+			StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
+			StdDraw.show(40);
+			apple.anzahl++;
+			a = a * apple.anzahl;
+			n = 0;
 
 		}
 		apple.draw();
@@ -470,45 +473,43 @@ public class Arena {
 
 			plr.y = -h;
 			plr.x = -w;
-			seqence1();
+			levelswitch = 1;
+
+			if (soundswitch == 1) {
+				StdAudio.play("audio/robot3.wav");
+				soundswitch = 2;
+			}
+			if (soundswitch == 2) {
+				StdAudio.play("audio/reverse.wav");
+				StdAudio.play("audio/cc-warp.wav");
+			}
+
+			if (soundswitch == 0) {
+				StdAudio.play("audio/horse.wav");
+				soundswitch = 3;
+			}
 		}
 	}
 
-	private static void seqence1() {
-		levelswitch = 1;
-
-		if (soundswitch == 1) {
-			StdAudio.play("audio/robot3.wav");
-			soundswitch = 2;
-		}
-		if (soundswitch == 2) {
-			StdAudio.play("audio/reverse.wav");
-			StdAudio.play("audio/cc-warp.wav");
-		}
-
-		if (soundswitch == 0) {
-			StdAudio.play("audio/horse.wav");
-			soundswitch = 3;
-		}
+	private static void reset() {
+		plr.x = 0;
+		plr.y = 0;
 
 	}
 
 	// Kamplevelteleporter
 
 	private static void gate2() {
+
 		if ((plr.x == 0) && (plr.y == h)) {
 
 			plr.y = -h;
 			plr.x = 0;
-			seqence2();
+			StdAudio.play("audio/robot.wav");
+			soundswitch = 2;
+			levelswitch = 0;
+			reset();
 		}
-	}
-
-	private static void seqence2() {
-		StdAudio.play("audio/robot.wav");
-		soundswitch = 2;
-		levelswitch = 0;
-
 	}
 
 	// Unicornteleporter
@@ -518,20 +519,13 @@ public class Arena {
 
 			plr.y = -h;
 			plr.x = w;
-			seqence3();
+			if (soundswitch == 2) {
+				StdAudio.play("audio/pony.wav");
+			}
+			StdAudio.play("audio/robot2.wav");
+
+			levelswitch = 1;
 		}
-	}
-
-	private static void seqence3() {
-		if (soundswitch == 2) {
-			StdAudio.play("audio/pony.wav");
-		}
-		StdAudio.play("audio/robot2.wav");
-
-		levelswitch = 1;
-		// hier könnte ein Bug auftreten wenn das levelswitch fehlt
-		// muss nochuntersucht werden
-
 	}
 
 	private static void gate4() {
@@ -539,16 +533,12 @@ public class Arena {
 
 			plr.y = -h;
 			plr.x = w;
-			seqence4();
-		}
-	}
+			if (soundswitch == 3) {
+				StdAudio.play("audio/death_comp.wav");
 
-	private static void seqence4() {
-		if (soundswitch == 3) {
-			StdAudio.play("audio/death_comp.wav");
+			}
 
 		}
-
 	}
 
 }

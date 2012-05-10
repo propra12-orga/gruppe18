@@ -3,6 +3,7 @@ public class Player {
 
 	int dir = 4;
 	boolean alive = true;
+	int health=100;
 	String[] inventar = new String[5];
 
 	public Player(double xdir, double ydir) {
