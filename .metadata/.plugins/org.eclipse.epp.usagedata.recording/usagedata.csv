@@ -1,0 +1,34 @@
+what,kind,bundleId,bundleVersion,description,time
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636599102
+executed,command,org.eclipse.egit.ui,1.3.0.201202151440-r,"org.eclipse.egit.ui.team.Commit",1336636599115
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636599445
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636599543
+executed,command,org.eclipse.egit.ui,1.3.0.201202151440-r,"org.eclipse.egit.ui.team.SimplePush",1336636604964
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636605253
+error,log,,,"An exception occurred during push on URI alhep100@github.com:propra12-orga/gruppe18.git: An internal Exception occurred during push: alhep100@github.com:propra12-orga/gruppe18.git: session is down",1336636611388
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636611415
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636611457
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636616455
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636616502
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636656003
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636662472
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636662501
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636662555
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636689400
+executed,command,org.eclipse.egit.ui,1.3.0.201202151440-r,"org.eclipse.egit.ui.team.Push",1336636689430
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636689758
+error,log,,,"An exception occurred during push on URI git@github.com:propra12-orga/gruppe18.git: An internal Exception occurred during push: git@github.com:propra12-orga/gruppe18.git: session is down",1336636700389
+error,log,,,"Can't connect to any repository: git@github.com:propra12-orga/gruppe18.git (An internal Exception occurred during push: git@github.com:propra12-orga/gruppe18.git: session is down)",1336636700427
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636706162
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636708233
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636777119
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636778286
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636820449
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336636829059
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336637326887
+deactivated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336637331065
+activated,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336637373354
+closed,workbench,org.eclipse.ui.workbench,3.7.1.v20120104-1859,"",1336637375963
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.700.v201104070312,"org.eclipse.jst.ws.axis.creation.ui",1336637376532
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.ui,1.0.505.v201004211805,"org.eclipse.jst.ws.axis.consumption.ui",1336637376578
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.core,1.0.407.v201104071820,"org.eclipse.jst.ws.axis.consumption.core",1336637376587
