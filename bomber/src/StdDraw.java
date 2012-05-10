@@ -1376,7 +1376,9 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			Arena.down = false;
 		}
-
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Arena.space = false;
+		}
 		keysDown.remove(e.getKeyCode());
 	}
 
