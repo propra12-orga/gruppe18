@@ -11,7 +11,7 @@ public class Bombe {
 
 	}
 
-	public void draw(boolean trig2) {
+	public void draw() {
 
 		if (Arena.bo.trig)
 

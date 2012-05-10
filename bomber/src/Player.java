@@ -3,7 +3,7 @@ public class Player {
 
 	int dir = 4;
 	boolean alive = true;
-	int health=100;
+	int health = 100;
 	String[] inventar = new String[5];
 
 	public Player(double xdir, double ydir) {
@@ -16,10 +16,14 @@ public class Player {
 	// Visuelle ausg
 
 	public void draw(int lastkey) {
-
+		
 		Arena.x = x;
 
 		Arena.y = y;
+		
+		if (health>0){
+			health();
+			
 		if ((lastkey == 1)) {
 
 			StdDraw.picture(x, y, "gif/right.gif");
@@ -70,7 +74,6 @@ public class Player {
 			// Joker: Wenn der Benutzer alle Richtunngstasten drückt, steht ihm
 			// ein Joker bereit.
 			// nach dem Benutzen des Jokers werden die Zugänge versperrt.
-			
 
 		}
 
@@ -91,7 +94,36 @@ public class Player {
 
 			StdDraw.picture(x, y, "gif/left.gif");
 		}
+	}
+		else
+		{
+			
+Arena.levelswitch=99;
+			
+		}
+		
+		
+	}
 
+	private void health() {
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.filledRectangle(-10, Arena.h, 10, 1);
+
+		for (int i = 0; i <= health * 0.15; i++) {
+
+			if (health <= 45) {
+				StdDraw.setPenColor(StdDraw.RED);
+			} else {
+				StdDraw.setPenColor(StdDraw.GREEN);
+			}
+			if (i>=14)
+			{
+				StdDraw.setPenColor(StdDraw.BLUE);
+			}
+
+			StdDraw.filledRectangle(-19 + i * 1.2, Arena.h, 0.5, 0.5);
+			StdDraw.setPenColor(StdDraw.BLACK);
+		}
 	}
 
 }

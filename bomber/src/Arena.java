@@ -13,10 +13,10 @@ public class Arena {
 
 	static double x = 0;
 	static double y = 0;
-	static double a = 0.1; // Beschleunigung
+	static double a = 0.7; // Beschleunigung
 	static int n = 0;
-
-	static byte gamespeed = 20; // 14 ist defaultwert
+	final static byte opt = (byte) Math.sqrt((w * h) * 1.5);
+	static byte gamespeed = opt; // 14 ist defaultwert
 
 	static int lastkey = 0;
 	static double[][] feld = new double[w][h];
@@ -27,12 +27,15 @@ public class Arena {
 	public static boolean down = false;
 	public static boolean space = false;
 	public static boolean click = false;
+
 	// Zufallszahlen
 	static double randx = (int) (Math.random() * w);
 	static double randy = (int) (Math.random() * h);
 	// counter
 	public static int counter = 0;
 	public static int obst = 0;
+	public static byte cxy = 0; // Information wurde obere oder untere Wand
+								// getroffen?
 
 	// Konstruktoren
 
@@ -43,6 +46,8 @@ public class Arena {
 	public static Apple apple = new Apple(0, 0);
 
 	private static String signal;
+
+	public static boolean run=true;
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
@@ -55,22 +60,28 @@ public class Arena {
 	}
 
 	private static void system() {
-		while (true) {
+		
+		
+		while (run) {
+			
+		
 			// Beginn der Messung in Millisekunden
 
 			long start = System.currentTimeMillis();
 
-			fr(gamespeed); // Bildschirmrefresh
-			steuerung(); // Tastatureingaben
-			levelswitch(); // Leveldaten
+			
+		steuerung(); // Tastatureingaben
+		levelswitch(); // Leveldaten
 
 			plr.draw(lastkey); // Player zeichnen
-			bo.draw(bo.trig);
+			bo.draw(); //Bombe Zeichnen
 
 			signal = ("Duration in ms: " + (System.currentTimeMillis() - start));
 
 			// Ende der Messung
 			out(signal);
+			
+			
 		}
 
 	}
@@ -79,12 +90,10 @@ public class Arena {
 
 		StdDraw.textLeft(-w, -h, signal);
 
-		Clicks(counter);
+	
 	}
 
-	private static void Clicks(int counter2) {
 
-	}
 
 	private static void setcolor(byte i) {
 
@@ -211,7 +220,10 @@ public class Arena {
 		if (plr.y <= -h) {
 			plr.y = -h;
 			if (levelswitch <= 1)
+				if (plr.health<=50)
+				{
 				apfel();
+				}
 
 		}
 
@@ -273,7 +285,7 @@ public class Arena {
 		gate3();
 		gate4();
 
-		StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
+		
 
 		if (levelswitch == 0) {
 			mainlevel();
@@ -286,10 +298,18 @@ public class Arena {
 			levelswitch = 2;
 			obstlevel();
 		}
-
+		
+		if (levelswitch==99)
+		{
+			StdDraw.clear();
+			
+			gameover();
+		}
+		
 	}
 
 	private static void setuplevel() {
+		fr(gamespeed); // Bildschirmrefresh
 		gate2();
 		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 3, h * 3);
 
@@ -306,9 +326,11 @@ public class Arena {
 	}
 
 	private static void mainlevel() {
-		StdDraw.clear();
+		fr(gamespeed); // Bildschirmrefresh
 		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
+		
+		StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
 		StdDraw.setPenColor(StdDraw.MAGENTA);
 		StdDraw.filledSquare(0, 0, w - 1);
 		StdDraw.setPenColor(color);
@@ -324,50 +346,120 @@ public class Arena {
 
 	}
 
+	
+	private static void gameover(){
+		
+	//	Arena.run=false;
+		
+		
+		StdDraw.text(0, 5, "GAME OVER");
+		StdDraw.text(0, -5, "Continue?? y/n");
+		StdDraw.picture(0, 0, "gif/deko1.gif");
+		StdDraw.show(500);
+		StdDraw.picture(0, 0, "gif/deko.gif");
+		StdDraw.show(500);
+		Arena.plr.x=0;
+		Arena.plr.y=0;
+	
+		
+	}
+	
 	private static void obstlevel() {
-
+		fr(gamespeed); // Bildschirmrefresh
 		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 2, h * 2);
 		levelbrand();
-
+		// Exitbedingung des Levels
 		if (apple.anzahl == 5) {
 			StdAudio.play("audio/yeah.wav");
 			apple.anzahl = 0;
 			levelswitch = 0;
 			Arena.obst = 0;
 			plr.y = 0;
-			a=0.03;
+			a = 1;
+			Arena.gamespeed = opt;
 		}
-
+		// Ausgangsbedingung des Levels
 		if (n == 0) {
-			apple.x = -w;
-			apple.x += (int) (Math.random() * w);
-			apple.y = -h;
-			apple.y += (int) (Math.random() * h);
+			// LR
+			if (cxy == 1) {
+				apple.y = Math.random() * h;
+				System.out.println("AppleY" + apple.y);
 
+			
+			}
+			// OU
+			if (cxy == 2) {
+				apple.x = Math.random() * w;
+				System.out.println("AppleY" + apple.x);
+			
+			}
+
+			Arena.gamespeed += apple.anzahl;
 			n++;
+			cxy=0;
 		}
 
 		StdDraw.text(plr.x, h + 1, "Äpfel: " + apple.anzahl);
 
-//Apfelkollision		
-		
-		if ((Math.abs(apple.x - plr.x) <= 2)
-				&& (Math.abs(apple.y - plr.y) <= 2)) {
+		// Apfelkollision (mit dem Spieler)
+
+		if ((Math.abs(apple.x - plr.x) <= w * 0.15)
+				&& (Math.abs(apple.y - plr.y) <= h * 0.15)) {
 			StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
-			StdDraw.show(40);
+plr.health+=7;
+
+if (plr.health>=100){plr.health=100;}
+	
 			apple.anzahl++;
-			a = a * apple.anzahl;
+			a *= 1.5;
 			n = 0;
 
 		}
 		apple.draw();
 
-		apple.x += Arena.a;
-		if ((apple.x > w + 5) || (apple.x < -w - 5)) {
+		// Beschleunigung des Apfels
+		if (apple.anzahl % 2 == 0) {
+			apple.x += Arena.a;
+
+		} else {
+			apple.y += Arena.a;
+
+		}
+
+		// Apfelkollision (mit der Wand)
+
+		// mit LR
+		if ((apple.x > w + 4) || (apple.x < -w - 4)) {
 			a = a * -1; // Wenn apple die Wand trifft ändere die Richtung der
 						// Beschleunigung a
-			apple.y = -h;// Setze auch neue Werte der y -Koordinate
-			apple.y += (int) (Math.random() * h);
+			apple.y += Math.random() * 10;
+			if (apple.y > h) {
+				apple.y = -h;
+			}
+
+			if (cxy == 1) {
+				Arena.x = apple.x;
+				apple.x = apple.y;
+				apple.y = Arena.x;
+			}
+			cxy = 1;
+		}
+		// mit OU
+		if ((apple.y > h + 4) || (apple.y < -h - 4)) {
+
+			a = a * -1; // Wenn apple die Wand trifft ändere die Richtung der
+						// Beschleunigung a
+
+			apple.x += Math.random() * 10;
+			if (apple.x > w) {
+				apple.y = -w;
+			}
+			if (cxy == 2) {
+				Arena.y = apple.y;
+				apple.y = apple.x;
+				apple.x = Arena.y;
+			}
+			cxy = 2;
 		}
 
 		String message = "Obstlevel: Sammel Äpfel ein!";
@@ -383,6 +475,7 @@ public class Arena {
 
 	private static void colorwall() {
 		// Rechter Rand Event
+		plr.health-=10;
 		counter++;
 		plr.x = 0;
 		plr.y--;
@@ -423,12 +516,12 @@ public class Arena {
 
 		StdAudio.play("audio/center.wav");
 
-		int d = 6;
+		
 
-		StdDraw.picture(plr.x, d, "gif/apple.gif", 3, 3, 45);
+		StdDraw.picture(plr.x, 6, "gif/apple.gif", 3, 3, 45);
 
-		d = d - 8;
-		StdDraw.picture(plr.x, d, "gif/apple.gif", 4, 4, 120);
+		
+		StdDraw.picture(plr.x, -8, "gif/apple.gif", 4, 4, 120);
 
 		StdDraw.picture(plr.x, plr.y + 5, "gif/apple.gif", 6, 6, 200);
 		StdDraw.picture(plr.x - 1, plr.y + 3, "gif/star.gif", 2, 2, 200);
