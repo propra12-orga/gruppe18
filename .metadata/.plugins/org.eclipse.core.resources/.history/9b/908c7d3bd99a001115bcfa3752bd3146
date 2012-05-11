@@ -1,0 +1,38 @@
+public class AudioObject {
+	static double freq = 440;
+	double sample = 0.01;
+	double amp = 1;
+	int rep = 0;
+	double mult = 1.1666;
+
+	void tunein() {
+		for (int i = 0; i <= 3000; i++) {
+			amp -= 0.1;
+		}
+		StdAudio.play(StdAudio.note(freq, sample, amp));
+		
+
+		if (rep <= 100) {
+			freq = freq * mult;
+			rep++;
+			
+			
+		}
+		if (freq >= 100) {
+			mult = -mult;
+			freq = freq / mult * 6;
+		}
+
+		if (freq <= 30) {
+			mult = -mult;
+		}
+	}
+
+	AudioObject(double frequency, double sampl, double amplitude) {
+
+		freq = frequency;
+		sample = sampl;
+		amp = amplitude;
+	}
+
+}

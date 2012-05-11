@@ -1224,7 +1224,7 @@ public final class StdDraw implements ActionListener, MouseListener,
 	 */
 	public static double mouseY() {
 		synchronized (mouseLock) {
-			return mouseY;
+			return getMouseY();
 		}
 	}
 
@@ -1252,8 +1252,20 @@ public final class StdDraw implements ActionListener, MouseListener,
 	public void mousePressed(MouseEvent e) {
 		synchronized (mouseLock) {
 			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
+			setMouseY(StdDraw.userY(e.getY()));
 			mousePressed = true;
+
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				Arena.button1 = true;
+			}
+			if (e.getButton() == MouseEvent.BUTTON2) {
+				Arena.button2 = true;
+			}
+
+			if (e.getButton() == MouseEvent.BUTTON3) {
+				Arena.button3 = true;
+			}
+
 		}
 	}
 
@@ -1263,7 +1275,20 @@ public final class StdDraw implements ActionListener, MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		synchronized (mouseLock) {
 			mousePressed = false;
+
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				Arena.button1 = false;
+			}
+			if (e.getButton() == MouseEvent.BUTTON2) {
+				Arena.button2 = false;
+			}
+
+			if (e.getButton() == MouseEvent.BUTTON3) {
+				Arena.button3 = false;
+			}
+
 		}
+
 	}
 
 	/**
@@ -1272,7 +1297,7 @@ public final class StdDraw implements ActionListener, MouseListener,
 	public void mouseDragged(MouseEvent e) {
 		synchronized (mouseLock) {
 			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
+			setMouseY(StdDraw.userY(e.getY()));
 		}
 	}
 
@@ -1282,7 +1307,7 @@ public final class StdDraw implements ActionListener, MouseListener,
 	public void mouseMoved(MouseEvent e) {
 		synchronized (mouseLock) {
 			mouseX = StdDraw.userX(e.getX());
-			mouseY = StdDraw.userY(e.getY());
+			setMouseY(StdDraw.userY(e.getY()));
 		}
 	}
 
@@ -1357,6 +1382,9 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			Arena.space = true;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_F1) {
+			Arena.help = true;
+		}
 		// keysDown.add(e.getKeyCode());
 	}
 
@@ -1378,6 +1406,9 @@ public final class StdDraw implements ActionListener, MouseListener,
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			Arena.space = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_F1) {
+			Arena.help = false;
 		}
 		keysDown.remove(e.getKeyCode());
 	}
@@ -1406,6 +1437,14 @@ public final class StdDraw implements ActionListener, MouseListener,
 		StdDraw.text(0.2, 0.5, "black text");
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.text(0.8, 0.8, "white text");
+	}
+
+	public static double getMouseY() {
+		return mouseY;
+	}
+
+	public static void setMouseY(double mouseY) {
+		StdDraw.mouseY = mouseY;
 	}
 
 }

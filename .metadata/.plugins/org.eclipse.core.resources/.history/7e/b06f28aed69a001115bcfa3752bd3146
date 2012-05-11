@@ -1,0 +1,21 @@
+
+public class AudioObject {
+double freq=440;
+double sample=0.01;
+double amp=1;
+void tunein() {
+	for (int i=0;i<=30;i++)
+	{
+		amp-=0.1;
+	}
+	StdAudio.play(StdAudio.note(freq, sample, amp));
+	
+}
+AudioObject(double frequency, double sampl, double amplitude){
+
+freq=frequency;
+sample=sampl;
+amp=amplitude;
+}
+
+}

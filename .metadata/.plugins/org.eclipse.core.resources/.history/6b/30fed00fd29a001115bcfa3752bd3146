@@ -1,0 +1,16 @@
+
+public class AudioObject {
+int i=5000;
+
+void tunein() {
+	for (int j=0;j<=i;j++)
+	{
+	
+	}
+}
+AudioObject(int time){
+
+	i=time;
+}
+
+}

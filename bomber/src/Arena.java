@@ -44,10 +44,18 @@ public class Arena {
 	public static Player plr = new Player(randy, randx);
 	public static Bombe bo = new Bombe(0, 0);
 	public static Apple apple = new Apple(0, 0);
-
+	public static AudioObject aul = new AudioObject(110, 0.5, 0.05);
 	private static String signal;
 
-	public static boolean run=true;
+	public static boolean run = true;
+
+	public static boolean button1 = false;
+
+	public static boolean button2 = false;
+
+	public static boolean button3 = false;
+
+	public static boolean help = false;
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
@@ -60,28 +68,24 @@ public class Arena {
 	}
 
 	private static void system() {
-		
-		
+
 		while (run) {
-			
-		
+
 			// Beginn der Messung in Millisekunden
 
 			long start = System.currentTimeMillis();
 
-			
-		steuerung(); // Tastatureingaben
-		levelswitch(); // Leveldaten
+			steuerung(); // Tastatureingaben
+			levelswitch(); // Leveldaten
 
 			plr.draw(lastkey); // Player zeichnen
-			bo.draw(); //Bombe Zeichnen
+			bo.draw(); // Bombe Zeichnen
 
 			signal = ("Duration in ms: " + (System.currentTimeMillis() - start));
 
 			// Ende der Messung
 			out(signal);
-			
-			
+
 		}
 
 	}
@@ -90,10 +94,7 @@ public class Arena {
 
 		StdDraw.textLeft(-w, -h, signal);
 
-	
 	}
-
-
 
 	private static void setcolor(byte i) {
 
@@ -131,18 +132,70 @@ public class Arena {
 
 	private static void tasten(byte levelswitch2) {
 
+		AudioObject au = new AudioObject(110, 0.1, 0.1);
+
 		if (space) {
 
 			lastkey = 6;
 
+			au.play();
+			au.rep++;
+			counter++;
+			if (counter == 10) {
+				plr.health -= 33;
+				StdAudio.play("audio/silence.wav");
+			}
+			if (counter == 20) {
+				plr.health -= 33;
+				;
+			}
+			if (counter == 30) {
+				plr.health -= 34;
+
+			}
+
+			System.out.println(counter);
+
+			if (au.rep == 48) {
+				au.amp = 0.01;
+				AudioObject.freq = 220;
+				au.sample = 0.05;
+				au.rep = 0;
+			}
+
 		}
 
-		if (left) {
+		if ((left)) {
 			x = plr.x;
 			plr.x--;
 
-			lastkey = 4; // Speicher die Aktion separat
+			lastkey = 4;
+			if (Arena.levelswitch == 99) {
+				System.exit(0);
+			}
+		}
+		if ((button1)) {
 
+			StdDraw.ellipse(0, plr.y, 3, 3);
+			StdDraw.text(0, plr.y, "Y");
+			StdDraw.ellipse(plr.x, 0, 3, 3);
+			StdDraw.text(plr.x, 0, "X");
+			StdDraw.text(-15, 18, "x: " + plr.x);
+			StdDraw.text(-15, 22, "y: " + plr.y);
+
+		}
+		if ((button2)) {
+
+		}
+
+		if ((button3)) {
+			StdDraw.setPenColor(StdDraw.GREEN);
+			StdDraw.circle(8, 8, 12);
+			StdDraw.setPenColor(StdDraw.BLACK);
+			StdDraw.text(5, 2, "health: " + plr.health);
+			StdDraw.text(5, 4, "Player alive?: " + plr.alive);
+			StdDraw.text(8, 6, "Players HashCode?: " + plr.hashCode());
+			StdDraw.text(5, 8, "Audio Frequency?: " + aul.freq);
 		}
 
 		if (down && up && left && right) {
@@ -153,11 +206,16 @@ public class Arena {
 
 		}
 
-		if (right) {
+		if ((right)) {
 			x = plr.x;
 			plr.x++;
 
 			lastkey = 1;
+			if (Arena.levelswitch == 99) {
+				Arena.levelswitch = 0;
+
+				plr.health = 100;
+			}
 
 		}
 
@@ -206,23 +264,26 @@ public class Arena {
 		if (plr.x >= w) {
 
 			plr.x = w;
+			aul.play();
 			if (levelswitch == 0)
 				colorwall();
 		}
 		if (plr.x <= -w) {
 			plr.x = -w;
 
+			aul.play();
+
 		}
 		if (plr.y >= h) {
 			plr.y = h;
-
+			aul.play();
 		}
 		if (plr.y <= -h) {
 			plr.y = -h;
+			aul.play();
 			if (levelswitch <= 1)
-				if (plr.health<=50)
-				{
-				apfel();
+				if (plr.health <= 50) {
+					apfel();
 				}
 
 		}
@@ -285,10 +346,9 @@ public class Arena {
 		gate3();
 		gate4();
 
-		
-
 		if (levelswitch == 0) {
 			mainlevel();
+
 		}
 		if (levelswitch == 1) {
 			setuplevel();
@@ -298,21 +358,22 @@ public class Arena {
 			levelswitch = 2;
 			obstlevel();
 		}
-		
-		if (levelswitch==99)
-		{
+
+		if (levelswitch == 99) {
 			StdDraw.clear();
-			
+
 			gameover();
 		}
-		
+
 	}
 
 	private static void setuplevel() {
+
 		fr(gamespeed); // Bildschirmrefresh
+
 		gate2();
 		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 3, h * 3);
-
+		StdDraw.picture(0, h - 4, "gif/pfeil_oben.gif");
 		StdDraw.setPenColor(color);
 		String message = "Setup Level: Ausrüstung / PowerUps";
 		StdDraw.text(0, -h, message);
@@ -329,7 +390,7 @@ public class Arena {
 		fr(gamespeed); // Bildschirmrefresh
 		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
-		
+
 		StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
 		StdDraw.setPenColor(StdDraw.MAGENTA);
 		StdDraw.filledSquare(0, 0, w - 1);
@@ -346,57 +407,65 @@ public class Arena {
 
 	}
 
-	
-	private static void gameover(){
-		
-	//	Arena.run=false;
-		
-		
+	private static void gameover() {
+
+		// Arena.run=false;
+
+		StdAudio.play("audio/robot3.wav");
+		StdAudio.play("audio/GOTIT.wav");
 		StdDraw.text(0, 5, "GAME OVER");
-		StdDraw.text(0, -5, "Continue?? y/n");
+		StdDraw.text(0, -5, "Continue?? HOLD LEFT for exit // YES for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
 		StdDraw.show(500);
 		StdDraw.picture(0, 0, "gif/deko.gif");
 		StdDraw.show(500);
-		Arena.plr.x=0;
-		Arena.plr.y=0;
-	
-		
+
+		StdDraw.show(1200);
+
+		Arena.plr.x = 0;
+		Arena.plr.y = 0;
+		StdAudio.close();
+
 	}
-	
+
 	private static void obstlevel() {
 		fr(gamespeed); // Bildschirmrefresh
 		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 2, h * 2);
 		levelbrand();
 		// Exitbedingung des Levels
 		if (apple.anzahl == 5) {
-			StdAudio.play("audio/yeah.wav");
+
 			apple.anzahl = 0;
 			levelswitch = 0;
 			Arena.obst = 0;
 			plr.y = 0;
 			a = 1;
 			Arena.gamespeed = opt;
+
+		}
+
+		if (apple.anzahl == 2) {
+			StdAudio.play("audio/left.wav");
 		}
 		// Ausgangsbedingung des Levels
 		if (n == 0) {
 			// LR
+
 			if (cxy == 1) {
 				apple.y = Math.random() * h;
 				System.out.println("AppleY" + apple.y);
 
-			
 			}
 			// OU
 			if (cxy == 2) {
 				apple.x = Math.random() * w;
 				System.out.println("AppleY" + apple.x);
-			
+
 			}
 
 			Arena.gamespeed += apple.anzahl;
 			n++;
-			cxy=0;
+			cxy = 0;
 		}
 
 		StdDraw.text(plr.x, h + 1, "Äpfel: " + apple.anzahl);
@@ -406,10 +475,12 @@ public class Arena {
 		if ((Math.abs(apple.x - plr.x) <= w * 0.15)
 				&& (Math.abs(apple.y - plr.y) <= h * 0.15)) {
 			StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
-plr.health+=7;
+			plr.health += 7;
 
-if (plr.health>=100){plr.health=100;}
-	
+			if (plr.health >= 100) {
+				plr.health = 100;
+			}
+
 			apple.anzahl++;
 			a *= 1.5;
 			n = 0;
@@ -475,7 +546,7 @@ if (plr.health>=100){plr.health=100;}
 
 	private static void colorwall() {
 		// Rechter Rand Event
-		plr.health-=10;
+		plr.health -= 10;
 		counter++;
 		plr.x = 0;
 		plr.y--;
@@ -516,11 +587,8 @@ if (plr.health>=100){plr.health=100;}
 
 		StdAudio.play("audio/center.wav");
 
-		
-
 		StdDraw.picture(plr.x, 6, "gif/apple.gif", 3, 3, 45);
 
-		
 		StdDraw.picture(plr.x, -8, "gif/apple.gif", 4, 4, 120);
 
 		StdDraw.picture(plr.x, plr.y + 5, "gif/apple.gif", 6, 6, 200);
@@ -570,6 +638,7 @@ if (plr.health>=100){plr.health=100;}
 
 			if (soundswitch == 1) {
 				StdAudio.play("audio/robot3.wav");
+				StdAudio.play("audio/horse.wav");
 				soundswitch = 2;
 			}
 			if (soundswitch == 2) {
@@ -578,7 +647,8 @@ if (plr.health>=100){plr.health=100;}
 			}
 
 			if (soundswitch == 0) {
-				StdAudio.play("audio/horse.wav");
+
+				StdAudio.loop("audio/mtr.wav");
 				soundswitch = 3;
 			}
 		}
