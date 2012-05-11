@@ -262,7 +262,7 @@ public class Arena {
 		if (plr.x >= w) {
 
 			plr.x = w;
-
+			aul.play();
 			if (levelswitch == 0)
 				colorwall();
 		}
@@ -274,11 +274,11 @@ public class Arena {
 		}
 		if (plr.y >= h) {
 			plr.y = h;
-
+			aul.play();
 		}
 		if (plr.y <= -h) {
 			plr.y = -h;
-
+			aul.play();
 			if (levelswitch <= 1)
 				if (plr.health <= 50) {
 					apfel();
@@ -412,8 +412,7 @@ public class Arena {
 		StdAudio.play("audio/mtr.wav");
 
 		StdDraw.text(0, 5, "GAME OVER");
-		StdDraw.text(0, -5,
-				"Continue?? HOLD LEFT for exit // RIGHT for continue");
+		StdDraw.text(0, -5, "Continue?? HOLD LEFT for exit // RIGHT for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
 		StdDraw.show(500);
 		StdDraw.picture(0, 0, "gif/deko.gif");
