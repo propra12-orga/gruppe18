@@ -6,7 +6,7 @@ public class AudioObject {
 	double mult = 1;
 
 	void play() {
-		freq += (int) (Math.random() * freq);
+		freq += (int) (Math.random() * freq*0.7);
 		freq = (freq) * Arena.plr.y;
 
 		StdAudio.play(StdAudio.note(freq, sample, amp));
@@ -19,5 +19,5 @@ public class AudioObject {
 		sample = sampl;
 		amp = amplitude;
 	}
-
+     
 }

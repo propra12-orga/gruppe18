@@ -154,8 +154,6 @@ public class Arena {
 
 			}
 
-			System.out.println(counter);
-
 			if (au.rep == 48) {
 				au.amp = 0.01;
 				AudioObject.freq = 220;
@@ -381,8 +379,8 @@ public class Arena {
 	}
 
 	private static void levelbrand() {
-		StdDraw.picture(-w, h, "gif/unicorn.gif", 6, 6);
-		StdDraw.picture(w - 1, h - 1, "gif/schlumpf.gif", 4, 4, 30);
+		StdDraw.picture(-w, h, "png/unicorn.png", 6, 6);
+		StdDraw.picture(w - 4, h - 2, "png/blocks.png", 16, 16, -30);
 
 	}
 
@@ -411,8 +409,8 @@ public class Arena {
 
 		// Arena.run=false;
 
-		StdAudio.play("audio/robot3.wav");
-		StdAudio.play("audio/GOTIT.wav");
+		StdAudio.play("audio/mtr.wav");
+
 		StdDraw.text(0, 5, "GAME OVER");
 		StdDraw.text(0, -5, "Continue?? HOLD LEFT for exit // YES for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
