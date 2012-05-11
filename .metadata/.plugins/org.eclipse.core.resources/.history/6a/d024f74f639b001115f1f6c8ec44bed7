@@ -44,7 +44,7 @@ public class Arena {
 	public static Player plr = new Player(randy, randx);
 	public static Bombe bo = new Bombe(0, 0);
 	public static Apple apple = new Apple(0, 0);
-	
+	public static AudioObject aul = new AudioObject(110, 0.5, 0.05);
 	private static String signal;
 
 	public static boolean run = true;
@@ -132,14 +132,14 @@ public class Arena {
 
 	private static void tasten(byte levelswitch2) {
 
-
+		AudioObject au = new AudioObject(110, 0.1, 0.1);
 
 		if (space) {
 
 			lastkey = 6;
 
-
-
+			au.play();
+			au.rep++;
 			counter++;
 			if (counter == 10) {
 				plr.health -= 33;
@@ -154,7 +154,12 @@ public class Arena {
 
 			}
 
-
+			if (au.rep == 48) {
+				au.amp = 0.01;
+				AudioObject.freq = 220;
+				au.sample = 0.15;
+				au.rep = 0;
+			}
 
 		}
 
@@ -187,8 +192,8 @@ public class Arena {
 			StdDraw.setPenColor(StdDraw.BLACK);
 			StdDraw.text(5, 2, "health: " + plr.health);
 			StdDraw.text(5, 4, "Player alive?: " + plr.alive);
-		
-			
+			StdDraw.text(8, 6, "Players HashCode?: " + plr.hashCode());
+			StdDraw.text(5, 8, "Audio Frequency?: " + aul.freq);
 		}
 
 		if (down && up && left && right) {
@@ -264,7 +269,7 @@ public class Arena {
 		if (plr.x <= -w) {
 			plr.x = -w;
 
-		
+			aul.play();
 
 		}
 		if (plr.y >= h) {

@@ -264,7 +264,7 @@ public class Arena {
 		if (plr.x <= -w) {
 			plr.x = -w;
 
-		
+			aul.play();
 
 		}
 		if (plr.y >= h) {
