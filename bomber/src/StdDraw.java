@@ -1090,23 +1090,23 @@ public final class StdDraw implements ActionListener, MouseListener,
 	 * defer drawing on screen, draw the shapes, and call <tt>show(0)</tt> to
 	 * display them all on screen at once).
 	 * 
-	 * @param t
+	 * @param d
 	 *            number of milliseconds
 	 */
-	public static void show(int t) {
+	public static void show(double d) {
 		defer = false;
 		draw();
 		try {
-			extracted(t);
+			extracted(d);
 		} catch (InterruptedException e) {
 			System.out.println("Error sleeping");
 		}
 		defer = true;
 	}
 
-	private static void extracted(int t) throws InterruptedException {
+	private static void extracted(double d) throws InterruptedException {
 		Thread.currentThread();
-		Thread.sleep(t);
+		Thread.sleep((long) d);
 	}
 
 	/**
@@ -1388,7 +1388,9 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_X) {
 			Arena.xkey = true;
 		}
-		
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Arena.esc = true;
+		}
 		
 		// keysDown.add(e.getKeyCode());
 	}
@@ -1397,6 +1399,10 @@ public final class StdDraw implements ActionListener, MouseListener,
 	 * This method cannot be called directly.
 	 */
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Arena.esc = false;
+		}
+		
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Arena.right = false;
 		}

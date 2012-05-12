@@ -1,4 +1,4 @@
-public class Apple {
+public class Apple implements Runnable {
 	double x = 0;
 	double y = 0;
 	int anzahl = 0;
@@ -8,9 +8,11 @@ public class Apple {
 		y = e;
 	}
 
-	public void draw() {
+	@Override
+	public void run() {
+		StdDraw.picture(x, y, "gif/apple.gif", Math.abs(x * 0.4),
+				Math.abs(x * 0.4), x * 720);
 
-		StdDraw.picture(x, y, "gif/apple.gif", 2, 2);
 
 	}
 

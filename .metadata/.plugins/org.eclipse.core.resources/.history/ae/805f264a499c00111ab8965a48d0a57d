@@ -1,0 +1,19 @@
+public class Engine extends Thread {
+
+	public void run() {
+
+		long start = System.currentTimeMillis();
+
+		Arena.steuerung(); // Tastatureingaben
+		Arena.levelswitch(); // Leveldaten
+
+		Arena.plr.draw(Arena.lastkey); // Player zeichnen
+		Arena.bo.draw(); // Bombe Zeichnen
+
+		Arena.signal = ("Duration in ms: " + (System.currentTimeMillis() - start));
+
+		// Ende der Messung
+
+	}
+
+}

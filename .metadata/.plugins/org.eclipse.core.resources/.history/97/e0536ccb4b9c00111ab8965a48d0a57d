@@ -1,0 +1,23 @@
+public class Engine extends Thread {
+
+	public void run() {
+		while (true) {
+
+			try {
+
+				Arena.steuerung(); // Tastatureingaben
+				Engine.sleep(50);
+				Arena.levelswitch(); // Leveldaten
+				
+				Arena.plr.draw(Arena.lastkey); // Player zeichnen
+				Arena.bo.draw(); // Bombe Zeichnen
+
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Ende der Messung
+		}
+	}
+
+}
