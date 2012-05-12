@@ -5,19 +5,20 @@ public class Player {
 	boolean alive = true;
 	int health = 100;
 	String[] inventar = new String[5];
+	double imgx = 8;
+	double imgy = 8;
+	public double h;
 
-	public Player(double xdir, double ydir) {
+	public Player(double xdir, double ydir, double height) {
 
 		x = xdir;
 		y = ydir;
-
+		h = height;
 	}
 
 	// Visuelle ausg
 
 	public void draw(int lastkey) {
-
-
 
 		if (health > 0) {
 			alive = true;
@@ -25,24 +26,24 @@ public class Player {
 
 			if ((lastkey == 1)) {
 
-				StdDraw.picture(x, y, "png/right.png");
+				StdDraw.picture(x, y, "png/right.png",imgx,imgy);
 
 			}
 
 			if ((lastkey == 0)) {
 
-				StdDraw.picture(x, y, "png/front.png");
+				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
 
 			}
 
 			if ((lastkey == 3)) {
 
-				StdDraw.picture(x, y, "png/back.png");
+				StdDraw.picture(x, y, "png/back.png",imgx,imgy);
 
 			}
 			if ((lastkey == 4)) {
 
-				StdDraw.picture(x, y, "png/left.png");
+				StdDraw.picture(x, y, "png/left.png",imgx,imgy);
 
 			}
 
@@ -58,7 +59,7 @@ public class Player {
 
 				Arena.plr.x = Arena.bo.x;
 				Arena.plr.y = Arena.bo.y;
-				StdDraw.picture(x, y, "png/front.png");
+				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
 				Arena.bo.trig = true;
 				Arena.bo.x += 0.1;
 				Arena.bo.y += Math.random() * 0.5;
@@ -79,20 +80,20 @@ public class Player {
 
 			if ((Arena.down) && (!Arena.up)) {
 
-				StdDraw.picture(x, y, "png/front.png");
+				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
 			}
 
 			if ((Arena.right) && (!Arena.left)) {
 
-				StdDraw.picture(x, y, "png/right.png");
+				StdDraw.picture(x, y, "png/right.png",imgx,imgy);
 			}
 			if ((Arena.up) && (!Arena.down)) {
 
-				StdDraw.picture(x, y, "png/back.png");
+				StdDraw.picture(x, y, "png/back.png",imgx,imgy);
 			}
 			if ((Arena.left) && (!Arena.right)) {
 
-				StdDraw.picture(x, y, "png/left.png");
+				StdDraw.picture(x, y, "png/left.png",imgx,imgy);
 			}
 		} else {
 			alive = false;

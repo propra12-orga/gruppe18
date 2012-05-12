@@ -39,7 +39,7 @@ public class Arena {
 
 	static double[] inventar = new double[5];
 
-	public static Player plr = new Player(randy, randx);
+	public static Player plr = new Player(randy, randx, 0);
 	public static Bombe bo = new Bombe(0, 0);
 	public static Apple apple = new Apple(0, 0);
 
@@ -158,6 +158,36 @@ public class Arena {
 			if (Arena.levelswitch == 99) {
 				System.exit(0);
 			}
+		}
+
+		if (xkey) {
+
+			for (double i = 0; i < 270; i++) {
+				plr.h = 1;
+				plr.imgx += 0.0000005 * i;
+				plr.imgy = plr.imgx;
+
+				if (i >= 180) {
+					plr.y += Math.random() * 0.01;
+				}
+
+				StdDraw.picture(plr.x, plr.y - 7, "gif/bomb_seq06.gif",
+						plr.imgx * 0.5, plr.imgy * 0.5, i * plr.y);
+
+			}
+
+			if (plr.imgx > 10) {
+				plr.health -= 10;
+				xkey = false;
+			}
+
+		}
+
+		if (xkey == false) {
+			plr.imgx = 8;
+			plr.imgy = plr.imgx;
+			plr.h = 0;
+
 		}
 		if ((button1)) {
 
