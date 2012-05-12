@@ -17,9 +17,7 @@ public class Player {
 
 	public void draw(int lastkey) {
 
-		Arena.x = x;
 
-		Arena.y = y;
 
 		if (health > 0) {
 			alive = true;

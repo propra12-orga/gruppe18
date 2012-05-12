@@ -1385,6 +1385,11 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_F1) {
 			Arena.help = true;
 		}
+		if (e.getKeyCode() == KeyEvent.VK_X) {
+			Arena.xkey = true;
+		}
+		
+		
 		// keysDown.add(e.getKeyCode());
 	}
 
@@ -1410,6 +1415,11 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_F1) {
 			Arena.help = false;
 		}
+		
+		if (e.getKeyCode() == KeyEvent.VK_X) {
+			Arena.xkey = false;
+		}
+		
 		keysDown.remove(e.getKeyCode());
 	}
 

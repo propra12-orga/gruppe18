@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="2.0.0" sequence="1" timestamp="1336825717512" analysisTimestamp="1336825644351" release="">
+  <Project projectName="bomber">
+    <Jar>C:\Users\Alex Hepting\gruppe18\bomber\bin\Arena.class</Jar>
+    <AuxClasspathEntry>C:\Users\Alex Hepting\gruppe18\bomber\bin</AuxClasspathEntry>
+    <SrcDir>C:\Users\Alex Hepting\gruppe18\bomber\src</SrcDir>
+    <Cloud id="edu.umd.cs.findbugs.cloud.doNothingCloud" online="false"></Cloud>
+  </Project>
+  <BugInstance type="DM_NEXTINT_VIA_NEXTDOUBLE" priority="2" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="&lt;clinit&gt;" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="5" end="3" startBytecode="0" endBytecode="367" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="30" end="30" startBytecode="111" endBytecode="111" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NEXTINT_VIA_NEXTDOUBLE" priority="2" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="&lt;clinit&gt;" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="5" end="3" startBytecode="0" endBytecode="367" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="31" end="31" startBytecode="124" endBytecode="124" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NEXTINT_VIA_NEXTDOUBLE" priority="2" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="colorwall" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="531" end="559" startBytecode="0" endBytecode="388" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="544" end="544" startBytecode="86" endBytecode="86" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NEXTINT_VIA_NEXTDOUBLE" priority="2" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="colorwall" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="531" end="559" startBytecode="0" endBytecode="388" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="545" end="545" startBytecode="95" endBytecode="95" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="DM_NEXTINT_VIA_NEXTDOUBLE" priority="2" abbrev="Dm" category="PERFORMANCE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="colorwall" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="531" end="559" startBytecode="0" endBytecode="388" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="546" end="546" startBytecode="104" endBytecode="104" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="ICAST_IDIV_CAST_TO_DOUBLE" priority="2" abbrev="ICAST" category="STYLE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="colorwall" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="531" end="559" startBytecode="0" endBytecode="388" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="536" end="536" startBytecode="55" endBytecode="55" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="ICAST_IDIV_CAST_TO_DOUBLE" priority="2" abbrev="ICAST" category="STYLE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Method classname="Arena" name="welcome" signature="()V" isStatic="true">
+      <SourceLine classname="Arena" start="282" end="321" startBytecode="0" endBytecode="505" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Method>
+    <SourceLine classname="Arena" start="304" end="304" startBytecode="185" endBytecode="185" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="counter" signature="I" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="33" end="33" startBytecode="130" endBytecode="130" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="cxy" signature="B" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="35" end="35" startBytecode="138" endBytecode="138" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_PKGPROTECT" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="obst" signature="I" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="34" end="34" startBytecode="134" endBytecode="134" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="apple" signature="LApple;" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="44" end="44" startBytecode="184" endBytecode="184" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="bo" signature="LBombe;" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="43" end="43" startBytecode="172" endBytecode="172" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="1" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="plr" signature="LPlayer;" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="42" end="42" startBytecode="160" endBytecode="160" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="button1" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="50" end="50" startBytecode="192" endBytecode="192" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="button3" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="54" end="54" startBytecode="200" endBytecode="200" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="down" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="24" end="24" startBytecode="88" endBytecode="88" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="left" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="22" end="22" startBytecode="80" endBytecode="80" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="right" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="21" end="21" startBytecode="76" endBytecode="76" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="run" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="48" end="48" startBytecode="188" endBytecode="188" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="space" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="25" end="25" startBytecode="92" endBytecode="92" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <BugInstance type="MS_SHOULD_BE_FINAL" priority="2" abbrev="MS" category="MALICIOUS_CODE" first="1">
+    <Class classname="Arena">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Class>
+    <Field classname="Arena" name="up" signature="Z" isStatic="true">
+      <SourceLine classname="Arena" sourcefile="Arena.java" sourcepath="Arena.java"/>
+    </Field>
+    <SourceLine classname="Arena" start="23" end="23" startBytecode="84" endBytecode="84" sourcefile="Arena.java" sourcepath="Arena.java"/>
+  </BugInstance>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Sat, 12 May 2012 14:27:50 +0200" total_classes="1" referenced_classes="19" total_bugs="21" total_size="411" num_packages="1" vm_version="22.1-b02" cpu_seconds="79.65" clock_seconds="73.33" peak_mbytes="381.92" alloc_mbytes="455.12" gc_seconds="0.87" priority_2="18" priority_1="3">
+    <PackageStats package="" total_bugs="21" total_types="1" total_size="411" priority_2="18" priority_1="3">
+      <ClassStats class="Arena" sourceFile="Arena.java" interface="false" size="411" bugs="21" priority_2="18" priority_1="3"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="de.tobject.findbugs.builder.FindBugs2Eclipse" totalMilliseconds="831" invocations="2" avgMicrosecondsPerInvocation="415660" maxMicrosecondsPerInvocation="425244" standardDeviationMircosecondsPerInvocation="9562"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="594" invocations="428" avgMicrosecondsPerInvocation="1388" maxMicrosecondsPerInvocation="49732" standardDeviationMircosecondsPerInvocation="3118"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="337" invocations="429" avgMicrosecondsPerInvocation="786" maxMicrosecondsPerInvocation="63936" standardDeviationMircosecondsPerInvocation="4027"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="231" invocations="19" avgMicrosecondsPerInvocation="12209" maxMicrosecondsPerInvocation="41140" standardDeviationMircosecondsPerInvocation="11264"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="219" invocations="26" avgMicrosecondsPerInvocation="8426" maxMicrosecondsPerInvocation="37596" standardDeviationMircosecondsPerInvocation="10149"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="203" invocations="19" avgMicrosecondsPerInvocation="10717" maxMicrosecondsPerInvocation="40247" standardDeviationMircosecondsPerInvocation="10663"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="143" invocations="19" avgMicrosecondsPerInvocation="7531" maxMicrosecondsPerInvocation="35452" standardDeviationMircosecondsPerInvocation="8231"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="135" invocations="26" avgMicrosecondsPerInvocation="5207" maxMicrosecondsPerInvocation="23856" standardDeviationMircosecondsPerInvocation="5834"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="129" invocations="26" avgMicrosecondsPerInvocation="4970" maxMicrosecondsPerInvocation="36886" standardDeviationMircosecondsPerInvocation="7763"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="112" invocations="26" avgMicrosecondsPerInvocation="4324" maxMicrosecondsPerInvocation="22546" standardDeviationMircosecondsPerInvocation="5306"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="94" invocations="24" avgMicrosecondsPerInvocation="3919" maxMicrosecondsPerInvocation="57918" standardDeviationMircosecondsPerInvocation="11840"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="90" invocations="26" avgMicrosecondsPerInvocation="3487" maxMicrosecondsPerInvocation="16540" standardDeviationMircosecondsPerInvocation="4459"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="83" invocations="92" avgMicrosecondsPerInvocation="910" maxMicrosecondsPerInvocation="5107" standardDeviationMircosecondsPerInvocation="883"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="74" invocations="19" avgMicrosecondsPerInvocation="3944" maxMicrosecondsPerInvocation="19781" standardDeviationMircosecondsPerInvocation="5166"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="71" invocations="418" avgMicrosecondsPerInvocation="171" maxMicrosecondsPerInvocation="2783" standardDeviationMircosecondsPerInvocation="297"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History>
+    <AppVersion sequence="0" timestamp="1336825717497" release="" codeSize="0" numClasses="0"/>
+  </History>
+</BugCollection>

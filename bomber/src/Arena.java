@@ -2,8 +2,6 @@ import java.awt.Color;
 
 public class Arena {
 
-	public static int b = 0;
-
 	static byte w = 25;
 	static byte h = 25;
 
@@ -11,7 +9,6 @@ public class Arena {
 	static byte levelswitch = 0;
 	static byte soundswitch = 0;
 
-	static double x = 0;
 	static double y = 0;
 	static double a = 0.7; // Beschleunigung
 	static int n = 0;
@@ -27,6 +24,7 @@ public class Arena {
 	public static boolean down = false;
 	public static boolean space = false;
 	public static boolean click = false;
+	public static boolean xkey = false;
 
 	// Zufallszahlen
 	static double randx = (int) (Math.random() * w);
@@ -44,7 +42,7 @@ public class Arena {
 	public static Player plr = new Player(randy, randx);
 	public static Bombe bo = new Bombe(0, 0);
 	public static Apple apple = new Apple(0, 0);
-	
+
 	private static String signal;
 
 	public static boolean run = true;
@@ -132,18 +130,14 @@ public class Arena {
 
 	private static void tasten(byte levelswitch2) {
 
-
-
 		if (space) {
 
 			lastkey = 6;
 
-
-
 			counter++;
 			if (counter == 10) {
 				plr.health -= 33;
-				StdAudio.play("audio/silence.wav");
+
 			}
 			if (counter == 20) {
 				plr.health -= 33;
@@ -154,12 +148,10 @@ public class Arena {
 
 			}
 
-
-
 		}
 
 		if ((left)) {
-			x = plr.x;
+			// x = plr.x;
 			plr.x--;
 
 			lastkey = 4;
@@ -187,8 +179,7 @@ public class Arena {
 			StdDraw.setPenColor(StdDraw.BLACK);
 			StdDraw.text(5, 2, "health: " + plr.health);
 			StdDraw.text(5, 4, "Player alive?: " + plr.alive);
-		
-			
+
 		}
 
 		if (down && up && left && right) {
@@ -200,7 +191,7 @@ public class Arena {
 		}
 
 		if ((right)) {
-			x = plr.x;
+
 			plr.x++;
 
 			lastkey = 1;
@@ -251,8 +242,8 @@ public class Arena {
 
 	private static void collision() {
 
-		Arena.x = plr.x;
-		Arena.y = plr.y;
+		// Arena.x = plr.x;
+		// Arena.y = plr.y;
 
 		if (plr.x >= w) {
 
@@ -263,8 +254,6 @@ public class Arena {
 		}
 		if (plr.x <= -w) {
 			plr.x = -w;
-
-		
 
 		}
 		if (plr.y >= h) {
@@ -283,10 +272,11 @@ public class Arena {
 
 	}
 
-	// ////////////////////////////////////////////////////////////////////////////////
+	// /////////////////////
 	// / Levels
-	// ///////////////////////////////////////////////////////////////////////////////
+	// //////////////////////
 
+	@SuppressWarnings("unused")
 	private static void welcome() {
 
 		StdDraw.picture(0, 0, "jpg/introscreen.jpg");
@@ -384,7 +374,7 @@ public class Arena {
 		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
 
-		StdDraw.picture(Arena.x, Arena.y, "gif/teleport.gif");
+		StdDraw.picture(plr.x, plr.y, "gif/teleport.gif");
 		StdDraw.setPenColor(StdDraw.MAGENTA);
 		StdDraw.filledSquare(0, 0, w - 1);
 		StdDraw.setPenColor(color);
@@ -401,8 +391,6 @@ public class Arena {
 	}
 
 	private static void gameover() {
-
-		// Arena.run=false;
 
 		StdAudio.play("audio/mtr.wav");
 
@@ -503,9 +491,9 @@ public class Arena {
 			}
 
 			if (cxy == 1) {
-				Arena.x = apple.x;
+
 				apple.x = apple.y;
-				apple.y = Arena.x;
+
 			}
 			cxy = 1;
 		}
