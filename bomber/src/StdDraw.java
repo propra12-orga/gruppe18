@@ -1369,9 +1369,11 @@ public final class StdDraw implements ActionListener, MouseListener,
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Player.right = true;
+			
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			Player.left = true;
+			
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			Player.up = true;
@@ -1381,7 +1383,7 @@ public final class StdDraw implements ActionListener, MouseListener,
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			Player.space = true;
-			Arena.space = true;
+		
 		}
 		if (e.getKeyCode() == KeyEvent.VK_F1) {
 			Arena.help = true;
@@ -1406,9 +1408,11 @@ public final class StdDraw implements ActionListener, MouseListener,
 
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			Player.right = false;
+		
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			Player.left = false;
+		
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			Player.up = false;

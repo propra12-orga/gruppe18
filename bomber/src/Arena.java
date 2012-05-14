@@ -38,8 +38,6 @@ public class Arena {
 
 	public static boolean esc = false;
 
-	public static boolean left = false;
-	public static boolean right = false;
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
@@ -281,6 +279,8 @@ public class Arena {
 
 	private static void gameover() {
 
+		boolean left = false;
+		boolean right = false;
 		StdAudio.play("audio/mtr.wav");
 
 		StdDraw.text(0, 5, "GAME OVER");
@@ -288,6 +288,10 @@ public class Arena {
 				"Continue?? HOLD LEFT for exit // RIGHT for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
 		StdDraw.show(500);
+
+		if (left) {
+			System.out.println("Left");
+		}
 		StdDraw.picture(0, 0, "gif/deko.gif");
 		StdDraw.show(500);
 
@@ -296,27 +300,8 @@ public class Arena {
 		Player.x = 0;
 		Player.y = 0;
 		StdAudio.close();
-
-		if (left) {
-
-			Player.x--;
-
-			Player.lastkey = 4;
-			if (Arena.levelswitch == 99) {
-				System.exit(0);
-			}
-		}
-
 		if (right) {
-
-			Player.x++;
-
-			Player.lastkey = 1;
-			if (Arena.levelswitch == 99) {
-				Arena.levelswitch = 0;
-
-				Player.health = 100;
-			}
+			levelswitch = 0;
 		}
 
 	}
@@ -324,13 +309,11 @@ public class Arena {
 	private static void obstlevel() {
 
 		counter++;
-		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 4, h * 4, -counter);
+		StdDraw.picture(0, 0, "png/chip.png", w * 4, h * 4, -counter*0.3);
 
 		StdDraw.picture(-w, h, "gif/apple.gif", 6, 6, Math.sin(counter * 1.36));
-		StdDraw.picture(Player.x + 2, Player.y + 1, "png/heli.png", 5, 1,
-				counter * 15000);
-		StdDraw.picture(Player.x - 2, Player.y + 1, "png/heli.png", 5, 1,
-				counter * 15000);
+
+
 
 		StdDraw.picture(w - 5, -h + 5, "png/wolke.png", 50, 100, 0);
 		Player.lastkey = 0;

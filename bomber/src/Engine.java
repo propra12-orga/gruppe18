@@ -10,13 +10,16 @@ public class Engine extends Thread {
 
 		while (true) {
 			Arena.steuerung(); // Tastatureingaben
-			
+
 			Arena.levelswitch(); // Leveldaten
 			Arena.Player.draw();
 			StdDraw.text(Arena.w, Arena.h, time());
-			Bombe.draw();
+			if (Bombe.vis == 1) {
+				Bombe.draw();
+			}
+		
 			fr(gamespeed);
-			
+
 		}
 
 	}

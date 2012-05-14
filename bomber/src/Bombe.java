@@ -43,29 +43,27 @@ public class Bombe implements Runnable {
 
 			}
 
-			for (int j = 0; j < 10; j++) {
-				StdDraw.picture(Bombe.x, Bombe.y, "png/wolke.png", j, j);
-				StdDraw.show(10);
-			}
-
 			for (int j = 0; j < Bombe.radius * 15; j++) {
 
-				StdDraw.picture(Bombe.x, Bombe.y, "gif/bomb_seq06.gif", 2, j);
+				StdDraw.picture(Bombe.x, Bombe.y, "png/blocks.png", j * 0.4,
+						j * 0.4, j * 1024);
 
-				StdDraw.picture(Bombe.x, Bombe.y, "gif/bomb_seq06.gif", j, 2);
+				StdDraw.picture(Bombe.x, Bombe.y, "png/fireworx.png", 2, j);
 
-				StdDraw.show(12);
+				StdDraw.picture(Bombe.x, Bombe.y, "png/fireworx.png", j, 2);
+
+				StdDraw.show(33);
 
 			}
-			vis = 0;
+			Player.space = false;
 
 			if ((Player.x <= Bombe.x + radius * 2)
 					&& (Player.y <= Bombe.y + radius * 2)) {
 				Player.health -= 10;
 
 			}
-
+			Bombe.vis = 0;
 		}
-
+		return;
 	}
 }

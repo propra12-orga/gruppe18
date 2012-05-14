@@ -1,4 +1,4 @@
-public class Player {
+public class Player extends Thread{
 
 	public static double x = 0;
 
@@ -8,8 +8,8 @@ public class Player {
 	static boolean alive = true;
 	public static int health = 100;
 	String[] inventar = new String[5];
-	static double imgw = 8;
-	static double imgh = 8;
+	static double imgw = 4;
+	static double imgh =4;
 	public static double delh = 0;
 	public static int lastkey = 0;
 
@@ -21,7 +21,7 @@ public class Player {
 	public static boolean space = false;
 	public static boolean click = false;
 	public static boolean xkey = false;
-	public static int counter = 0;
+	public static int counter = 0; 
 	public static boolean button1 = false;
 
 	public static boolean button2 = false;
@@ -48,14 +48,20 @@ public class Player {
 		if (health > 0) {
 			alive = true;
 			// Bombentaste
-
+			if (Arena.levelswitch == 2) {
+		
+				
+				counter++;
+				StdDraw.picture(Player.x, Player.y, "png/heli.png", 6, 1,
+						counter * 1000);
+			}
 			update();
 			if (space) {
 
 				lastkey = 6;
 
 				new Thread(new Bombe()).start();
-				Bombe.trig = true;
+			
 
 			}
 
@@ -125,6 +131,17 @@ public class Player {
 				if (Arena.levelswitch == 99) {
 					System.exit(0);
 				}
+		
+				
+				if (Arena.levelswitch == 2) {
+					x--;
+					x--;
+					
+					counter++;
+					StdDraw.picture(Player.x+3, Player.y, "png/heli.png", 6, 1,
+							counter * 100);
+				}
+				
 			}
 
 			if (right) {
@@ -137,6 +154,15 @@ public class Player {
 
 					health = 100;
 				}
+				
+				if (Arena.levelswitch == 2) {
+					x++;
+					x++;
+					
+					counter++;
+					StdDraw.picture(Player.x-3, Player.y, "png/heli.png", 6, 1,
+							counter * 100);
+				}
 
 			}
 
@@ -145,6 +171,17 @@ public class Player {
 				y++;
 
 				lastkey = 3;
+				
+				
+				if (Arena.levelswitch == 2) {
+					y++;
+					y++;
+					
+					counter++;
+					StdDraw.picture(Player.x, Player.y-1, "png/heli.png", 6, 1,
+							counter * 100);
+					
+				}
 
 			}
 
@@ -153,6 +190,15 @@ public class Player {
 				y--;
 
 				lastkey = 0;
+				
+				if (Arena.levelswitch == 2) {
+					y--;
+					y--;
+					
+					counter++;
+					StdDraw.picture(Player.x, Player.y+1, "png/heli.png", 6, 1,
+							counter * 100);
+				}
 
 			}
 			if ((lastkey == 1)) {
@@ -205,6 +251,12 @@ public class Player {
 
 				StdDraw.picture(x, y, "png/left.png", imgw, imgh);
 			}
+			
+			try {
+
+				Thread.sleep(2);
+			} catch(InterruptedException e) {}
+
 		} else {
 			alive = false;
 			Arena.levelswitch = 99;
@@ -212,6 +264,7 @@ public class Player {
 			StdDraw.text(0, 0, "Game Over");
 
 		}
+		
 
 	}
 
