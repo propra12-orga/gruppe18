@@ -22,5 +22,9 @@
 		<item value="600" key="width"/>
 	</section>
 	<section name="quick_assist_proposal_size">
+		<item value="348" key="size.x"/>
+		<item value="252" key="size.y"/>
+	</section>
+	<section name="org.eclipse.ltk.ui.refactoring.settings">
 	</section>
 </section>

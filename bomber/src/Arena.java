@@ -1,34 +1,20 @@
 import java.awt.Color;
 
-public class Arena{
+public class Arena {
 
 	static byte w = 25;
 	static byte h = 25;
 
 	static Color color;
 	static byte levelswitch = 0;
-	static byte soundswitch = 0;
+	private static int soundswitch = 0;
 
 	static double y = 0;
 	static double a = 0.7; // Beschleunigung
 	static int n = 0;
-	final static byte opt = (byte) Math.sqrt((w * h) * 1.5);
-	static byte gamespeed = opt; // 14 ist defaultwert
 
-	static int lastkey = 0;
 	static double[][] feld = new double[w][h];
-	// Keycodes
-	public static boolean right = false;
-	public static boolean left = false;
-	public static boolean up = false;
-	public static boolean down = false;
 	public static boolean space = false;
-	public static boolean click = false;
-	public static boolean xkey = false;
-
-	// Zufallszahlen
-	static double randx = (int) (Math.random() * w);
-	static double randy = (int) (Math.random() * h);
 
 	// counter
 	public static int counter = 0;
@@ -40,44 +26,30 @@ public class Arena{
 
 	static double[] inventar = new double[5];
 
-	public static Player plr = new Player(randy, randx, 0);
-	public static Bombe bo = new Bombe(0, 0);
+	public static Player Player = new Player(0, 0, 0, 100);
+
 	public static Apple apple = new Apple(0, 0);
 
 	static String signal;
 
 	public static boolean run = true;
 
-	public static boolean button1 = false;
-
-	public static boolean button2 = false;
-
-	public static boolean button3 = false;
-
 	public static boolean help = false;
 
 	public static boolean esc = false;
 
-	private static double[][] randm = new double[10][10];
+	public static boolean left = false;
+	public static boolean right = false;
 
 	// ////////////////////////////////////////////////////////////////////////////////
 	// / main
 	// test test
 	public static void main(String[] args) {
-		initarray();
+
 		draw(); // Initialisiere den Bildschirminhalt mit draw() einmal
-		welcome();
-
+		// welcome();
+		new Player(Player.x, Player.y, 0, 50);
 		new Engine().start();
-
-	}
-
-	private static void initarray() {
-		for (int i = 0; i <= randm.length - 1; i++) {
-			randm[i][0] = Math.random() * w;
-			randm[0][i] = Math.random() * h;
-
-		}
 
 	}
 
@@ -94,20 +66,11 @@ public class Arena{
 
 	// Initialisiere Screen
 
-	private static void draw() {
+	static void draw() {
 		StdDraw.setCanvasSize(w * 25, h * 25);
 		StdDraw.setXscale(-w, w);
 		StdDraw.setYscale(-h, h);
 		setcolor((byte) 0);
-
-	}
-
-	private static void fr(byte gamespeed2) {
-
-		// Die zwei Linien nicht ändern oder schleifen sonst kommt es zu Fehlern
-		// : show and clear Vorsicht!!!!
-		StdDraw.show(gamespeed);
-		StdDraw.clear();
 
 	}
 
@@ -117,38 +80,8 @@ public class Arena{
 
 	private static void tasten(byte levelswitch2) {
 
-		if (space) {
-
-			lastkey = 6;
-
-			counter++;
-			if (counter == 10) {
-				plr.health -= 33;
-
-			}
-			if (counter == 20) {
-				plr.health -= 33;
-				;
-			}
-			if (counter == 30) {
-				plr.health -= 34;
-
-			}
-
-		}
-
-		if ((left)) {
-			// x = plr.x;
-			plr.x--;
-
-			lastkey = 4;
-			if (Arena.levelswitch == 99) {
-				System.exit(0);
-			}
-		}
-
 		if (esc) {
-		
+
 			StdDraw.text(0, 0, "Spiel wird in wenigen Sekunden beendet...");
 			StdDraw.show(500);
 			StdDraw.clear(StdDraw.BLACK);
@@ -164,95 +97,6 @@ public class Arena{
 			StdDraw.text(0, 0, "ALLES GUTE!");
 			StdDraw.show(500);
 			System.exit(0);
-		}
-
-		if (xkey) {
-
-			for (double i = 0; i < 270; i++) {
-				plr.h = 1;
-				plr.imgx += 0.0000005 * i;
-				plr.imgy = plr.imgx;
-
-				if (i >= 180) {
-					plr.y += Math.random() * 0.01;
-				}
-
-				StdDraw.picture(plr.x, plr.y - 7, "gif/bomb_seq06.gif",
-						plr.imgx * 0.5, plr.imgy * 0.5, i * plr.y);
-
-			}
-
-			if (plr.imgx > 10) {
-				plr.health -= 10;
-				xkey = false;
-			}
-
-		}
-
-		if (xkey == false) {
-			plr.imgx = 8;
-			plr.imgy = plr.imgx;
-			plr.h = 0;
-
-		}
-		if ((button1)) {
-
-			StdDraw.ellipse(0, plr.y, 3, 3);
-			StdDraw.text(0, plr.y, "Y");
-			StdDraw.ellipse(plr.x, 0, 3, 3);
-			StdDraw.text(plr.x, 0, "X");
-			StdDraw.text(-15, 18, "x: " + plr.x);
-			StdDraw.text(-15, 22, "y: " + plr.y);
-
-		}
-		if ((button2)) {
-
-		}
-
-		if ((button3)) {
-			StdDraw.setPenColor(StdDraw.GREEN);
-			StdDraw.circle(8, 8, 12);
-			StdDraw.setPenColor(StdDraw.BLACK);
-			StdDraw.text(5, 2, "health: " + plr.health);
-			StdDraw.text(5, 4, "Player alive?: " + plr.alive);
-
-		}
-
-		if (down && up && left && right) {
-
-			plr.x = 0;
-			plr.y = 0;
-			lastkey = 9;
-
-		}
-
-		if ((right)) {
-
-			plr.x++;
-
-			lastkey = 1;
-			if (Arena.levelswitch == 99) {
-				Arena.levelswitch = 0;
-
-				plr.health = 100;
-			}
-
-		}
-
-		if (up) {
-
-			y = plr.y;
-			plr.y++;
-
-			lastkey = 3;
-
-		}
-
-		if (down) {
-			plr.y--;
-			y = plr.y;
-			lastkey = 0;
-
 		}
 
 		if (StdDraw.mousePressed()) {
@@ -278,29 +122,29 @@ public class Arena{
 
 	private static void collision() {
 
-		// Arena.x = plr.x;
-		// Arena.y = plr.y;
+		// Arena.x = Player.x;
+		// Arena.y = Player.y;
 
-		if (plr.x >= w) {
+		if (Player.x >= w) {
 
-			plr.x = w;
+			Player.x = w;
 
 			if (levelswitch == 0)
 				colorwall();
 		}
-		if (plr.x <= -w) {
-			plr.x = -w;
+		if (Player.x <= -w) {
+			Player.x = -w;
 
 		}
-		if (plr.y >= h) {
-			plr.y = h;
+		if (Player.y >= h) {
+			Player.y = h;
 
 		}
-		if (plr.y <= -h) {
-			plr.y = -h;
+		if (Player.y <= -h) {
+			Player.y = -h;
 
 			if (levelswitch <= 1)
-				if (plr.health <= 90) {
+				if (Player.health <= 90) {
 					apfel();
 				}
 
@@ -313,60 +157,55 @@ public class Arena{
 	// //////////////////////
 
 	private static void welcome() {
-	
 
 		String message = "";
-		
-		StdDraw.setPenColor(StdDraw.WHITE);		
-		
-counter=200;
-		
-		while(counter>1)
-		{
-		counter--;
-		steuerung();
 
-		StdDraw.picture(0, 0, "jpg/introscreen.jpg",0.1*Math.PI*Math.PI*counter,0.1*counter,-counter*4.5);
-		message="BOMBR";
-		if (space){/*Do something*/}
-		StdDraw.textLeft(-counter*4, h+Math.sin(counter), message);
-		StdDraw.textRight(counter*4, -h+Math.cos(counter), message);
-		
-		StdDraw.show(0.5);
+		StdDraw.setPenColor(StdDraw.WHITE);
+
+		counter = 200;
+
+		while (counter > 1) {
+			counter--;
+			steuerung();
+
+			StdDraw.picture(0, 0, "jpg/introscreen.jpg", 0.1 * Math.PI
+					* Math.PI * counter, 0.1 * counter, -counter * 4.5);
+			message = "BOMBR";
+			if (space) {/* Do something */
+			}
+			StdDraw.textLeft(-counter * 4, h + Math.sin(counter), message);
+			StdDraw.textRight(counter * 4, -h + Math.cos(counter), message);
+
+			StdDraw.show(0.5);
 		}
-		counter=0;
-	
-	
-		StdDraw.show(1200);
-		message = "Deine beiden Glückszahlen sind die: " + randx + " und "
-				+ randy;
-		StdDraw.textLeft(-w, 0, message);
+		counter = 0;
+
 		StdDraw.show(50);
 		String kette = "Die Position des Spielers ist ";
 		StdDraw.textLeft(-w, 0, message);
 		StdDraw.show(100);
-		
+
 		message = "Steuer das Spiel mit Pfeil oben, unten, rechts, x und Space.";
 
-		if (plr.y <= 0) {
+		if (Player.y <= 0) {
 			kette += " unterhalb";
 		} else {
 			kette += " oberhalb";
 		}
 
-		if (plr.x <= w / 8) {
+		if (Player.x <= w / 8) {
 			kette += " und mittig";
 		} else {
 			kette += " und aussen";
 		}
 
-		if (plr.x <= 0) {
+		if (Player.x <= 0) {
 			kette += " links im Feld";
 
 		} else {
 			kette += " rechts im Feld.";
 		}
-		
+
 		StdDraw.textLeft(-w, -10, message);
 		StdDraw.textLeft(-w, -12, kette);
 		StdDraw.show(4000);
@@ -374,8 +213,6 @@ counter=200;
 	}
 
 	static void levelswitch() {
-
-		// Objektspuren des players
 
 		gate1();
 
@@ -405,8 +242,6 @@ counter=200;
 
 	private static void setuplevel() {
 
-		fr(gamespeed); // Bildschirmrefresh
-
 		gate2();
 		StdDraw.picture(0, 0, "jpg/boden.jpg", w * 3, h * 3);
 		StdDraw.picture(0, h - 4, "gif/pfeil_oben.gif");
@@ -418,37 +253,30 @@ counter=200;
 
 	private static void levelbrand() {
 		StdDraw.picture(-w, h, "png/unicorn.png", 6, 6);
-		StdDraw.picture(w - 4, h - 2, "png/blocks.png", 16, 16, -30);
-
+		// StdDraw.picture(w - 4, h - 2, "png/blocks.png", 16, 16, -30);
+		StdDraw.picture(w - 4, h - 2, "png/blocks.png", 0, 0, 30);
 	}
 
 	private static void mainlevel() {
-		fr(gamespeed);
-
-		for (int i = 0; i <= randm.length - 1; i++) {
-			StdDraw.circle(randm[i][0], randm[0][i], w * 2);
-			StdDraw.circle(randm[i][0], randm[0][i], w * 0.6);
-		}
 
 		StdDraw.setPenColor(color);
 		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
 
-		StdDraw.picture(plr.x, plr.y, "gif/teleport.gif");
-		StdDraw.setPenColor(StdDraw.MAGENTA);
+		StdDraw.picture(Player.x, Player.y, "gif/teleport.gif");
+		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.filledSquare(0, 0, w - 1);
 
 		StdDraw.setPenColor(color);
 		StdDraw.filledSquare(0, 0, w - 1);
 
 		StdDraw.picture(w - 7, -h + 7, "gif/Jabba_Granate.gif", 15, 15);
-		levelbrand();
 
 		String message = "Kampflevel: Erprobe deine Skills";
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0, -h - 1, message);
-		action1();
 
+		levelbrand();
 	}
 
 	private static void gameover() {
@@ -465,33 +293,56 @@ counter=200;
 
 		StdDraw.show(1200);
 
-		Arena.plr.x = 0;
-		Arena.plr.y = 0;
+		Player.x = 0;
+		Player.y = 0;
 		StdAudio.close();
+
+		if (left) {
+
+			Player.x--;
+
+			Player.lastkey = 4;
+			if (Arena.levelswitch == 99) {
+				System.exit(0);
+			}
+		}
+
+		if (right) {
+
+			Player.x++;
+
+			Player.lastkey = 1;
+			if (Arena.levelswitch == 99) {
+				Arena.levelswitch = 0;
+
+				Player.health = 100;
+			}
+		}
 
 	}
 
 	private static void obstlevel() {
-		fr(gamespeed); // Bildschirmrefresh
+
 		counter++;
 		StdDraw.picture(0, 0, "jpg/kacheln.jpg", w * 4, h * 4, -counter);
-	
-		
-		StdDraw.picture(-w, h, "gif/apple.gif", 6, 6, Math.sin(counter*1.36));
-		StdDraw.picture(plr.x+2, plr.y+1, "png/heli.png", 5, 1, counter*15000);
-		StdDraw.picture(plr.x-2, plr.y+1, "png/heli.png", 5, 1, counter*15000);
 
-		StdDraw.picture(w-5, -h+5, "png/wolke.png", 50, 100, counter);
-		lastkey=0;
+		StdDraw.picture(-w, h, "gif/apple.gif", 6, 6, Math.sin(counter * 1.36));
+		StdDraw.picture(Player.x + 2, Player.y + 1, "png/heli.png", 5, 1,
+				counter * 15000);
+		StdDraw.picture(Player.x - 2, Player.y + 1, "png/heli.png", 5, 1,
+				counter * 15000);
+
+		StdDraw.picture(w - 5, -h + 5, "png/wolke.png", 50, 100, 0);
+		Player.lastkey = 0;
 		// Exitbedingung des Levels
 		if (apple.anzahl == 5) {
 
 			apple.anzahl = 0;
 			levelswitch = 0;
 			Arena.obst = 0;
-			plr.y = 0;
+			Player.y = 0;
 			a = 1;
-			Arena.gamespeed = opt;
+
 			counter = 0;
 
 		}
@@ -510,23 +361,18 @@ counter=200;
 
 			}
 
-			Arena.gamespeed += apple.anzahl;
 			n++;
 			cxy = 0;
 		}
 
-		StdDraw.text(plr.x, h + 1, "Äpfel: " + apple.anzahl);
+		StdDraw.text(Player.x, h + 1, "Äpfel: " + apple.anzahl);
 
 		// Apfelkollision (mit dem Spieler)
 
-		if ((Math.abs(apple.x - plr.x) <= w * 0.1)
-				&& (Math.abs(apple.y - plr.y) <= h * 0.1)) {
+		if ((Math.abs(apple.x - Player.x) <= w * 0.1)
+				&& (Math.abs(apple.y - Player.y) <= h * 0.1)) {
 			StdDraw.text(apple.x, apple.y + 5, "Apfel gefunden!");
-			plr.health += 7;
-
-			if (plr.health >= 100) {
-				plr.health = 100;
-			}
+			Player.health += 7;
 
 			apple.anzahl++;
 			a *= 1.5;
@@ -583,7 +429,6 @@ counter=200;
 		String message = "Obstlevel: Sammel Äpfel ein!";
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.text(0, -h - 1, message);
-		action1();
 
 	}
 
@@ -593,13 +438,13 @@ counter=200;
 
 	private static void colorwall() {
 		// Rechter Rand Event
-		initarray();
-		plr.health -= 10;
+
+		Player.health -= 10;
 		counter++;
-		plr.x = 0;
-		plr.y--;
+		Player.x = 0;
+		Player.y--;
 		if (counter == 1) {
-			plr.x = w / 2;
+			Player.x = w / 2;
 		}
 
 		double r = (Math.random() * 9);
@@ -610,8 +455,8 @@ counter=200;
 		Color randomColor = new Color(R, G, B);
 		StdDraw.setPenColor(randomColor);
 
-		StdDraw.filledCircle(plr.x, plr.y * r, 5 * r);
-		StdDraw.circle(plr.x, plr.y * r, 2 * r);
+		StdDraw.filledCircle(Player.x, Player.y * r, 5 * r);
+		StdDraw.circle(Player.x, Player.y * r, 2 * r);
 		color = randomColor;
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.textLeft(-4, -h - 1,
@@ -627,81 +472,56 @@ counter=200;
 		obst++;
 		n = 0;
 		if (counter >= 1) {
-			plr.y = -h + 3;
+			Player.y = -h + 3;
 		}
 
 		StdAudio.play("audio/center.wav");
 
-		StdDraw.picture(plr.x, 6, "gif/apple.gif", 3, 3, 45);
+		StdDraw.picture(Player.x, 6, "gif/apple.gif", 3, 3, 45);
 
-		StdDraw.picture(plr.x, -8, "gif/apple.gif", 4, 4, 120);
+		StdDraw.picture(Player.x, -8, "gif/apple.gif", 4, 4, 120);
 
-		StdDraw.picture(plr.x, plr.y + 5, "gif/apple.gif", 6, 6, 200);
-		StdDraw.picture(plr.x - 1, plr.y + 3, "gif/star.gif", 2, 2, 200);
-		StdDraw.picture(plr.x + 1, plr.y + 2, "gif/star.gif", 1, 1, 180);
+		StdDraw.picture(Player.x, Player.y + 5, "gif/apple.gif", 6, 6, 200);
+		StdDraw.picture(Player.x - 1, Player.y + 3, "gif/star.gif", 2, 2, 200);
+		StdDraw.picture(Player.x + 1, Player.y + 2, "gif/star.gif", 1, 1, 180);
 		StdDraw.text(0, 0, "Obst: " + obst);
 		StdDraw.show(80);
 		counter = 0;
 	}
 
-	// ////////////////////////////////////////////////////////////////////////////////
-	// /Effekte
-	//
-	// einige levelabhängige Aktionen
-	//
-	// ///////////////////////////////////////////////////////////////////////////////
-
-	private static void action1() {
-		if (space) {
-
-			StdDraw.picture(w - n, -h + n, "gif/star.gif", 3, 3, n * 12);
-			StdDraw.picture(w - n, h - n, "gif/star.gif", 3, 3, n * -12);
-			StdDraw.picture(-w + n, -h + n, "gif/star.gif", 3, 3, n * 12);
-			StdDraw.picture(-w + n, h - n, "gif/star.gif", 3, 3, n * -12);
-
-			n++;
-
-		}
-
-	}
-
-	// ////////////////////////////////////////////////////////////////////////////////
-	// /Teleporter
-	//
-	// Spezialaktion Gelangt der Spieler in eine Ecke kann er sich in
-	// die gegenüberliegende Ecke teleportieren.
-	// ///////////////////////////////////////////////////////////////////////////////
-
-	// Schlumpfteleporter
+	/*
+	 * Spezialaktion Gelangt der Spieler in eine Ecke kann er sich in // die
+	 * gegenüberliegende Ecke teleportieren.
+	 */
 
 	private static void gate1() {
-		if ((plr.x == w) && (plr.y == h)) {
+		if ((Player.x == w) && (Player.y == h)) {
 
-			plr.y = -h;
-			plr.x = -w;
+			Player.y = -h;
+			Player.x = -w;
 			levelswitch = 1;
 
-			if (soundswitch == 1) {
+			if (getSoundswitch() == 1) {
 				StdAudio.play("audio/robot3.wav");
 				StdAudio.play("audio/horse.wav");
-				soundswitch = 2;
+				setSoundswitch(2);
 			}
-			if (soundswitch == 2) {
+			if (getSoundswitch() == 2) {
 				StdAudio.play("audio/reverse.wav");
 				StdAudio.play("audio/cc-warp.wav");
 			}
 
-			if (soundswitch == 0) {
+			if (getSoundswitch() == 0) {
 
 				StdAudio.loop("audio/mtr.wav");
-				soundswitch = 3;
+				setSoundswitch(3);
 			}
 		}
 	}
 
 	private static void reset() {
-		plr.x = 0;
-		plr.y = 0;
+		Player.x = 0;
+		Player.y = 0;
 
 	}
 
@@ -709,12 +529,12 @@ counter=200;
 
 	private static void gate2() {
 
-		if ((plr.x == 0) && (plr.y == h)) {
+		if ((Player.x == 0) && (Player.y == h)) {
 
-			plr.y = -h;
-			plr.x = 0;
+			Player.y = -h;
+			Player.x = 0;
 			StdAudio.play("audio/robot.wav");
-			soundswitch = 2;
+			setSoundswitch(2);
 			levelswitch = 0;
 			reset();
 		}
@@ -723,11 +543,11 @@ counter=200;
 	// Unicornteleporter
 
 	private static void gate3() {
-		if ((plr.x == -w) && (plr.y == h)) {
+		if ((Player.x == -w) && (Player.y == h)) {
 
-			plr.y = -h;
-			plr.x = w;
-			if (soundswitch == 2) {
+			Player.y = -h;
+			Player.x = w;
+			if (getSoundswitch() == 2) {
 				StdAudio.play("audio/pony.wav");
 			}
 			StdAudio.play("audio/robot2.wav");
@@ -737,16 +557,24 @@ counter=200;
 	}
 
 	private static void gate4() {
-		if ((plr.x == w - 2) && (plr.y == -h)) {
+		if ((Player.x == w - 2) && (Player.y == -h)) {
 
-			plr.y = -h;
-			plr.x = w;
-			if (soundswitch == 3) {
+			Player.y = -h;
+			Player.x = w;
+			if (getSoundswitch() == 3) {
 				StdAudio.play("audio/death_comp.wav");
 
 			}
 
 		}
+	}
+
+	public static int getSoundswitch() {
+		return soundswitch;
+	}
+
+	public static void setSoundswitch(int i) {
+		Arena.soundswitch = i;
 	}
 
 }

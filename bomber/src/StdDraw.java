@@ -1256,14 +1256,14 @@ public final class StdDraw implements ActionListener, MouseListener,
 			mousePressed = true;
 
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				Arena.button1 = true;
+				Player.button1 = true;
 			}
 			if (e.getButton() == MouseEvent.BUTTON2) {
-				Arena.button2 = true;
+				Player.button2 = true;
 			}
 
 			if (e.getButton() == MouseEvent.BUTTON3) {
-				Arena.button3 = true;
+				Player.button3 = true;
 			}
 
 		}
@@ -1277,14 +1277,14 @@ public final class StdDraw implements ActionListener, MouseListener,
 			mousePressed = false;
 
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				Arena.button1 = false;
+				Player.button1 = false;
 			}
 			if (e.getButton() == MouseEvent.BUTTON2) {
-				Arena.button2 = false;
+				Player.button2 = false;
 			}
 
 			if (e.getButton() == MouseEvent.BUTTON3) {
-				Arena.button3 = false;
+				Player.button3 = false;
 			}
 
 		}
@@ -1368,30 +1368,31 @@ public final class StdDraw implements ActionListener, MouseListener,
 	 */
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			Arena.right = true;
+			Player.right = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			Arena.left = true;
+			Player.left = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			Arena.up = true;
+			Player.up = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			Arena.down = true;
+			Player.down = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Player.space = true;
 			Arena.space = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_F1) {
 			Arena.help = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_X) {
-			Arena.xkey = true;
+			Player.xkey = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Arena.esc = true;
 		}
-		
+
 		// keysDown.add(e.getKeyCode());
 	}
 
@@ -1402,30 +1403,31 @@ public final class StdDraw implements ActionListener, MouseListener,
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Arena.esc = false;
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			Arena.right = false;
+			Player.right = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			Arena.left = false;
+			Player.left = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
-			Arena.up = false;
+			Player.up = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-			Arena.down = false;
+			Player.down = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			Player.space = false;
 			Arena.space = false;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_F1) {
 			Arena.help = false;
 		}
-		
+
 		if (e.getKeyCode() == KeyEvent.VK_X) {
-			Arena.xkey = false;
+			Player.xkey = false;
 		}
-		
+
 		keysDown.remove(e.getKeyCode());
 	}
 

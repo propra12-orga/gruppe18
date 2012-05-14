@@ -1,0 +1,46 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Engine extends Thread {
+final static byte opt = (byte) Math.sqrt((Arena.w * Arena.h) * 1.5);
+static byte gamespeed = opt; // 14 ist defaultwert
+	public void run() {
+		
+		try {
+
+			while (true) {
+				Arena.steuerung(); // Tastatureingaben
+			//	Arena.levelswitch(); // Leveldaten
+				fr(gamespeed);
+			
+				Player.run();
+				
+				Engine.sleep(100);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	
+	@SuppressWarnings("unused")
+	private String time() {
+		SimpleDateFormat seconds = new SimpleDateFormat("ss");
+		// Simple Date in seconds
+		return seconds.format(new Date());
+	}
+
+
+	private static void fr(byte gamespeed2) {
+
+		// Die zwei Linien nicht ändern oder schleifen sonst kommt es zu Fehlern
+		// : show and clear Vorsicht!!!!
+	//	StdDraw.show(gamespeed);
+		StdDraw.clear();
+
+	}	
+	
+}

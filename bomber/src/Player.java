@@ -1,75 +1,185 @@
 public class Player {
-	double x, y = 0;
+
+	public static double x = 0;
+
+	public static double y = 0;
 
 	int dir = 4;
-	boolean alive = true;
-	int health = 100;
+	static boolean alive = true;
+	public static int health = 100;
 	String[] inventar = new String[5];
-	double imgx = 8;
-	double imgy = 8;
-	public double h;
+	static double imgw = 8;
+	static double imgh = 8;
+	public static double delh = 0;
+	public static int lastkey = 0;
 
-	public Player(double xdir, double ydir, double height) {
+	// Keycodes
+	public static boolean right = false;
+	public static boolean left = false;
+	public static boolean up = false;
+	public static boolean down = false;
+	public static boolean space = false;
+	public static boolean click = false;
+	public static boolean xkey = false;
+	public static int counter = 0;
+	public static boolean button1 = false;
+
+	public static boolean button2 = false;
+
+	public static boolean button3 = false;
+
+	public Player(double xdir, double ydir, double deltah, int h) {
 
 		x = xdir;
 		y = ydir;
-		h = height;
+		delh = deltah;
+		health = h;
 	}
 
-	// Visuelle ausg
+	public void draw() {
 
-	public void draw(int lastkey) {
+		// Visuelle ausg
+
+		counter = Arena.counter;
+		if (health >= 100) {
+			health = 100;
+		}
 
 		if (health > 0) {
 			alive = true;
-			health();
+			// Bombentaste
 
-			if ((lastkey == 1)) {
+			update();
+			if (space) {
 
-				StdDraw.picture(x, y, "png/right.png",imgx,imgy);
+				lastkey = 6;
+
+				new Thread(new Bombe()).start();
+				Bombe.trig = true;
 
 			}
 
-			if ((lastkey == 0)) {
+			if ((button1)) {
 
-				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
+				StdDraw.ellipse(0, y, 3, 3);
+				StdDraw.text(0, y, "Y");
+				StdDraw.ellipse(x, 0, 3, 3);
+				StdDraw.text(x, 0, "X");
+				StdDraw.text(-15, 18, "x: " + x);
+				StdDraw.text(-15, 22, "y: " + y);
+
+			}
+
+			if ((button3)) {
+				StdDraw.setPenColor(StdDraw.GREEN);
+				StdDraw.circle(8, 8, 12);
+				StdDraw.setPenColor(StdDraw.BLACK);
+				StdDraw.text(5, 2, "health: " + health);
+				StdDraw.text(5, 4, "Player alive?: " + alive);
+
+			}
+
+			if (xkey) {
+
+				for (double i = 0; i < 270; i++) {
+					delh = 1;
+					imgw += 0.0000005 * i;
+					imgh = imgw;
+
+					if (i >= 180) {
+						y += Math.random() * 0.01;
+					}
+
+					StdDraw.picture(x, y - 7, "gif/bomb_seq06.gif", imgw * 0.5,
+							imgh * 0.5, i * y);
+
+				}
+
+				if (imgw > 10) {
+					health -= 10;
+					xkey = false;
+				}
+
+			}
+
+			if (xkey == false) {
+				imgw = 8;
+				imgh = imgw;
+				delh = 0;
+
+			}
+
+			if (down && up && left && right) {
+
+				x = 0;
+				y = 0;
+				lastkey = 9;
+
+			}
+
+			if (left) {
+
+				x--;
+
+				lastkey = 4;
+				if (Arena.levelswitch == 99) {
+					System.exit(0);
+				}
+			}
+
+			if (right) {
+
+				x++;
+
+				lastkey = 1;
+				if (Arena.levelswitch == 99) {
+					Arena.levelswitch = 0;
+
+					health = 100;
+				}
+
+			}
+
+			if (up) {
+
+				y++;
+
+				lastkey = 3;
+
+			}
+
+			if (down) {
+
+				y--;
+
+				lastkey = 0;
+
+			}
+			if ((lastkey == 1)) {
+
+				StdDraw.picture(x, y, "png/right.png", imgw, Player.imgh);
+
+			}
+
+			if ((lastkey == 0) || (lastkey == 6)) {
+
+				StdDraw.picture(x, y, "png/front.png", imgw, imgh);
 
 			}
 
 			if ((lastkey == 3)) {
 
-				StdDraw.picture(x, y, "png/back.png",imgx,imgy);
+				StdDraw.picture(x, y, "png/back.png", imgw, imgh);
 
 			}
 			if ((lastkey == 4)) {
 
-				StdDraw.picture(x, y, "png/left.png",imgx,imgy);
-
-			}
-
-			if ((lastkey == 6)) {
-
-				if (Arena.bo.x > Arena.w)
-					Arena.bo.x = -Arena.w;
-				if (Arena.bo.y > Arena.h) {
-					Arena.bo.x -= 1;
-					Arena.bo.y = -Arena.h;
-				}
-				;
-
-				Arena.plr.x = Arena.bo.x;
-				Arena.plr.y = Arena.bo.y;
-				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
-				Arena.bo.trig = true;
-				Arena.bo.x += 0.1;
-				Arena.bo.y += Math.random() * 0.5;
-				if (Arena.bo.x >= Arena.w)
-					Arena.bo.x *= -1;
+				StdDraw.picture(x, y, "png/left.png", imgw, imgh);
 
 			}
 
 			// boolische Multiplikation enspricht dem UND
-			if ((Arena.down && Arena.up && Arena.left && Arena.right)) {
+			if ((down && up && left && right)) {
 				StdDraw.picture(x, y, "gif/star.gif", 30, 30);
 				// Joker: Wenn der Benutzer alle Richtunngstasten drückt, steht
 				// ihm
@@ -78,34 +188,34 @@ public class Player {
 
 			}
 
-			if ((Arena.down) && (!Arena.up)) {
+			if ((down) && (!up)) {
 
-				StdDraw.picture(x, y, "png/front.png",imgx,imgy);
+				StdDraw.picture(x, y, "png/front.png", imgw, imgh);
 			}
 
-			if ((Arena.right) && (!Arena.left)) {
+			if ((right) && (!left)) {
 
-				StdDraw.picture(x, y, "png/right.png",imgx,imgy);
+				StdDraw.picture(x, y, "png/right.png", imgw, imgh);
 			}
-			if ((Arena.up) && (!Arena.down)) {
+			if ((up) && (!down)) {
 
-				StdDraw.picture(x, y, "png/back.png",imgx,imgy);
+				StdDraw.picture(x, y, "png/back.png", imgw, imgh);
 			}
-			if ((Arena.left) && (!Arena.right)) {
+			if ((left) && (!right)) {
 
-				StdDraw.picture(x, y, "png/left.png",imgx,imgy);
+				StdDraw.picture(x, y, "png/left.png", imgw, imgh);
 			}
 		} else {
 			alive = false;
 			Arena.levelswitch = 99;
 
+			StdDraw.text(0, 0, "Game Over");
+
 		}
 
 	}
 
-	private void health() {
-		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.filledRectangle(-10, Arena.h, 10, 1);
+	private static void update() {
 
 		for (int i = 0; i <= health * 0.15; i++) {
 
