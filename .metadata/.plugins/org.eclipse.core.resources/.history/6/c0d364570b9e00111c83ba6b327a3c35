@@ -292,10 +292,10 @@ public class Arena {
 		StdDraw.text(0, -5,
 				"Continue?? HOLD ESC for exit // RIGHT for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
-		StdDraw.show(400);
+		StdDraw.show(250);
 
 		StdDraw.picture(0, 0, "gif/deko.gif");
-		StdDraw.show(400);
+		StdDraw.show(250);
 
 		StdDraw.show(1200);
 

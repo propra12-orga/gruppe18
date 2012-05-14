@@ -56,14 +56,17 @@ public class Bombe implements Runnable {
 
 			}
 			Player.space = false;
-
-			if ((Player.x == Bombe.x)) {
-				Player.health -= 100;
-			}
+			
+			if ((Player.x == Bombe.x))
+					{
+				Player.health-=100;
+					}
 
 			if ((Player.x <= Bombe.x + radius * 2)
 					&& (Player.y <= Bombe.y + radius * 2)) {
 				Player.health -= 10;
+				
+			
 
 			}
 			Bombe.vis = 0;

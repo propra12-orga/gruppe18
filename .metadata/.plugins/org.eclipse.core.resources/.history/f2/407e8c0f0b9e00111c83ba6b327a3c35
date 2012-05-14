@@ -95,13 +95,12 @@ public class Arena {
 			StdDraw.text(0, 0, "ALLES GUTE!");
 			StdDraw.show(500);
 			System.exit(0);
-
+		
+			
 		}
-		if ((right)) {
-			if (levelswitch == 99) {
-				Player.health = 100;
-				levelswitch = 0;
-			}
+		if (right) {
+			Player.health=100;
+			levelswitch=0;
 		}
 
 		if (StdDraw.mousePressed()) {
@@ -286,31 +285,38 @@ public class Arena {
 
 	private static void gameover() {
 
+	
 		StdAudio.play("audio/mtr.wav");
 
 		StdDraw.text(0, 5, "GAME OVER");
 		StdDraw.text(0, -5,
-				"Continue?? HOLD ESC for exit // RIGHT for continue");
+				"Continue?? HOLD LEFT for exit // RIGHT for continue");
 		StdDraw.picture(0, 0, "gif/deko1.gif");
-		StdDraw.show(400);
+		StdDraw.show(500);
 
+		if (right) {
+			System.out.println("Left");
+		}
 		StdDraw.picture(0, 0, "gif/deko.gif");
-		StdDraw.show(400);
+		StdDraw.show(500);
 
 		StdDraw.show(1200);
 
-		Player.x = -w;
+		Player.x = 0;
 		Player.y = 0;
 		StdAudio.close();
+
 
 	}
 
 	private static void obstlevel() {
 
 		counter++;
-		StdDraw.picture(0, 0, "png/chip.png", w * 4, h * 4, -counter * 0.3);
+		StdDraw.picture(0, 0, "png/chip.png", w * 4, h * 4, -counter*0.3);
 
 		StdDraw.picture(-w, h, "gif/apple.gif", 6, 6, Math.sin(counter * 1.36));
+
+
 
 		StdDraw.picture(w - 5, -h + 5, "png/wolke.png", 50, 100, 0);
 		Player.lastkey = 0;
