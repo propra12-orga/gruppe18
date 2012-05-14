@@ -13,16 +13,15 @@ public class Engine extends Thread {
 			
 			Arena.levelswitch(); // Leveldaten
 			Arena.Player.draw();
-			StdDraw.text(Arena.w, Arena.h, time());
 			Bombe.draw();
 			fr(gamespeed);
-			
+			Bombe.zeit=time();
 		}
 
 	}
 
 	public String time() {
-		SimpleDateFormat seconds = new SimpleDateFormat("mm:ss");
+		SimpleDateFormat seconds = new SimpleDateFormat("ss");
 		// Simple Date in seconds
 		return seconds.format(new Date());
 	}

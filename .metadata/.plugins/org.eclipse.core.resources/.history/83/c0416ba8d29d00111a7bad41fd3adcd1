@@ -264,7 +264,7 @@ public class Arena {
 		StdDraw.filledSquare(0, 0, w);
 
 		StdDraw.picture(Player.x, Player.y, "gif/teleport.gif");
-		StdDraw.setPenColor(StdDraw.GRAY);
+		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.filledSquare(0, 0, w - 1);
 
 		StdDraw.setPenColor(color);

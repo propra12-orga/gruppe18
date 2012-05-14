@@ -7,6 +7,7 @@ public class Bombe implements Runnable {
 	public static int timer = 1000;
 	public int bombencounter = 0;
 	public static int vis = 0;
+	
 
 	/*
 	 * public Bombe(double x2, double y2, int i, int j) {
@@ -36,10 +37,11 @@ public class Bombe implements Runnable {
 				Arena.Player.draw();
 				StdDraw.picture(Bombe.x, Bombe.y, "gif/teleport.gif",
 						radius * 2, radius * 2);
-				int i = (int) (j * 0.1);
-				StdDraw.text(0, j * 0.2, String.valueOf(i));
+				StdDraw.text(j*0.02, j*0.02, String.valueOf(j));
 				StdDraw.picture(Bombe.x, Bombe.y, "gif/orange_bomb.gif");
 				StdDraw.show(20);
+				
+				
 
 			}
 
