@@ -232,6 +232,10 @@ public class Arena {
 			setuplevel();
 		}
 
+		if (levelswitch == 3) {
+			laserlevel();
+		}
+
 		if (obst >= 3) {
 			levelswitch = 2;
 			obstlevel();
@@ -256,6 +260,43 @@ public class Arena {
 
 	}
 
+	private static void laserlevel() {
+		double x = Player.x;
+		double y = Player.y;
+
+		Player.allowed = false;
+		gate2();
+
+		counter++;
+		double ang = Math.atan2(y, x) * 180 / Math.PI + 90;
+		double speed = 12;
+		double angRad = Math.toRadians(ang - 90);
+		double movx = Math.cos(angRad) * speed;
+
+		double movy = Math.sin(angRad) * speed;
+		StdDraw.text(0, h, String.valueOf(ang));
+
+		StdDraw.picture(0, -h, "png/flame.png", w, h);
+		StdDraw.picture(-w, -h, "png/flame.png", w, h);
+		StdDraw.picture(w, -h, "png/flame.png", w, h);
+		StdDraw.picture(0, 0, "png/iris2.png", 10, 10);
+
+		movx+=movx/-counter;
+		movy+=movy/-counter;
+
+		StdDraw.circle(movx,movy,Math.abs(1-counter*0.2));
+		StdDraw.picture(0, 0, "png/fuzzy.png", 5, 5, ang);
+		StdDraw.picture(0, h - 4, "gif/pfeil_oben.gif");
+
+		StdDraw.setPenColor(color);
+
+		if (counter >= 10) {
+			counter = 1;
+
+		}
+
+	}
+
 	private static void levelbrand() {
 		StdDraw.picture(-w, h, "png/unicorn.png", 6, 6);
 		// StdDraw.picture(w - 4, h - 2, "png/blocks.png", 16, 16, -30);
@@ -263,7 +304,7 @@ public class Arena {
 	}
 
 	private static void mainlevel() {
-
+		Player.allowed = true;
 		StdDraw.setPenColor(color);
 		StdDraw.setPenColor(StdDraw.DARK_GRAY);
 		StdDraw.filledSquare(0, 0, w);
@@ -314,11 +355,12 @@ public class Arena {
 
 		StdDraw.picture(w - 5, -h + 5, "png/wolke.png", 50, 100, 0);
 		Player.lastkey = 0;
+
 		// Exitbedingung des Levels
 		if (apple.anzahl == 5) {
 
 			apple.anzahl = 0;
-			levelswitch = 0;
+			levelswitch = 3;
 			Arena.obst = 0;
 			Player.y = 0;
 			a = 1;
@@ -534,6 +576,7 @@ public class Arena {
 
 			levelswitch = 1;
 		}
+
 	}
 
 	private static void gate4() {
@@ -545,8 +588,8 @@ public class Arena {
 				StdAudio.play("audio/death_comp.wav");
 
 			}
-
 		}
+
 	}
 
 	public static int getSoundswitch() {

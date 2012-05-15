@@ -23,7 +23,7 @@ public class Player extends Thread{
 	public static boolean xkey = false;
 	public static int counter = 0; 
 	public static boolean button1 = false;
-
+	public static boolean allowed = true;
 	public static boolean button2 = false;
 
 	public static boolean button3 = false;
@@ -59,9 +59,10 @@ public class Player extends Thread{
 			if (space) {
 
 				lastkey = 6;
-
-				new Thread(new Bombe()).start();
-			
+				if (allowed==true)
+				{
+					new Thread(new Bombe()).start();
+			}
 
 			}
 
@@ -89,20 +90,21 @@ public class Player extends Thread{
 
 				for (double i = 0; i < 270; i++) {
 					delh = 1;
-					imgw += 0.0000005 * i;
+					imgw += 0.000005 * i;
 					imgh = imgw;
 
-					if (i >= 180) {
-						y += Math.random() * 0.01;
-					}
+	
 
-					StdDraw.picture(x, y - 7, "gif/bomb_seq06.gif", imgw * 0.5,
-							imgh * 0.5, i * y);
+					StdDraw.picture(x, y - 2, "png/heli.png", imgw ,
+							imgh*0.5 , i *3);
 
 				}
+				Player.y++;
+				StdDraw.show(30);
+				Player.y--;
 
-				if (imgw > 10) {
-					health -= 10;
+				if (imgw > 12) {
+					
 					xkey = false;
 				}
 

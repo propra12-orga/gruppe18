@@ -40,6 +40,7 @@ public class Bombe implements Runnable {
 				StdDraw.text(0, j * 0.2, String.valueOf(i));
 				StdDraw.picture(Bombe.x, Bombe.y, "gif/orange_bomb.gif");
 				StdDraw.show(20);
+				
 
 			}
 

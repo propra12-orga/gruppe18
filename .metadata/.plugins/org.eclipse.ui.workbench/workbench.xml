@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="37" version="2.0">
+<workbench progressCount="29" version="2.0">
 <workbenchAdvisor/>
-<window height="756" width="987" x="202" y="117">
+<window height="783" width="1125" x="-168" y="89">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -18,7 +18,7 @@
 <coolItem id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet" itemType="typeToolBarContribution" x="38" y="22"/>
 <coolItem id="org.eclipse.wst.ws.explorer.explorer" itemType="typeToolBarContribution" x="38" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="61" y="22"/>
+<coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="190" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
@@ -47,19 +47,19 @@
 </editorArea>
 <editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Arena.java" partName="Arena.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Arena.java" title="Arena.java" tooltip="bomber/src/Arena.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Arena.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6739" selectionTopPixel="4523"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5768" selectionTopPixel="4071"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Player.java" title="Player.java" tooltip="bomber/src/Player.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2623" selectionTopPixel="1849"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2086" selectionTopPixel="1273"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bombe.java" partName="Bombe.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Bombe.java" title="Bombe.java" tooltip="bomber/src/Bombe.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Bombe.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="964" selectionTopPixel="662"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="958" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StdDraw.java" partName="StdDraw.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/StdDraw.java" title="StdDraw.java" tooltip="bomber/src/StdDraw.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/StdDraw.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="40749" selectionTopPixel="20256"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="39871" selectionTopPixel="19311"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StdAudio.java" partName="StdAudio.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/StdAudio.java" title="StdAudio.java" tooltip="bomber/src/StdAudio.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/StdAudio.java"/>
@@ -107,6 +107,7 @@
 <expanded>
 <element path="/bomber"/>
 <element path="/bomber/.settings"/>
+<element path="/bomber/audio"/>
 <element path="/bomber/src"/>
 <element path="/bomber/src/png"/>
 </expanded>
@@ -119,9 +120,9 @@
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
+<category IMemento.internal.id="Warnings (61 items)"/>
 <category IMemento.internal.id="Errors"/>
 <category IMemento.internal.id="Warnings"/>
-<category IMemento.internal.id="Warnings (70 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -400,160 +401,159 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Arena.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Bombe.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/StdDraw.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Engine.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Bombe.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Player.java"/>
 </editors>
-<item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5823" y="8"/>
-</item>
-<item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6313" y="39"/>
+<item historyLabel="Bombe.java" index="2">
+<position info="not_deleted" x="1341" y="0"/>
 </item>
 <item historyLabel="Bombe.java" index="2">
+<position info="not_deleted" x="958" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5319" y="0"/>
+</item>
+<item historyLabel="StdDraw.java" index="1">
+<position info="not_deleted" x="39871" y="0"/>
+</item>
+<item historyLabel="Bombe.java" index="2">
+<position info="not_deleted" x="958" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="2661" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="725" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5318" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="725" y="0"/>
+</item>
+<item historyLabel="Player.java" index="3">
+<position info="not_deleted" x="2086" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5318" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
 <position/>
 </item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="430" y="0"/>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5284" y="0"/>
 </item>
-<item historyLabel="Bombe.java" index="2">
+<item historyLabel="Arena.java" index="0">
 <position/>
 </item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="430" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="429" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="424" y="5"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="469" y="0"/>
-</item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6313" y="39"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1345" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="1463" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="434" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
 <position/>
 </item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="1447" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1345" y="0"/>
+<item historyLabel="Arena.java" index="0">
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6313" y="39"/>
+<position info="not_deleted" x="5211" y="10"/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="855" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5823" y="8"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5888" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5849" y="4"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5841" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5866" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="434" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="39932" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="315" y="20"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="1345" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="40749" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="5866" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="7" y="20"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="2954" y="1"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="1447" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="40749" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="1447" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="1463" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="66" y="1"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="2954" y="1"/>
+<position info="not_deleted" x="5211" y="10"/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6383" y="9"/>
+<position info="not_deleted" x="5424" y="0"/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6684" y="0"/>
+<position info="not_deleted" x="3368" y="7"/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="4581" y="16"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="3390" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="4581" y="16"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6564" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2632" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6564" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6564" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="2623" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="964" y="0"/>
+<position/>
 </item>
 <item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6564" y="0"/>
+<position info="not_deleted" x="5211" y="10"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5382" y="38"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5211" y="10"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5858" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="131" y="11"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="204" y="1"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5211" y="10"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="5768" y="0"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="6254" y="9"/>
+</item>
+<item historyLabel="Arena.java" index="0">
+<position info="not_deleted" x="6289" y="0"/>
 </item>
 <item active="true" historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="6383" y="9"/>
+<position info="not_deleted" x="5211" y="10"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
