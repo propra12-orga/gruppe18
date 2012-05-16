@@ -7,7 +7,6 @@ public class Arena {
 
 	static Color color;
 	static byte levelswitch = 0;
-	private static int soundswitch = 0;
 
 	static double y = 0;
 	static double a = 0.7; // Beschleunigung
@@ -26,7 +25,7 @@ public class Arena {
 
 	static double[] inventar = new double[5];
 
-	public static Player Player = new Player(0, 0, 0, 100);
+	public static Player Player = new Player(0, 0);
 
 	public static Apple apple = new Apple(0, 0);
 
@@ -44,23 +43,13 @@ public class Arena {
 	// test test
 	public static void main(String[] args) {
 
-		draw(); // Initialisiere den Bildschirminhalt mit draw() einmal
-		// welcome();
-		new Player(Player.x, Player.y, 0, 50);
+		draw();
+
+		new Player(0, 0);
 		new Engine().start();
 
 	}
 
-	private static void setcolor(byte i) {
-
-		if (i == 0) {
-			StdDraw.setPenColor(StdDraw.BLACK);
-		}
-		if (i == 1) {
-			StdDraw.setPenColor(StdDraw.WHITE);
-		}
-
-	}
 
 	// Initialisiere Screen
 
@@ -68,7 +57,7 @@ public class Arena {
 		StdDraw.setCanvasSize(w * 25, h * 25);
 		StdDraw.setXscale(-w, w);
 		StdDraw.setYscale(-h, h);
-		setcolor((byte) 0);
+	
 
 	}
 
@@ -281,10 +270,10 @@ public class Arena {
 		StdDraw.picture(w, -h, "png/flame.png", w, h);
 		StdDraw.picture(0, 0, "png/iris2.png", 10, 10);
 
-		movx+=movx/-counter;
-		movy+=movy/-counter;
+		movx += movx / -counter;
+		movy += movy / -counter;
 
-		StdDraw.circle(movx,movy,Math.abs(1-counter*0.2));
+		StdDraw.circle(movx, movy, Math.abs(1 - counter * 0.2));
 		StdDraw.picture(0, 0, "png/fuzzy.png", 5, 5, ang);
 		StdDraw.picture(0, h - 4, "gif/pfeil_oben.gif");
 
@@ -327,8 +316,6 @@ public class Arena {
 
 	private static void gameover() {
 
-		StdAudio.play("audio/mtr.wav");
-
 		StdDraw.text(0, 5, "GAME OVER");
 		StdDraw.text(0, -5,
 				"Continue?? HOLD ESC for exit // RIGHT for continue");
@@ -342,7 +329,6 @@ public class Arena {
 
 		Player.x = -w;
 		Player.y = 0;
-		StdAudio.close();
 
 	}
 
@@ -497,8 +483,6 @@ public class Arena {
 			Player.y = -h + 3;
 		}
 
-		StdAudio.play("audio/center.wav");
-
 		StdDraw.picture(Player.x, 6, "gif/apple.gif", 3, 3, 45);
 
 		StdDraw.picture(Player.x, -8, "gif/apple.gif", 4, 4, 120);
@@ -523,21 +507,6 @@ public class Arena {
 			Player.x = -w;
 			levelswitch = 1;
 
-			if (getSoundswitch() == 1) {
-				StdAudio.play("audio/robot3.wav");
-				StdAudio.play("audio/horse.wav");
-				setSoundswitch(2);
-			}
-			if (getSoundswitch() == 2) {
-				StdAudio.play("audio/reverse.wav");
-				StdAudio.play("audio/cc-warp.wav");
-			}
-
-			if (getSoundswitch() == 0) {
-
-				StdAudio.loop("audio/mtr.wav");
-				setSoundswitch(3);
-			}
 		}
 	}
 
@@ -555,8 +524,7 @@ public class Arena {
 
 			Player.y = -h;
 			Player.x = 0;
-			StdAudio.play("audio/robot.wav");
-			setSoundswitch(2);
+
 			levelswitch = 0;
 			reset();
 		}
@@ -569,10 +537,6 @@ public class Arena {
 
 			Player.y = -h;
 			Player.x = w;
-			if (getSoundswitch() == 2) {
-				StdAudio.play("audio/pony.wav");
-			}
-			StdAudio.play("audio/robot2.wav");
 
 			levelswitch = 1;
 		}
@@ -584,20 +548,9 @@ public class Arena {
 
 			Player.y = -h;
 			Player.x = w;
-			if (getSoundswitch() == 3) {
-				StdAudio.play("audio/death_comp.wav");
 
-			}
 		}
 
-	}
-
-	public static int getSoundswitch() {
-		return soundswitch;
-	}
-
-	public static void setSoundswitch(int i) {
-		Arena.soundswitch = i;
 	}
 
 }

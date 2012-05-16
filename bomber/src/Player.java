@@ -1,4 +1,4 @@
-public class Player extends Thread{
+public class Player extends Thread {
 
 	public static double x = 0;
 
@@ -9,7 +9,7 @@ public class Player extends Thread{
 	public static int health = 100;
 	String[] inventar = new String[5];
 	static double imgw = 4;
-	static double imgh =4;
+	static double imgh = 4;
 	public static double delh = 0;
 	public static int lastkey = 0;
 
@@ -21,19 +21,18 @@ public class Player extends Thread{
 	public static boolean space = false;
 	public static boolean click = false;
 	public static boolean xkey = false;
-	public static int counter = 0; 
+	public static int counter = 0;
 	public static boolean button1 = false;
 	public static boolean allowed = true;
 	public static boolean button2 = false;
 
 	public static boolean button3 = false;
 
-	public Player(double xdir, double ydir, double deltah, int h) {
+	public Player(double xdir, double ydir) {
 
 		x = xdir;
 		y = ydir;
-		delh = deltah;
-		health = h;
+
 	}
 
 	public void draw() {
@@ -49,8 +48,7 @@ public class Player extends Thread{
 			alive = true;
 			// Bombentaste
 			if (Arena.levelswitch == 2) {
-		
-				
+
 				counter++;
 				StdDraw.picture(Player.x, Player.y, "png/heli.png", 6, 1,
 						counter * 1000);
@@ -59,10 +57,9 @@ public class Player extends Thread{
 			if (space) {
 
 				lastkey = 6;
-				if (allowed==true)
-				{
+				if (allowed == true) {
 					new Thread(new Bombe()).start();
-			}
+				}
 
 			}
 
@@ -93,10 +90,8 @@ public class Player extends Thread{
 					imgw += 0.000005 * i;
 					imgh = imgw;
 
-	
-
-					StdDraw.picture(x, y - 2, "png/heli.png", imgw ,
-							imgh*0.5 , i *3);
+					StdDraw.picture(x, y - 2, "png/heli.png", imgw, imgh * 0.5,
+							i * 3);
 
 				}
 				Player.y++;
@@ -104,7 +99,7 @@ public class Player extends Thread{
 				Player.y--;
 
 				if (imgw > 12) {
-					
+
 					xkey = false;
 				}
 
@@ -133,17 +128,16 @@ public class Player extends Thread{
 				if (Arena.levelswitch == 99) {
 					System.exit(0);
 				}
-		
-				
+
 				if (Arena.levelswitch == 2) {
 					x--;
 					x--;
-					
+
 					counter++;
-					StdDraw.picture(Player.x+3, Player.y, "png/heli.png", 6, 1,
-							counter * 100);
+					StdDraw.picture(Player.x + 3, Player.y, "png/heli.png", 6,
+							1, counter * 100);
 				}
-				
+
 			}
 
 			if (right) {
@@ -156,14 +150,14 @@ public class Player extends Thread{
 
 					health = 100;
 				}
-				
+
 				if (Arena.levelswitch == 2) {
 					x++;
 					x++;
-					
+
 					counter++;
-					StdDraw.picture(Player.x-3, Player.y, "png/heli.png", 6, 1,
-							counter * 100);
+					StdDraw.picture(Player.x - 3, Player.y, "png/heli.png", 6,
+							1, counter * 100);
 				}
 
 			}
@@ -173,16 +167,15 @@ public class Player extends Thread{
 				y++;
 
 				lastkey = 3;
-				
-				
+
 				if (Arena.levelswitch == 2) {
 					y++;
 					y++;
-					
+
 					counter++;
-					StdDraw.picture(Player.x, Player.y-1, "png/heli.png", 6, 1,
-							counter * 100);
-					
+					StdDraw.picture(Player.x, Player.y - 1, "png/heli.png", 6,
+							1, counter * 100);
+
 				}
 
 			}
@@ -192,14 +185,14 @@ public class Player extends Thread{
 				y--;
 
 				lastkey = 0;
-				
+
 				if (Arena.levelswitch == 2) {
 					y--;
 					y--;
-					
+
 					counter++;
-					StdDraw.picture(Player.x, Player.y+1, "png/heli.png", 6, 1,
-							counter * 100);
+					StdDraw.picture(Player.x, Player.y + 1, "png/heli.png", 6,
+							1, counter * 100);
 				}
 
 			}
@@ -253,11 +246,12 @@ public class Player extends Thread{
 
 				StdDraw.picture(x, y, "png/left.png", imgw, imgh);
 			}
-			
+
 			try {
 
 				Thread.sleep(2);
-			} catch(InterruptedException e) {}
+			} catch (InterruptedException e) {
+			}
 
 		} else {
 			alive = false;
@@ -266,7 +260,6 @@ public class Player extends Thread{
 			StdDraw.text(0, 0, "Game Over");
 
 		}
-		
 
 	}
 
