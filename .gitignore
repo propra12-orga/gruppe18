@@ -3,3 +3,11 @@
 .settings/
 .projekt
 .class
+.metadata
+.ssh
+.git
+.gitignore
+.gitconfig
+de.pws
+de.prepl
+/bomber/.project
