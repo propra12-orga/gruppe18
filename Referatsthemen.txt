@@ -1,0 +1,7 @@
+Referatsthemen:
+
+Nadescha - GUI
+Jens - XML/XSLT
+Alex Hepting - Threads
+Julia Salzmann - GUI Interaction
+Oliver Marktstecker - Netzwerke
