@@ -3,13 +3,15 @@ package edu.propra.bomberman.collisionengine;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
+import edu.propra.bomberman.gameengine.GameEngine;
+
 public class CollisionEngine {
 
 	/**
 	 * Arrayliste fuer die Kollisionsobjekte
 	 */
 	ArrayList<CollisionObject> objects;
-	private Object gameengine;
+	private GameEngine gameengine;
 
 	/**
 	 * @param args
@@ -59,7 +61,7 @@ public class CollisionEngine {
 					/**
 					 * Teilt der Gameengine mit ob objekte kollidieren
 					 */
-					gameengine.collisionbetween(a.getPrivot(), b.getPrivot());
+					gameengine.collisionBetween(a.getPrivot(), b.getPrivot());
 				}
 			}
 		}
