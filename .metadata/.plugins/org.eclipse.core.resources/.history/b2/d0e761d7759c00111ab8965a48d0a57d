@@ -1,8 +1,0 @@
-
-public interface Player1 {
-
-	boolean alive = false;
-	double imgx = 0;
-	double imgy = 0;
-
-}
