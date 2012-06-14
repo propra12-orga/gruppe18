@@ -4,7 +4,7 @@ public class Bombe implements Runnable {
 	public static double x;
 	public static boolean trig = false;
 	public static int radius = 2;
-	public static int timer = 1000;
+	public static int timer = 300;
 	public int bombencounter = 0;
 	public static int vis = 0;
 

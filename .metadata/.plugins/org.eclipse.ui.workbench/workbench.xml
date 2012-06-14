@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="33" version="2.0">
+<workbench progressCount="30" version="2.0">
 <workbenchAdvisor/>
-<window height="780" minimized="true" width="1125" x="-331" y="151">
+<window height="604" width="734" x="40" y="292">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="122" y="22"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="146" y="22"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="124" y="22"/>
-<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="74" y="22"/>
 <coolItem id="org.eclipse.jst.j2ee.J2eeMainActionSet" itemType="typeToolBarContribution" x="91" y="22"/>
 <coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="133" y="22"/>
@@ -25,6 +25,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="185" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
 </coolbarLayout>
@@ -33,41 +34,10 @@
 <editorArea activeWorkbook="DefaultEditorWorkbook">
 <info part="DefaultEditorWorkbook">
 <folder appearance="1" expanded="2">
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Arena.java" partName="Arena.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Arena.java" title="Arena.java" tooltip="bomber/src/Arena.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Arena.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="6" selectionOffset="1450" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" partName="Player.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Player.java" title="Player.java" tooltip="bomber/src/Player.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Player.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="861" selectionTopPixel="106"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bombe.java" partName="Bombe.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Bombe.java" title="Bombe.java" tooltip="bomber/src/Bombe.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Bombe.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="958" selectionTopPixel="385"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="StdDraw.java" partName="StdDraw.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/StdDraw.java" title="StdDraw.java" tooltip="bomber/src/StdDraw.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/StdDraw.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="39871" selectionTopPixel="20388"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Engine.java" partName="Engine.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Engine.java" title="Engine.java" tooltip="bomber/src/Engine.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Engine.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="381" selectionTopPixel="131"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Apple.java" partName="Apple.java" path="C:/Users/Alex Hepting/gruppe18/bomber/src/Apple.java" title="Apple.java" tooltip="bomber/src/Apple.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/bomber/src/Apple.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
-</editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
@@ -100,12 +70,11 @@
 <filter element="*.pyo" isEnabled="true"/>
 </filters>
 <expanded>
-<element path="/bomber"/>
-<element path="/bomber/.settings"/>
-<element path="/bomber/src"/>
+<element path="/CollisionDetection"/>
+<element path="/CollisionDetection/src"/>
 </expanded>
 <selection>
-<element path="/bomber/src/StdDraw.java"/>
+<element path="/CollisionDetection"/>
 </selection>
 </viewState>
 </view>
@@ -142,7 +111,7 @@
 <view id="org.eclipse.wst.server.ui.ServersView" partName="Servers"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.ui.views.ResourceNavigator" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jst.j2ee.internal.perspective.J2EEPerspective" id="org.eclipse.jst.j2ee.J2EEPerspective" label="Java EE"/>
 <alwaysOnActionSet id="org.eclipse.mylyn.doc.actionSet"/>
@@ -382,120 +351,18 @@
 </perspective>
 </perspectives>
 <workingSets/>
-<navigationHistory>
-<editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Arena.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Bombe.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/StdDraw.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Engine.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Apple.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart" path="/bomber/.classpath"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Arena.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Player.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/StdDraw.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Engine.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/bomber/src/Apple.java"/>
-</editors>
-<item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="1450" y="6"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="861" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="958" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="76" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="39871" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="7" y="20"/>
-</item>
-<item historyLabel="Apple.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="7" y="20"/>
-</item>
-<item historyLabel=".classpath" index="6">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="381" y="0"/>
-</item>
-<item historyLabel="Apple.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="381" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="39871" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="861" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="958" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="381" y="0"/>
-</item>
-<item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="1450" y="6"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="958" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="39871" y="0"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="958" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="3">
-<position info="not_deleted" x="39871" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="4">
-<position info="not_deleted" x="381" y="0"/>
-</item>
-<item historyLabel="Player.java" index="1">
-<position info="not_deleted" x="861" y="0"/>
-</item>
-<item historyLabel="Arena.java" index="0">
-<position info="not_deleted" x="1450" y="6"/>
-</item>
-<item historyLabel="Bombe.java" index="2">
-<position info="not_deleted" x="958" y="0"/>
-</item>
-<item historyLabel="Arena.java" index="7">
-<position info="not_deleted" x="1450" y="6"/>
-</item>
-<item historyLabel="Player.java" index="8">
-<position info="not_deleted" x="861" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="9">
-<position info="not_deleted" x="76" y="0"/>
-</item>
-<item historyLabel="StdDraw.java" index="9">
-<position info="not_deleted" x="39871" y="0"/>
-</item>
-<item historyLabel="Engine.java" index="10">
-<position info="not_deleted" x="381" y="0"/>
-</item>
-<item active="true" historyLabel="Apple.java" index="11">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-</navigationHistory>
+<navigationHistory/>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="left"/>
+</trimArea>
+<trimArea IMemento.internal.id="131072">
+<trimItem IMemento.internal.id="right"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 <trimItem IMemento.internal.id="org.eclipse.mylyn.tasks.ui.trim.container"/>
@@ -504,10 +371,35 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="bottom"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="javax.speech.demo" tooltip="Speech/src/javax.speech.demo">
+<persistable path="/Speech/src/javax.speech.demo"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="HelloWorld.java" tooltip="Speech/src/HelloWorld.java">
+<persistable path="/Speech/src/HelloWorld.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bombe.java" tooltip="bomber/src/Bombe.java">
+<persistable path="/bomber/src/Bombe.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Viewer.java" tooltip="CollisionDetection/src/Viewer.java">
+<persistable path="/CollisionDetection/src/Viewer.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bomb.java" tooltip="CollisionDetection/src/Bomb.java">
+<persistable path="/CollisionDetection/src/Bomb.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Block.java" tooltip="CollisionDetection/src/Block.java">
+<persistable path="/CollisionDetection/src/Block.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Brett.java" tooltip="CollisionDetection/src/Brett.java">
+<persistable path="/CollisionDetection/src/Brett.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Player.java" tooltip="CollisionDetection/src/Player.java">
+<persistable path="/CollisionDetection/src/Player.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Apple.java" tooltip="bomber/src/Apple.java">
 <persistable path="/bomber/src/Apple.java"/>
 </file>
@@ -528,27 +420,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="pack.wav" tooltip="bomber/audio/pack.wav">
 <persistable path="/bomber/audio/pack.wav"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="teleport.gif" tooltip="bomber/src/gif/teleport.gif">
-<persistable path="/bomber/src/gif/teleport.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="crypt.gif" tooltip="bomber/src/gif/crypt.gif">
-<persistable path="/bomber/src/gif/crypt.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="star.gif" tooltip="bomber/src/gif/star.gif">
-<persistable path="/bomber/src/gif/star.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="item.gif" tooltip="bomber/src/gif/item.gif">
-<persistable path="/bomber/src/gif/item.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="bomb_seq04.gif" tooltip="bomber/src/gif/bomb_seq04.gif">
-<persistable path="/bomber/src/gif/bomb_seq04.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="bomb_seq07.gif" tooltip="bomber/src/gif/bomb_seq07.gif">
-<persistable path="/bomber/src/gif/bomb_seq07.gif"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.systemExternalEditor" name="bomb_seq06.gif" tooltip="bomber/src/gif/bomb_seq06.gif">
-<persistable path="/bomber/src/gif/bomb_seq06.gif"/>
 </file>
 </mruList>
 </workbench>
