@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-
-import javax.swing.*;
 /**
  * @author Nadescha
  *

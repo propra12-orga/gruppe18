@@ -15,6 +15,26 @@ public class GraphicEngine {
 
 	private SGPanel panel;
 	private GraphicsEngineThread geT;
+
+	public GraphicEngine() {
+		panel = new SGPanel();
+		this.geT=new GraphicsEngineThread(this);
+	}
+
+	
+
+	public void startDrawing(){
+		if(this.panel.isVisible()){
+			Thread t=new Thread(geT);
+			t.start();
+		}
+	}
+	
+
+	public SGScene getScene() {
+		return panel.getScene();
+	}
+	
 	/**
 	 * @return the panel
 	 */
@@ -27,25 +47,9 @@ public class GraphicEngine {
 	 */
 	public void setPanel(SGPanel panel) {
 		this.panel = panel;
-		this.geT=new GraphicsEngineThread(this);
 	}
 
-	public void startDrawing(){
-		if(this.panel.isVisible()){
-			Thread t=new Thread(geT);
-			t.start();
-		}
-	}
 	
-	public GraphicEngine() {
-		panel = new SGPanel();
-
-	}
-
-	public SGScene getScene() {
-		return panel.getScene();
-	}
-
 	/**
 	 * @param args
 	 */
@@ -57,7 +61,8 @@ public class GraphicEngine {
 		SGTransform t_area = new SGTransform();
 		t_area.getTransform().setToTranslation(300, 300);
 		SGTransform t_image = new SGTransform();
-		t_image.getTransform().setToTranslation(400, 400);
+		t_image.getTransform().rotate(0.5);
+		t_image.getTransform().translate(100, 100);
 		SGTransform t_text = new SGTransform();
 		t_text.getTransform().setToTranslation(0, 0);
 		sgp.getScene().addChild(t_area);

@@ -11,8 +11,12 @@ public class CollisionEngine {
 	 * Arrayliste fuer die Kollisionsobjekte
 	 */
 	ArrayList<CollisionObject> objects;
-	private GameEngine gameengine;
+	private GameEngine gameEngine;
 
+	public CollisionEngine() {
+		objects=new ArrayList<>();
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -27,6 +31,7 @@ public class CollisionEngine {
 	public void AddObject(CollisionObject obj) {
 		objects.add(obj);
 	}
+	
 
 	/**
 	 * Methode entfernt ein Collisionsobjekt
@@ -49,9 +54,9 @@ public class CollisionEngine {
 		 */
 		for (int i = 0; i < objects.size(); i++) {
 			a = objects.get(i);
-			for (int j = 0; j < objects.size(); j++) {
+			for (int j = i+1; j < objects.size(); j++) {
 				b = objects.get(j);
-
+				if(a==b)continue;
 				/**
 				 * vergleiche a und b indem a geclont wird
 				 */
@@ -61,10 +66,19 @@ public class CollisionEngine {
 					/**
 					 * Teilt der Gameengine mit ob objekte kollidieren
 					 */
-					gameengine.collisionBetween(a.getPrivot(), b.getPrivot());
+					
+					getGameEngine().collisionBetween(a.getPrivot(), b.getPrivot());
 				}
 			}
 		}
+	}
+
+	public GameEngine getGameEngine() {
+		return gameEngine;
+	}
+
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
 	}
 
 }

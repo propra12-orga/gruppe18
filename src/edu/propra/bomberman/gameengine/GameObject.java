@@ -4,7 +4,10 @@ import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGNode;
 
 public abstract class GameObject {
-	private CollisionObject co;
-	private SGNode go;
+	protected CollisionObject co;
+	protected SGNode go;
+
+	public abstract void collisionWith(Object a);
+
 	
 }

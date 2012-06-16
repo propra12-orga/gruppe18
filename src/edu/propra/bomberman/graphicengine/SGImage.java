@@ -5,23 +5,18 @@ package edu.propra.bomberman.graphicengine;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
-import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 /**
  * @author Nadescha
  *
  */
 public class SGImage extends SGLeaf {
-	
 
 	/**
 	 * 
 	 */
 	
-	private BufferedImage image = null;
+	private BufferedImage image ;
 	
 	
 	
@@ -29,15 +24,14 @@ public class SGImage extends SGLeaf {
 	
 	
 	public SGImage() {
-		// TODO Auto-generated constructor stub
+		super();
+		image=null;
 	}
 
-	/**
-	 * @param parent
-	 */
-	public SGImage(SGNode parent) {
-		super(parent);
-		// TODO Auto-generated constructor stub
+
+	public SGImage(BufferedImage image) {
+		super();
+		this.image=image;
 	}
 
 

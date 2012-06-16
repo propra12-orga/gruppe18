@@ -4,6 +4,7 @@
 package edu.propra.bomberman.graphicengine;
 
 import java.awt.Color;
+
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -14,12 +15,13 @@ import java.awt.geom.Area;
  */
 public class SGLeaf extends SGNode {
 	private Area clipArea;
-
+	private AffineTransform actTrans;
 	/**
 	 * 
 	 */
 	public SGLeaf() {
 		clipArea=new Area();
+		actTrans=new AffineTransform();
 	}
 
 	/**
@@ -28,6 +30,7 @@ public class SGLeaf extends SGNode {
 	public SGLeaf(SGNode parent) {
 		super(parent);
 		clipArea=new Area();
+		actTrans=new AffineTransform();
 	}
 
 	/* (non-Javadoc)
@@ -35,6 +38,7 @@ public class SGLeaf extends SGNode {
 	 */
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
+		setActTrans(transform);
 		g2d.setClip(clipArea.createTransformedArea(transform));
 		this.paint(transform,g2d);
 		g2d.setClip(null);
@@ -51,6 +55,14 @@ public class SGLeaf extends SGNode {
 
 	public void setClipArea(Area clipArea) {
 		this.clipArea = clipArea;
+	}
+
+	public AffineTransform getActTrans() {
+		return actTrans;
+	}
+
+	public void setActTrans(AffineTransform actTrans) {
+		this.actTrans.setTransform(actTrans);
 	}
 
 }
