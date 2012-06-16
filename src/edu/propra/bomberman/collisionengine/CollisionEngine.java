@@ -14,7 +14,7 @@ public class CollisionEngine {
 	private GameEngine gameEngine;
 
 	public CollisionEngine() {
-		objects=new ArrayList<>();
+		objects=new ArrayList<CollisionObject>();
 	}
 	
 	/**
