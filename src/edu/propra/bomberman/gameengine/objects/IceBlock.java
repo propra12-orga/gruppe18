@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
+import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
@@ -36,6 +37,7 @@ public class IceBlock extends GameObject {
 		this.absTransform=(AffineTransform) trans.clone();
 	}
 	
+	private int counter=50;
 	@Override
 	public void collisionWith(Object a) {
 		if(a instanceof FixedBlock ){
@@ -45,6 +47,8 @@ public class IceBlock extends GameObject {
 		}else if(a instanceof Bomb){
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());	
 		}else if( a instanceof Explosion){
+			counter--;
+			if(counter==0)SGameEngine.get().removeGameObject(this);
 			System.out.println("Movement Collision between"+this.toString()+"and Explosion"+ a.toString());
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			

@@ -77,9 +77,10 @@ public class GameObjectGroup extends GameObject{
 	}
 	public void removeChildRecursive(GameObject go){
 		for(GameObject child : this.group){
-			if(child==go)this.group.remove(go);
+			if(child==go)break;
 			if(child instanceof GameObjectGroup)((GameObjectGroup) child).removeChildRecursive(go);
 		}		
+		this.group.remove(go);
 		return;
 	}
 }
