@@ -28,6 +28,7 @@ import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
 import edu.propra.bomberman.gameengine.objects.GameObject;
 import edu.propra.bomberman.gameengine.objects.GameObjectGroup;
+import edu.propra.bomberman.gameengine.objects.IceBlock;
 import edu.propra.bomberman.gameengine.objects.Moveable;
 import edu.propra.bomberman.gameengine.objects.Player;
 import edu.propra.bomberman.gameengine.objects.Wall;
@@ -151,6 +152,13 @@ public class GameEngine {
 			int size=Integer.parseInt(node.getAttributes().getNamedItem("size").getNodeValue());
 			Explosion explosion=new Explosion(x, y,size);
 			return explosion;
+		}
+		
+		if(node.getNodeName().equals("geIceBlock")){
+			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
+			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+			IceBlock iceblock=new IceBlock(x, y);
+			return iceblock;
 		}
 		/*if(node.getNodeName().equals("geImage")){
 			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());

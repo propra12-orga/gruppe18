@@ -10,8 +10,8 @@
 		<geFixedBlock x="200" y="120" />
 		<geFixedBlock x="40" y="200" />
 		<geFixedBlock x="120" y="200" />
-		<geFixedBlock x="200" y="200" />
+		<geIceBlock x="200" y="200" />
 		<geBomb x="80" y="80" />
-		<geExplosion x="160" y="160" size="3" />
+		<geExplosion x="200" y="160" size="3" />
 	</geGroup>
 </geGroup>

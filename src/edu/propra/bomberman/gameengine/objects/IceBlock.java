@@ -10,7 +10,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
-import edu.propra.bomberman.gameengine.GameObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
@@ -39,12 +38,14 @@ public class IceBlock extends GameObject {
 	
 	@Override
 	public void collisionWith(Object a) {
-		if(a instanceof IceBlock ){
+		if(a instanceof FixedBlock ){
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
 		}else if(a instanceof Bomb){
-			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
+			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());	
+		}else if( a instanceof Explosion){
+			System.out.println("Movement Collision between"+this.toString()+"and Explosion"+ a.toString());
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
 		}
@@ -54,7 +55,7 @@ public class IceBlock extends GameObject {
 		collisionArea=new Area(new Rectangle(0,0,40,40));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		try {
-			image = ImageIO.read(new File("src/resources/festerblock.png"));
+			image = ImageIO.read(new File("src/resources/weichblock.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
