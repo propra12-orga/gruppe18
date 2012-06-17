@@ -15,7 +15,9 @@ public class SGPanel extends JPanel {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		scene.PaintRecursive(null, (Graphics2D)g);
+		synchronized (scene) {
+			scene.PaintRecursive(null, (Graphics2D)g);		
+		}
 	}
 
 	public SGScene getScene() {

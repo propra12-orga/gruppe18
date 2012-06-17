@@ -23,8 +23,12 @@ public class SGGroup extends SGNode {
 	}
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
-		for (SGNode child : this.childs) {
-			child.PaintRecursive((AffineTransform)transform.clone(), g2d);
+		synchronized (this.childs) {
+			for (SGNode child : this.childs) {
+				synchronized (child) {
+					child.PaintRecursive((AffineTransform)transform.clone(), g2d);		
+				}
+			}	
 		}
 	}
 
