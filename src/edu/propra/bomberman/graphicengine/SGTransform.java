@@ -39,4 +39,9 @@ public class SGTransform extends SGNode {
 		this.transform = transform;
 	}
 
+	public void removeChild() {
+		this.child.setParent(null);
+		this.child=null;		
+	}
+
 }

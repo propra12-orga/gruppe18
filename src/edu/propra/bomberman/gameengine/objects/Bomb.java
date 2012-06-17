@@ -13,12 +13,12 @@ import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
-public class FixedBlock extends GameObject {
+public class Bomb extends GameObject {
 	public static Area collisionArea=null;
 	public static Area clipArea=null;
 	public static BufferedImage image=null;
 
-	public FixedBlock(int x,int y) {
+	public Bomb(int x,int y) {
 		
 		AffineTransform trans=new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -42,22 +42,12 @@ public class FixedBlock extends GameObject {
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
-		}else if(a instanceof Bomb){
-			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
 		}
 	}
 
-	static{
-		collisionArea=new Area(new Rectangle(0,0,40,40));
-		clipArea=new Area(new Rectangle(0,0,40,40));
-		try {
-			image = ImageIO.read(new File("src/resources/festerblock.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 	@Override
 	public void initializeCollisions() {
@@ -69,5 +59,15 @@ public class FixedBlock extends GameObject {
 			System.err.println("  Absolute positions are not initialized");
 		}
 		
+	}
+
+	static{
+		collisionArea=new Area(new Rectangle(5,5,30,30));
+		clipArea=new Area(new Rectangle(0,0,40,40));
+		try {
+			image = ImageIO.read(new File("src/resources/bombe.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

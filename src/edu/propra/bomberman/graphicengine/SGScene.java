@@ -36,4 +36,7 @@ public class SGScene extends SGNode {
 		child.PaintRecursive(transform, g2d);
 	}
 
+	public SGGroup getChild(){
+		return this.child;
+	}
 }
