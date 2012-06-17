@@ -8,7 +8,7 @@ public abstract class ActionObject implements Comparable<ActionObject>{
 
 	@Override
 	public int compareTo(ActionObject o) {
-		return (int)(o.time-this.time);
+		return (int)(this.time-o.time);
 	}
 
 	public long getTime() {

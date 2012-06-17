@@ -19,9 +19,12 @@ public class SGTransform extends SGNode {
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
 		transform.concatenate(this.transform);
-		if(child!=null)child.PaintRecursive(transform, g2d);
-	}
+		synchronized (child) {
 
+			if(child!=null)child.PaintRecursive(transform, g2d);
+			
+		}
+	}
 	public SGNode getChild() {
 		return child;
 	}

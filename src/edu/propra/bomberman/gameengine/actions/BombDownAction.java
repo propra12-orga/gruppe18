@@ -11,7 +11,7 @@ public class BombDownAction extends ActionObject {
 
 	@Override
 	public void action() {
-		((Player)actor).bomb();
+		((Player)actor).bombDown();
 	}
 
 }

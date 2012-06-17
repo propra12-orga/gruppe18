@@ -23,6 +23,8 @@ import org.xml.sax.SAXException;
 
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
+import edu.propra.bomberman.gameengine.actions.BombUpAction;
+import edu.propra.bomberman.gameengine.actions.ExplosionEnd;
 import edu.propra.bomberman.gameengine.objects.Bomb;
 import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
@@ -49,7 +51,7 @@ public class GameEngine {
 	private UserControlEngine ucE;
 
 	private PriorityQueue<ActionObject> actionTimeline;
-	private GameObject objectsRoot;
+	private GameObjectGroup objectsRoot;
 
 	public GameEngine() {
 		// initialize Engines
@@ -143,7 +145,7 @@ public class GameEngine {
 		if(node.getNodeName().equals("geBomb")){
 			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Bomb bomb=new Bomb(x, y);
+			Bomb bomb=new Bomb(null,x, y);
 			return bomb;
 		}
 		
@@ -253,7 +255,7 @@ public class GameEngine {
 	public void initializeGame(){
 		gE.getPanel().setPreferredSize(new Dimension(800, 600));
 		
-		this.objectsRoot=this.loadMap("");
+		this.objectsRoot=(GameObjectGroup) this.loadMap("");
 		
 		
 		// TODO refactor to load Background by MapLoader
@@ -338,5 +340,48 @@ public class GameEngine {
 		this.gE.getPanel().repaint();
 		roundDone=true;
 		//System.out.println(dur);
+	}
+
+	public void addBomb(Bomb newBomb) {
+		
+		objectsRoot.addChild(newBomb);
+		newBomb.initializeAbsolutePositions(objectsRoot.absTransform);
+		newBomb.initializeCollisions();
+		newBomb.addToScene(this.gE.getScene().getChild());
+		newBomb.addToCollisionEngine(this.cE);
+		this.actionTimeline.add(new BombUpAction(newBomb,System.currentTimeMillis()+2000));
+	}
+	
+	public void explodeBomb(Bomb bomb){
+		objectsRoot.removeChild(bomb);
+		
+		if(bomb.getGo().getParent() instanceof SGGroup){
+			((SGGroup)bomb.getGo().getParent()).removeChild(bomb.getGo());
+		}else{
+			((SGTransform)bomb.getGo().getParent()).removeChild();	
+		}
+		this.cE.DelObject(bomb.getCo());
+		
+		Explosion boom=new Explosion((int)bomb.absTransform.getTranslateX(), (int)bomb.absTransform.getTranslateY(), 3);
+	
+		objectsRoot.addChild(boom);
+		boom.initializeAbsolutePositions(objectsRoot.absTransform);
+		boom.initializeCollisions();
+		boom.addToScene(this.gE.getScene().getChild());
+		boom.addToCollisionEngine(this.cE);
+		this.actionTimeline.add(new ExplosionEnd(boom,System.currentTimeMillis()+1000));
+	
+	}
+	
+	public boolean now=false;
+	public void removeExplosion(Explosion boom){
+		objectsRoot.removeChild(boom);
+		if(boom.getGo().getParent() instanceof SGGroup){
+			((SGGroup)boom.getGo().getParent()).removeChild(boom.getGo());
+		}else{
+			((SGTransform)boom.getGo().getParent()).removeChild();	
+		}
+		this.cE.DelObject(boom.getCo());
+		
 	}
 }

@@ -58,7 +58,7 @@ public class GameObjectGroup extends GameObject{
 	
 	@Override 
 	public void initializeAbsolutePositions(AffineTransform trans){
-		absTransform.concatenate(trans);
+		if(!this.isAbsIntialized)absTransform.concatenate(trans);
 		this.isAbsIntialized=true;
 		for(GameObject child : this.group){
 			child.initializeAbsolutePositions(absTransform);
@@ -82,5 +82,9 @@ public class GameObjectGroup extends GameObject{
 		}		
 		this.group.remove(go);
 		return;
+	}
+
+	public void removeChild(GameObject obj) {
+		this.group.remove(obj);
 	}
 }

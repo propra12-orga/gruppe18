@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGNode;
@@ -18,203 +19,105 @@ public class MovingData {
 	private AffineTransform actTrans;
 	private boolean step1;
 	private int direction;
+	private GameObject parent;
 
-	public MovingData() {
+	public MovingData(GameObject parent) {
+		this.parent = parent;
 		this.step = new AffineTransform();
 		moving = false;
 		step1 = false;
-		lastStep=new AffineTransform();
+		lastStep = new AffineTransform();
 	}
 
 	private long dsc = 0;
 
-	private long lastStart=0;
+	private long lastStart = 0;
 	private AffineTransform lastStep;
 	private double lastStepSize;
-	public void doStepCollision(CollisionObject co) {
-		if (this.isMoving() && !this.step1) {
-			dsc++;
-			long time=System.currentTimeMillis();
-			lastStepSize=((time-lastStart)/10)*speed;
-			AffineTransform strech=new AffineTransform();
-			if(direction==0){//y<0
-				strech.setToScale(1, ((lastStepSize+(double)co.getCollisionArea().getBounds2D().getHeight())/(double)co.getCollisionArea().getBounds2D().getHeight()));
-				strech.translate(0, -lastStepSize);
-				lastStep.setToTranslation(0, -lastStepSize);
+	private Rectangle2D lastColRect;
+	public boolean now = false;
+	private boolean blocked = false;
+
+	public void doStepCollision() {
+		if (this.moving) {
+			if (!this.step1 && !this.blocked) {
+				dsc++;
+				long time = System.currentTimeMillis();
+				lastStepSize = ((time - lastStart) / 10) * speed;
+				AffineTransform strech = new AffineTransform();
+				Area colArea = parent.co.getCollisionArea();
+				Rectangle2D colBounds = colArea.getBounds2D();
+				if (direction == 180) {// y<0
+					// strech.setToScale(1,
+					// ((lastStepSize+(double)colBounds.getHeight())/(double)colBounds.getHeight()));
+					lastStep.setToTranslation(0, -lastStepSize);
+				}
+				if (direction == 90) {// x>0
+					// strech.setToScale(((lastStepSize+(double)colBounds.getWidth())/(double)colBounds.getWidth()),1);
+					lastStep.setToTranslation(lastStepSize, 0);
+				}
+				if (direction == 0) {// y>0
+					// strech.setToScale(1,((lastStepSize+(double)colBounds.getHeight())/(double)colBounds.getHeight()));
+					lastStep.setToTranslation(0, lastStepSize);
+				}
+				if (direction == 270) {// x<0
+					// strech.setToScale(((lastStepSize+(double)colBounds.getWidth())/(double)colBounds.getWidth()),1);
+					lastStep.setToTranslation(-lastStepSize, 0);
+				}
+
+				strech.concatenate(lastStep);
+				strech.concatenate(parent.absTransform);
+				parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(strech));
+				// colArea.transform(lastStep);
+
+				step1 = true;
+				lastStart = time;
 			}
-			if(direction==90){//x>0
-				strech.setToScale(((lastStepSize+(double)co.getCollisionArea().getBounds2D().getWidth())/(double)co.getCollisionArea().getBounds2D().getWidth()),1);
-				strech.translate(0, 0);
-				lastStep.setToTranslation(lastStepSize,0);
-			}
-			if(direction==180){//y>0
-				strech.setToScale(1,((lastStepSize+(double)co.getCollisionArea().getBounds2D().getHeight())/(double)co.getCollisionArea().getBounds2D().getHeight()));
-				strech.translate(0, 0);
-				lastStep.setToTranslation(0, lastStepSize);
-			}
-			if(direction==270){//x<0
-				strech.setToScale(((lastStepSize+(double)co.getCollisionArea().getBounds2D().getWidth())/(double)co.getCollisionArea().getBounds2D().getWidth()),1);
-				strech.translate(-lastStepSize, 0);
-				lastStep.setToTranslation(-lastStepSize,0);
-			}
-			co.setCollisionArea(new Area(strech.createTransformedShape(co.getCollisionArea())));
-			step1=true;
-			lastStart=time;
-			
-			/* Buggy Version for moving in all 360 directions
-			AffineTransform trans = ((AffineTransform) this.getActTrans().clone());
-			this.lastStep = (AffineTransform) step.clone();
-			long dur= (System.currentTimeMillis()-lastStart)/10;
-			this.lastStep.setToTranslation(step.getTranslateX()*dur*speed,step.getTranslateY()*dur*speed);
-			trans.concatenate(this.lastStep);
-			co.setCollisionArea(new Area(trans.createTransformedShape(Player.collisionArea)));
-			this.step1 = true;
-			lastStart=lastStart+dur*10;
-			*/
 		}
 	}
 
 	private long dsg = 0;
 
 	public void doStepGraphic(GameObject go) {
-		if (this.step1) {
-			dsg++;
-			((SGTransform) go.go).getTransform().concatenate(this.lastStep);
-			AffineTransform unstretch=new AffineTransform();
-			
-			if(direction==0){
-				unstretch.setToScale(1, 1-(lastStepSize/go.co.getCollisionArea().getBounds2D().getHeight()));
-				unstretch.translate(0, -lastStepSize-lastStep.getTranslateY());
+		if (!this.blocked) {
+			if (this.step1) {
+				dsg++;
+				((SGTransform) go.go).getTransform().concatenate(this.lastStep);
+				parent.absTransform.concatenate(this.lastStep);
+				if (parent instanceof Player)
+					parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(parent.absTransform));
+				this.lastStep.setToIdentity();
+				this.step1 = false;
 			}
-			if(direction==90){
-				unstretch.setToScale(1-(lastStepSize/go.co.getCollisionArea().getBounds2D().getWidth()), 1);
-				unstretch.translate(-lastStepSize-lastStep.getTranslateX(),0 );
-			}
-			if(direction==180){
-				unstretch.setToScale(1, 1-(lastStepSize/go.co.getCollisionArea().getBounds2D().getHeight()));
-				unstretch.translate(0, -lastStepSize-lastStep.getTranslateY());
-			}
-			if(direction==270){
-				unstretch.setToScale(1-(lastStepSize/go.co.getCollisionArea().getBounds2D().getWidth()), 1);
-				unstretch.translate(-lastStepSize-lastStep.getTranslateX(),0 );
-			}
-
-			go.co.setCollisionArea(new Area(unstretch.createTransformedShape(go.co.getCollisionArea())));
-			this.lastStep.setTransform(step);
-			this.step1 = false;
 		}
 	}
 
 	private long usc = 0;
 	private AffineTransform back = new AffineTransform();
+	boolean coli = false;
 
 	public void undoStepCollision(CollisionObject cothis, CollisionObject other) {
-		
-		//Easy Version for up down left right navigation;
-		Area intersection = (Area) cothis.getCollisionArea().clone();
-		intersection.intersect(other.getCollisionArea());
-		
-		if(direction==0){
-			lastStep.translate(0, intersection.getBounds2D().getHeight());
-		}
-		if(direction==90){
-			lastStep.translate(0, -intersection.getBounds2D().getWidth());
-		}
-		if(direction==180){
-			lastStep.translate(0, -intersection.getBounds2D().getHeight());
-		}
-		if(direction==270){
-			lastStep.translate(0, intersection.getBounds2D().getWidth());
-		}
-		
-		//TODO solve big jumps 
-		
-		/* Buggy Version for all 360 directions
-		usc++;
+
+		// Easy Version for up down left right navigation;
 		Area intersection = (Area) cothis.getCollisionArea().clone();
 		intersection.intersect(other.getCollisionArea());
 
-		double tx = lastStep.getTranslateX();
-		double ty = lastStep.getTranslateY();
-		double ntx = 0;
-		double nty = 0;
-		// correct rounding issue before using more than 8 directions
-		Rectangle b = intersection.getBounds();
-		
-		//horizontaler aufprall auf eine Ecke
-			if(Math.abs(tx)*2>b.height && ty==0){
-				//Obere oder untere Ecken?
-				Rectangle b2=(Rectangle) b.clone();
-				b2.y=b2.y-b2.height;
-				if(other.getCollisionArea().intersects(b2)){
-					nty=b.height;
-				}else{
-					nty=-b.height;
-				}
-				ntx=tx;
-			}else
-		//Vertikaler Aufprall auf eine Ecke
-			if(Math.abs(ty)*2>b.width && tx==0){
-				Rectangle b2=(Rectangle) b.clone();
-				b2.x=b2.x-b2.width;
-				if(other.getCollisionArea().intersects(b2)){
-					ntx=b.width;
-				}else{
-					ntx=-b.width;
-				}
-				nty=ty;
-			}else
-			if(b.width==cothis.getCollisionArea().getBounds().width && b.height==cothis.getCollisionArea().getBounds().height){
-				System.out.println("ecke");
-			}else
-		//horizontaler Aufprall auf Wand
-			if(Math.abs(tx)*2<b.height && ty==0){
-				if(tx>0)
-					ntx=-b.width;
-				else 
-					ntx=b.width;
-			}else
-		//vertikaler aufprall auf Wand
-			if(Math.abs(ty)*2<b.width && tx==0){
-				if(ty>0)
-					nty=-b.height;
-				else 
-					nty=b.height;
-			}else
-		//diagonaler Aufprall auf Wand
-			if(Math.abs(ty)*2<b.width || Math.abs(tx)*2<b.height){
-				if(b.width<b.height){
-					ntx=b.width;
-				}else{
-					nty=b.height;
-				}
-				if (ty > 0)
-					nty = -nty;
-				if (tx > 0)
-					ntx = -ntx;
-			}else
-			if(true){
-				//diagonaler Aufprall auf Ecke
-				Rectangle b2=(Rectangle) b.clone();
-				b2.y=b2.y-b2.height;
-				if(other.getCollisionArea().intersects(b2)){
-					nty=b.height;
-				}else{
-					nty=-b.height;
-				}
-				b2=(Rectangle) b.clone();
-				b2.x=b2.x-b2.width;
-				if(other.getCollisionArea().intersects(b2)){
-					ntx=b.width;
-				}else{
-					ntx=-b.width;
-				}
-			}	
-		back.setToTranslation(ntx, nty);
+		if (direction == 180) {
+			lastStep.translate(0, intersection.getBounds2D().getHeight() + 1);
+		}
+		if (direction == 90) {
+			lastStep.translate(-intersection.getBounds2D().getWidth() - 1, 0);
+		}
+		if (direction == 0) {
+			lastStep.translate(0, -intersection.getBounds2D().getHeight() - 1);
+		}
+		if (direction == 270) {
+			lastStep.translate(intersection.getBounds2D().getWidth(), 0);
+		}
+		// this.lastStep.setToIdentity();
+		step1 = true;
+		coli = true;
 
-		this.lastStep.setToTranslation(tx + ntx, ty + nty);
-		cothis.getCollisionArea().transform(back);
-		*/
 	}
 
 	public boolean isMoving() {
@@ -224,11 +127,11 @@ public class MovingData {
 	public void startMoving(int direction) {
 		if (this.direction != direction || !this.moving) {
 			this.direction = direction;
-			//double tx = this.speed * Math.sin(Math.toRadians(direction));
-			//double ty = this.speed * Math.cos(Math.toRadians(direction));
+			// double tx = this.speed * Math.sin(Math.toRadians(direction));
+			// double ty = this.speed * Math.cos(Math.toRadians(direction));
 			double tx = Math.sin(Math.toRadians(direction));
 			double ty = Math.cos(Math.toRadians(direction));
-			lastStart=System.currentTimeMillis();
+			lastStart = System.currentTimeMillis();
 			if ((tx < 0.0000001 && tx > -0.0000001))
 				tx = 0;
 			if ((ty < 0.0000001 && ty > -0.0000001))
@@ -239,7 +142,6 @@ public class MovingData {
 	}
 
 	public void stopMoving() {
-		direction = 0;
 		this.moving = false;
 		this.step.setToIdentity();
 	}
@@ -278,6 +180,14 @@ public class MovingData {
 
 	public void setStep1(boolean step1) {
 		this.step1 = step1;
+	}
+
+	public int getDirection() {
+		return this.direction;
+	}
+
+	public void block() {
+		this.blocked = true;
 	}
 
 }

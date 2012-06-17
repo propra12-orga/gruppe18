@@ -17,9 +17,9 @@ public class Bomb extends GameObject {
 	public static Area collisionArea=null;
 	public static Area clipArea=null;
 	public static BufferedImage image=null;
-
-	public Bomb(int x,int y) {
-		
+	public Player owner;
+	public Bomb(Player owner, int x,int y) {
+		this.owner=owner;
 		AffineTransform trans=new AffineTransform();
 		trans.setToTranslation(x, y);
 		//Construct Graphics Subgraph for Player Object
@@ -62,7 +62,7 @@ public class Bomb extends GameObject {
 	}
 
 	static{
-		collisionArea=new Area(new Rectangle(5,5,30,30));
+		collisionArea=new Area(new Rectangle(2,2,36,36));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		try {
 			image = ImageIO.read(new File("src/resources/bombe.png"));

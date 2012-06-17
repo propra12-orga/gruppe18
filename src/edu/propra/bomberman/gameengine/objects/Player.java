@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
+import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
@@ -20,8 +21,9 @@ public class Player extends GameObject implements Moveable {
 	public static BufferedImage[] images;
 	private static BufferedImage deathImage;
 	private boolean death=false;
-
+	public int bombCounter=10;
 	private MovingData data ;
+	private int bombMax=3;
 
 	
 	public Player(int x,int y) {
@@ -45,9 +47,9 @@ public class Player extends GameObject implements Moveable {
 		
 		this.absTransform=(AffineTransform) trans.clone();
 		// Initialize Data to make Player Object moveable
-		data=new MovingData();
+		data=new MovingData(this);
 		data.setActTrans(leaf.getActTrans());
-		data.setSpeed(1);
+		data.setSpeed(5);
 		
 	
 	
@@ -69,12 +71,13 @@ public class Player extends GameObject implements Moveable {
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Explosion){
 			death=true;
+			this.data.block();
 			SGImage deathNode=new SGImage();
 			deathNode.setClipArea(clipArea);
 			deathNode.setImage(deathImage);
 			((SGTransform)this.go).removeChild();
 			((SGTransform)this.go).setChild(deathNode);
-			System.out.println("AHHHHH im Dead");
+			System.out.println("AHHHHH!!!! I'm Dead");
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
@@ -88,7 +91,7 @@ public class Player extends GameObject implements Moveable {
 
 
 	static{
-		collisionArea=new Area(new Rectangle(13,20,13,18));
+		collisionArea=new Area(new Rectangle(13,2,13,36));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		images=new BufferedImage[4];
 		
@@ -104,9 +107,23 @@ public class Player extends GameObject implements Moveable {
 	}
 
 
-	public void bomb() {
-		System.out.println("boom");
-		
+	public void bombDown() {
+		if(bombCounter>0){
+			bombCounter--;
+			data.now=true;
+			SGameEngine.get().now=true;
+			int dir=this.data.getDirection();
+			double x=0,y=0;
+			if(dir==0)y= Player.clipArea.getBounds2D().getHeight();
+			if(dir==90)x=Player.clipArea.getBounds2D().getWidth();
+			if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
+			if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
+			SGameEngine.get().addBomb(new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y)));
+		}
+	}
+	public void bombUp(){
+		if(bombCounter<=bombMax)
+			bombCounter++;
 	}
 
 	@Override
@@ -118,6 +135,9 @@ public class Player extends GameObject implements Moveable {
 			System.err.println("Player.initializeCollisions()");
 			System.err.println("    AbsolutePositions are not initialized");		
 		}
+	}
+	public Area getBaseCollisionArea(){
+		return Player.collisionArea;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import edu.propra.bomberman.graphicengine.SGNode;
 public abstract class GameObject {
 	protected CollisionObject co;
 	protected SGNode go;
-	protected AffineTransform absTransform;
+	public AffineTransform absTransform;
 	
 	public abstract void collisionWith(Object a);
 
@@ -31,7 +31,7 @@ public abstract class GameObject {
 	}
 	public void doPreMoves(){
 		if(this instanceof Moveable){
-			((Moveable)this).getMovingData().doStepCollision(this.co);
+			((Moveable)this).getMovingData().doStepCollision();
 		}
 	}
 	public void doMoves(){
@@ -50,7 +50,7 @@ public abstract class GameObject {
 
 	protected boolean isAbsIntialized=false;
 	public void initializeAbsolutePositions(AffineTransform trans) {
-		this.absTransform.concatenate(trans);
+		if(!this.isAbsIntialized)this.absTransform.concatenate(trans);
 		this.isAbsIntialized=true;
 	}
 	
