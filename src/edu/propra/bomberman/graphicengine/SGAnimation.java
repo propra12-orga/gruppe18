@@ -19,7 +19,16 @@ public class SGAnimation extends SGLeaf {
 	private boolean repeat;
 	
 	
-//Hilfsvariable 
+public boolean isRepeat() {
+		return repeat;
+	}
+
+
+
+	public void setRepeat(boolean repeat) {
+		this.repeat = repeat;
+	}
+	//Hilfsvariable 
 	private  long startTime;
     private  double imagesPerSecond;
     
@@ -36,7 +45,7 @@ public class SGAnimation extends SGLeaf {
 		
 		this.images = images;
 		this.aniTime = aniTime;
-		this.imagesPerSecond = this.images.length/(this.aniTime);
+		this.imagesPerSecond = ((double)this.images.length)/((double)this.aniTime);
 		this.repeat = false;	
 		
 	}
@@ -68,6 +77,7 @@ public class SGAnimation extends SGLeaf {
 				}
 			}
 			index = (int)(((double)duration) * imagesPerSecond);
+			if(index+1 > images.length )index=images.length-1;
 		}else{
 			index = 0;
 		}
