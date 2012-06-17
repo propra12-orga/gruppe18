@@ -26,6 +26,9 @@ public class SGScene extends SGNode {
 		this.child.addChild(child);
 	}
 
+	public void removeChild(SGNode child){
+		this.child.removeChild(child);
+	}
 
 	/* (non-Javadoc)
 	 * @see edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom.AffineTransform, java.awt.Graphics2D)

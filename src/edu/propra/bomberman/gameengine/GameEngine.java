@@ -35,6 +35,7 @@ import edu.propra.bomberman.graphicengine.GraphicEngine;
 import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGGroup;
 import edu.propra.bomberman.graphicengine.SGImage;
+import edu.propra.bomberman.graphicengine.SGScene;
 import edu.propra.bomberman.graphicengine.SGTransform;
 import edu.propra.bomberman.networkengine.NetworkEngine;
 import edu.propra.bomberman.usercontrolengine.PlayerListener;
@@ -164,6 +165,15 @@ public class GameEngine {
 		
 	}
 	
+	public void removeGameObject(GameObject go){
+		((GameObjectGroup)this.objectsRoot).removeChildRecursive(go);
+		this.cE.DelObject(go.getCo());
+		if(go.getGo().getParent() instanceof SGGroup){
+			((SGGroup)go.getGo().getParent()).removeChild(go.getGo());
+		}else if(go.getGo().getParent() instanceof SGScene){
+			((SGScene)go.getGo().getParent()).removeChild(go.getGo());
+		}
+	}
 	
 	ArrayDeque<Object> collisionStack;
 

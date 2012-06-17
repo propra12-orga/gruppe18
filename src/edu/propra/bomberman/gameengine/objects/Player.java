@@ -74,7 +74,7 @@ public class Player extends GameObject implements Moveable {
 			deathNode.setImage(deathImage);
 			((SGTransform)this.go).removeChild();
 			((SGTransform)this.go).setChild(deathNode);
-			System.out.println("AHHHHH im Dead");;
+			System.out.println("AHHHHH im Dead");
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
@@ -118,5 +118,10 @@ public class Player extends GameObject implements Moveable {
 			System.err.println("Player.initializeCollisions()");
 			System.err.println("    AbsolutePositions are not initialized");		
 		}
+	}
+
+	@Override
+	public void ConditionChanged(int cond) {
+		
 	}
 }
