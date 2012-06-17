@@ -207,7 +207,7 @@ public class GameEngine {
 	}
 
 	public static void main(String[] args) {
-		GameEngine gameEngine = new GameEngine();
+		GameEngine gameEngine = SGameEngine.get();
 		gameEngine.initializeGame();
 		
 		
