@@ -18,7 +18,9 @@ public class SGGroup extends SGNode {
 		childs.add(child);
 		child.setParent(this);
 	}
-
+	public void removeChild(SGNode child){
+		this.childs.remove(child);
+	}
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
 		for (SGNode child : this.childs) {

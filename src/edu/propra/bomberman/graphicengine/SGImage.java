@@ -44,7 +44,7 @@ public class SGImage extends SGLeaf {
 		
 		g2d.drawImage((Image)image, transform, null);
 	}
-   
+
 	/**
 	 * @return the image
 	 */
