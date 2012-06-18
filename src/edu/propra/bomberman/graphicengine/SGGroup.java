@@ -4,31 +4,28 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-public class SGGroup extends SGNode {
+public class SGGroup extends SGNode implements IParent {
 	private ArrayList<SGNode> childs;
+
 	public SGGroup() {
-		childs=new ArrayList<SGNode>();
+		childs = new ArrayList<SGNode>();
 	}
 
-	public SGGroup(SGNode parent) {
-		super(parent);
-		childs=new ArrayList<SGNode>();
+	@Override
+	public void addChild(Object child) {
+		childs.add((SGNode) child);
+		((SGNode) child).setParent(this);
 	}
-	public void addChild(SGNode child){
-		childs.add(child);
-		child.setParent(this);
-	}
-	public void removeChild(SGNode child){
+
+	@Override
+	public void removeChild(Object child) {
 		this.childs.remove(child);
 	}
+
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
-		synchronized (this.childs) {
-			for (SGNode child : this.childs) {
-				synchronized (child) {
-					child.PaintRecursive((AffineTransform)transform.clone(), g2d);		
-				}
-			}	
+		for (SGNode child : this.childs) {
+			child.PaintRecursive((AffineTransform) transform.clone(), g2d);
 		}
 	}
 

@@ -30,7 +30,7 @@ public class Wall extends GameObject {
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		SGImage leaf=new SGImage(image);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).setChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 	
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
@@ -64,7 +64,7 @@ public class Wall extends GameObject {
 	
 
 	static{
-		collisionArea=new Area(new Rectangle(0,0,800,600));
+		collisionArea=new Area(new Rectangle(-50,-50,900,700));
 		collisionArea.subtract(new Area(new Rectangle(21,21,767,567)));
 		clipArea=new Area(new Rectangle(0,0,800,600));
 		clipArea.subtract(new Area(new Rectangle(21,21,767,567)));

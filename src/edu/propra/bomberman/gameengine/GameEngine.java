@@ -35,6 +35,7 @@ import edu.propra.bomberman.gameengine.objects.Moveable;
 import edu.propra.bomberman.gameengine.objects.Player;
 import edu.propra.bomberman.gameengine.objects.Wall;
 import edu.propra.bomberman.graphicengine.GraphicEngine;
+import edu.propra.bomberman.graphicengine.IParent;
 import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGGroup;
 import edu.propra.bomberman.graphicengine.SGImage;
@@ -86,13 +87,16 @@ public class GameEngine {
 						if(actGO==null){
 							actGO=(GameObjectGroup)this.getNewGO(act);
 							GOroot=actGO;
+							this.addObject(actGO, null);
 						}else{
-							actGO=(GameObjectGroup)actGO.addChild(this.getNewGO(act));
+							GameObjectGroup actGO2=(GameObjectGroup) this.getNewGO(act);
+							this.addObject(actGO2, actGO);
+							actGO=actGO2;
 						}
 					}else{
-						GameObject temp=this.getNewGO(act);
-						actGO.addChild(temp);
+						this.addObject(this.getNewGO(act), actGO);
 					}
+
 				}
 				if(act.hasChildNodes()){
 					act=act.getFirstChild();
@@ -103,6 +107,7 @@ public class GameEngine {
 					act=act.getNextSibling();
 					continue;
 				}else{
+					if(act.getNodeName().equals("geGroup"))actGO=(GameObjectGroup) actGO.getParent();
 					act=act.getParentNode().getNextSibling();
 					depth--;
 					continue;
@@ -254,11 +259,6 @@ public class GameEngine {
 
 	public void initializeGame(){
 		gE.getPanel().setPreferredSize(new Dimension(800, 600));
-		
-		this.objectsRoot=(GameObjectGroup) this.loadMap("");
-		
-		
-		// TODO refactor to load Background by MapLoader
 		SGImage background = new SGImage();
 		try {
 			background.setImage(ImageIO.read(new File("src/resources/background.png")));
@@ -266,13 +266,17 @@ public class GameEngine {
 			e.printStackTrace();
 		}
 		background.setClipArea(new Area(new Rectangle(0, 0, 800, 600)));
-		this.gE.getScene().addChild(background);
+		this.gE.addSGNode(background, null);
 
+		this.objectsRoot=(GameObjectGroup) this.loadMap("");
+		
+		
+		// TODO refactor to load Background by MapLoader
+		
 		
 		//TODO refactor to move this to a better point (e.g. Player added over Network)
 		Player player = new Player(185, 185);
-		((GameObjectGroup)this.objectsRoot).addChild(player);
-		((SGAnimation) ((SGTransform) player.getGo()).getChild()).start();
+		this.addObject(player, null);
 		
 		
 		PlayerListener listener = new PlayerListener(player);
@@ -280,15 +284,7 @@ public class GameEngine {
 		this.ucE.addListener(KeyEvent.VK_UP, listener);
 		this.ucE.addListener(KeyEvent.VK_RIGHT, listener);
 		this.ucE.addListener(KeyEvent.VK_LEFT, listener);
-		this.ucE.addListener(KeyEvent.VK_SPACE, listener);
-		
-		
-		//TODO implement the next line
-		this.objectsRoot.initializeAbsolutePositions(new AffineTransform());
-		this.objectsRoot.initializeCollisions();
-		this.objectsRoot.addToScene(gE.getScene().getChild());
-		this.objectsRoot.addToCollisionEngine(cE);
-		
+		this.ucE.addListener(KeyEvent.VK_SPACE, listener);		
 	}
 	
 	public void addAction(ActionObject action) {
@@ -342,46 +338,45 @@ public class GameEngine {
 		//System.out.println(dur);
 	}
 
+
+	public void addObject(GameObject obj, GameObjectGroup parent){
+		if(parent==null)parent=this.objectsRoot;
+		if(parent==null){
+			parent=(GameObjectGroup) obj;
+			this.objectsRoot=(GameObjectGroup) obj;
+			obj.initializeAbsolutePositions(new AffineTransform());
+			obj.initializeCollisions();
+			this.gE.addSGNode(obj.getGo(), null);
+		}else{
+			parent.addChild(obj); 
+			obj.initializeAbsolutePositions(parent.absTransform);
+			obj.initializeCollisions();
+			this.gE.addSGNode(obj.getGo(), parent.getGoLeaf());
+			if(!(obj instanceof GameObjectGroup))this.cE.AddObject(obj.getCo());
+		}
+//		obj.addToScene(this.gE.getScene().getChild());
+//		obj.addToCollisionEngine(this.cE);
+	}
+	
+	public void removeObject(GameObject obj){
+		((IParent)obj.getParent()).removeChild(obj);		
+		this.gE.removeSGNode(obj.getGo());
+		this.cE.DelObject(obj.getCo());		
+	}	
+	
 	public void addBomb(Bomb newBomb) {
-		
-		objectsRoot.addChild(newBomb);
-		newBomb.initializeAbsolutePositions(objectsRoot.absTransform);
-		newBomb.initializeCollisions();
-		newBomb.addToScene(this.gE.getScene().getChild());
-		newBomb.addToCollisionEngine(this.cE);
-		this.actionTimeline.add(new BombUpAction(newBomb,System.currentTimeMillis()+2000));
 	}
-	
 	public void explodeBomb(Bomb bomb){
-		objectsRoot.removeChild(bomb);
-		
-		if(bomb.getGo().getParent() instanceof SGGroup){
-			((SGGroup)bomb.getGo().getParent()).removeChild(bomb.getGo());
-		}else{
-			((SGTransform)bomb.getGo().getParent()).removeChild();	
-		}
-		this.cE.DelObject(bomb.getCo());
-		
+		this.removeObject(bomb);
 		Explosion boom=new Explosion((int)bomb.absTransform.getTranslateX(), (int)bomb.absTransform.getTranslateY(), 3);
-	
-		objectsRoot.addChild(boom);
-		boom.initializeAbsolutePositions(objectsRoot.absTransform);
-		boom.initializeCollisions();
-		boom.addToScene(this.gE.getScene().getChild());
-		boom.addToCollisionEngine(this.cE);
+		this.addObject(boom,null);
 		this.actionTimeline.add(new ExplosionEnd(boom,System.currentTimeMillis()+1000));
-	
 	}
-	
-	public boolean now=false;
 	public void removeExplosion(Explosion boom){
-		objectsRoot.removeChild(boom);
-		if(boom.getGo().getParent() instanceof SGGroup){
-			((SGGroup)boom.getGo().getParent()).removeChild(boom.getGo());
-		}else{
-			((SGTransform)boom.getGo().getParent()).removeChild();	
-		}
-		this.cE.DelObject(boom.getCo());
-		
+		this.removeObject(boom);
+	}
+
+	public void removeAction(ActionObject action) {
+		this.actionTimeline.remove(action);
 	}
 }

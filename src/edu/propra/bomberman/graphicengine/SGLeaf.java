@@ -24,15 +24,6 @@ public class SGLeaf extends SGNode {
 		actTrans=new AffineTransform();
 	}
 
-	/**
-	 * @param parent
-	 */
-	public SGLeaf(SGNode parent) {
-		super(parent);
-		clipArea=new Area();
-		actTrans=new AffineTransform();
-	}
-
 	/* (non-Javadoc)
 	 * @see edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom.AffineTransform)
 	 */

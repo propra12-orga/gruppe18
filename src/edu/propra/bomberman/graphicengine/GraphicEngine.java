@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class GraphicEngine {
-
 	private SGPanel panel;
 	private GraphicsEngineThread geT;
 
@@ -30,7 +29,20 @@ public class GraphicEngine {
 		}
 	}
 	
-
+	public void addSGNode(SGNode newNode, SGNode parent){
+		if(parent==null)parent=this.getScene();
+		if(parent instanceof IParent){
+			((IParent)parent).addChild(newNode);
+		}
+	}
+	public void removeSGNode(SGNode node){
+		SGNode parent=node.getParent();
+		if(parent==null)return;
+		if(parent instanceof IParent){
+			((IParent)parent).removeChild(node);
+		}
+	}
+	
 	public SGScene getScene() {
 		return panel.getScene();
 	}
@@ -74,13 +86,13 @@ public class GraphicEngine {
 		area.setDrawarea(new Area(new Rectangle(40, 0, 20, 100)));
 		area.getDrawarea().add(new Area(new Rectangle(0, 40, 100, 20)));
 		area.setColor(new Color(0, 0, 255));
-		t_area.setChild(area);
+		t_area.addChild(area);
 
 		SGText text = new SGText();
 		text.setClipArea(new Area(new Rectangle(0, 0, 800, 600)));
 		text.setText("Hallo Welt");
 		text.setColor(new Color(0, 255, 0));
-		t_text.setChild(text);
+		t_text.addChild(text);
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("src/strawberry.jpg"));
@@ -91,7 +103,7 @@ public class GraphicEngine {
 		SGImage image = new SGImage();
 		image.setClipArea(new Area(new Rectangle(0, 0, 80, 80)));
 		image.setImage(img);
-		t_image.setChild(image);
+		t_image.addChild(image);
 
 		test.setPreferredSize(new Dimension(800, 600));
 		test.setContentPane(sgp);

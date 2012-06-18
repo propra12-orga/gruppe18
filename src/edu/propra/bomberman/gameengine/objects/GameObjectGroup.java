@@ -4,10 +4,12 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import edu.propra.bomberman.collisionengine.CollisionEngine;
+import edu.propra.bomberman.graphicengine.IParent;
 import edu.propra.bomberman.graphicengine.SGGroup;
+import edu.propra.bomberman.graphicengine.SGNode;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
-public class GameObjectGroup extends GameObject{
+public class GameObjectGroup extends GameObject implements IParent{
 	ArrayList<GameObject> group;
 	
 	public GameObjectGroup(int x,int y){
@@ -15,13 +17,17 @@ public class GameObjectGroup extends GameObject{
 		this.go=new SGTransform();
 		((SGTransform)this.go).getTransform().setToTranslation(x, y);
 		absTransform=(AffineTransform) ((SGTransform)this.go).getTransform().clone();
-		((SGTransform)this.go).setChild(new SGGroup());
+		((SGTransform)this.go).addChild(new SGGroup());
 	}
-
-	public GameObject addChild(GameObject go){
-		group.add(go);
-		return go;
+	
+	@Override
+	public void addChild(Object go){
+		if(go instanceof GameObject){
+			group.add((GameObject) go);
+			((GameObject) go).setParent(this);
+		}
 	}
+	
 	
 	@Override
 	public void collisionWith(Object a) {
@@ -40,41 +46,27 @@ public class GameObjectGroup extends GameObject{
 		}
 	}
 
-	@Override
-	public void addToScene(SGGroup parent){
-		parent.addChild(this.go);
-		SGGroup newParent =(SGGroup) ((SGTransform) this.go).getChild();
-		for(GameObject child : this.group){
-			child.addToScene(newParent);
-		}
-	}
 	
-	@Override
-	public void addToCollisionEngine(CollisionEngine ce){
-		for(GameObject child : this.group){
-			child.addToCollisionEngine(ce);
-		}
-	}
 	
 	@Override 
 	public void initializeAbsolutePositions(AffineTransform trans){
 		if(!this.isAbsIntialized)absTransform.concatenate(trans);
 		this.isAbsIntialized=true;
-		for(GameObject child : this.group){
-			child.initializeAbsolutePositions(absTransform);
-		}
 	}
+
+	
 	@Override 
 	public void initializeCollisions(){
 		if(this.isAbsIntialized){
-			for(GameObject child : this.group){
-				child.initializeCollisions();
-			}
+//			for(GameObject child : this.group){
+//				child.initializeCollisions();
+//			}
 		}else{
 			System.err.println("GameObjectGroup.initializeCollisions()");
 			System.err.println("  Absolute positions are not initialized");
 		}
 	}
+
 	public void removeChildRecursive(GameObject go){
 		for(GameObject child : this.group){
 			if(child==go)break;
@@ -84,7 +76,13 @@ public class GameObjectGroup extends GameObject{
 		return;
 	}
 
-	public void removeChild(GameObject obj) {
+	@Override
+	public void removeChild(Object obj) {
+		((GameObject)obj).setParent(null);
 		this.group.remove(obj);
+	}
+	
+	public SGNode getGoLeaf(){
+		return ((SGTransform)this.go).getChild();
 	}
 }

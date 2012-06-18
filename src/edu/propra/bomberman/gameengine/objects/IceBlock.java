@@ -28,7 +28,7 @@ public class IceBlock extends GameObject {
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		SGImage leaf=new SGImage(image);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).setChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 	
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
@@ -37,7 +37,7 @@ public class IceBlock extends GameObject {
 		this.absTransform=(AffineTransform) trans.clone();
 	}
 	
-	private int counter=50;
+	private int counter=200;
 	@Override
 	public void collisionWith(Object a) {
 		if(a instanceof FixedBlock ){
@@ -49,7 +49,6 @@ public class IceBlock extends GameObject {
 		}else if( a instanceof Explosion){
 			counter--;
 			if(counter==0)SGameEngine.get().removeGameObject(this);
-			System.out.println("Movement Collision between"+this.toString()+"and Explosion"+ a.toString());
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
 		}

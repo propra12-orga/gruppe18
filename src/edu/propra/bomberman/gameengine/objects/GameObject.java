@@ -11,6 +11,7 @@ public abstract class GameObject {
 	protected CollisionObject co;
 	protected SGNode go;
 	public AffineTransform absTransform;
+	private GameObject parent;
 	
 	public abstract void collisionWith(Object a);
 
@@ -39,13 +40,6 @@ public abstract class GameObject {
 			((Moveable)this).getMovingData().doStepGraphic(this);
 		}
 	}
-	public void addToScene(SGGroup parent){
-		parent.addChild(this.go);
-	}
-
-	public void addToCollisionEngine(CollisionEngine ce) {
-		ce.AddObject(this.co);		
-	}
 
 
 	protected boolean isAbsIntialized=false;
@@ -56,5 +50,13 @@ public abstract class GameObject {
 	
 	protected boolean collisionsInitialized=false;
 	public abstract void initializeCollisions();
+
+	public GameObject getParent() {
+		return parent;
+	}
+
+	public void setParent(GameObject parent) {
+		this.parent = parent;
+	}
 	
 }

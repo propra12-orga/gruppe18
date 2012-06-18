@@ -21,7 +21,7 @@ public class Player extends GameObject implements Moveable {
 	public static BufferedImage[] images;
 	private static BufferedImage deathImage;
 	private boolean death=false;
-	public int bombCounter=10;
+	public int bombCounter=3;
 	private MovingData data ;
 	private int bombMax=3;
 
@@ -39,7 +39,7 @@ public class Player extends GameObject implements Moveable {
 		SGAnimation leaf=new SGAnimation(images, 1000);
 		leaf.setRepeat(true);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).setChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 		
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
@@ -60,6 +60,9 @@ public class Player extends GameObject implements Moveable {
 		if(a instanceof FixedBlock ){
 			this.data.undoStepCollision(this.co,((FixedBlock) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
+		}if(a instanceof IceBlock ){
+			this.data.undoStepCollision(this.co,((IceBlock) a).co);
+			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
 			this.data.undoStepCollision(this.co,((Player) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
@@ -67,7 +70,10 @@ public class Player extends GameObject implements Moveable {
 			this.data.undoStepCollision(this.co,((Wall) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Bomb){
-			this.data.undoStepCollision(this.co,((Bomb) a).co);
+			if(((Bomb)a).owner!=this || ((Bomb)a).playerOut){
+				this.data.undoStepCollision(this.co,((Bomb) a).co);
+			}else{
+			}
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Explosion){
 			death=true;
@@ -75,8 +81,7 @@ public class Player extends GameObject implements Moveable {
 			SGImage deathNode=new SGImage();
 			deathNode.setClipArea(clipArea);
 			deathNode.setImage(deathImage);
-			((SGTransform)this.go).removeChild();
-			((SGTransform)this.go).setChild(deathNode);
+			((SGTransform)this.go).addChild(deathNode);
 			System.out.println("AHHHHH!!!! I'm Dead");
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else{
@@ -91,7 +96,7 @@ public class Player extends GameObject implements Moveable {
 
 
 	static{
-		collisionArea=new Area(new Rectangle(13,2,13,36));
+		collisionArea=new Area(new Rectangle(13,6,13,28));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		images=new BufferedImage[4];
 		
@@ -107,19 +112,19 @@ public class Player extends GameObject implements Moveable {
 	}
 
 
-	public void bombDown() {
+	public Bomb bombDown() {
 		if(bombCounter>0){
 			bombCounter--;
 			data.now=true;
-			SGameEngine.get().now=true;
 			int dir=this.data.getDirection();
 			double x=0,y=0;
-			if(dir==0)y= Player.clipArea.getBounds2D().getHeight();
-			if(dir==90)x=Player.clipArea.getBounds2D().getWidth();
-			if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
-			if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
-			SGameEngine.get().addBomb(new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y)));
+		//	if(dir==0)y= Player.clipArea.getBounds2D().getHeight();
+		//	if(dir==90)x=Player.clipArea.getBounds2D().getWidth();
+		//	if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
+		//	if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
+			return new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y));
 		}
+		return null;
 	}
 	public void bombUp(){
 		if(bombCounter<=bombMax)

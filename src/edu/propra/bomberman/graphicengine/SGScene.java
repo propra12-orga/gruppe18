@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
  * @author Nadescha
  *
  */
-public class SGScene extends SGNode {
+public class SGScene extends SGNode implements IParent {
 	private SGGroup child;
 	
 	
@@ -19,14 +19,16 @@ public class SGScene extends SGNode {
 	 * 
 	 */
 	public SGScene() {
-		child = new SGGroup(this);
-		
+		child = new SGGroup();
+		child.setParent(this);
 	}
-	public void addChild(SGNode child){
+	@Override
+	public void addChild(Object child){
 		this.child.addChild(child);
 	}
 
-	public void removeChild(SGNode child){
+	@Override
+	public void removeChild(Object child){
 		this.child.removeChild(child);
 	}
 

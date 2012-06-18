@@ -15,14 +15,6 @@ public abstract class SGNode {
 	 */
 	public SGNode() {}
 	
-	/** Konstruktor mit direkter Übergabe des Vaterknotens
-	 * 
-	 * @param Gibt den Vaterknoten dieses Knotens an
-	 */
-	public SGNode(SGNode parent) {
-		this.parent=parent;
-	}
-	
 	public abstract void PaintRecursive(AffineTransform transform, Graphics2D g2d);
 
 	public SGNode getParent() {

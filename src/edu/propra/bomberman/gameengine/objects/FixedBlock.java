@@ -27,7 +27,7 @@ public class FixedBlock extends GameObject {
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		SGImage leaf=new SGImage(image);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).setChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 	
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();

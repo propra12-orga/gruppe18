@@ -35,7 +35,7 @@ public class Explosion extends GameObject {
 		
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		SGGroup group=new SGGroup();
-		((SGTransform)this.go).setChild(group);
+		((SGTransform)this.go).addChild(group);
 		
 		sDebug=new SGArea();
 		sDebug.setClipArea(new Area(new Rectangle(-1000,-1000,1000,1000)));
