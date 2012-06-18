@@ -15,37 +15,33 @@ import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
-public class Player extends GameObject implements Moveable {
+public class Enemy extends GameObject implements Moveable {
 	public static Area collisionArea;
 	public static Area clipArea;
 	public static BufferedImage[] images;
 	private static BufferedImage deathImage;
 	private boolean death=false;
-	public int bombCounter=3;
+	public int bombCounter=10;
 	private MovingData data ;
 	private int bombMax=3;
 
 	
-	public Player(int x,int y) {
+	public Enemy(int x,int y) {
 		
 
 		AffineTransform trans=new AffineTransform();
 		trans.setToTranslation(x, y);
 		
-		//Construct Graphics Subgraph for Player Object
+		//Construct Graphics Subgraph for Enemy Object
 		this.go=new SGTransform();
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		//SGImage leaf=new SGImage(images[0]);
 		SGAnimation leaf=new SGAnimation(images, 1000);
-		leaf.setRepeat(false);
-		//ToDo:
-		//Zwischenvariable lastkey speichert die Bewegung /Action Objekt
-		//das Blatt soll gezeichnet werden aus dem Animationsabschnitt welches zu der Richtung zeigt
-		
+		leaf.setRepeat(true);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).addChild(leaf);
+		((SGTransform)this.go).setChild(leaf);
 		
-		//Construct Collision Object for Player Object
+		//Construct Collision Object for Enemy Object
 		this.co=new CollisionObject();
 		co.setPrivot(this);
 		
@@ -64,20 +60,14 @@ public class Player extends GameObject implements Moveable {
 		if(a instanceof FixedBlock ){
 			this.data.undoStepCollision(this.co,((FixedBlock) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
-		}if(a instanceof IceBlock ){
-			this.data.undoStepCollision(this.co,((IceBlock) a).co);
-			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
-		}else if(a instanceof Player){
-			this.data.undoStepCollision(this.co,((Player) a).co);
+		}else if(a instanceof Enemy){
+			this.data.undoStepCollision(this.co,((Enemy) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
 		}else if(a instanceof Wall){
 			this.data.undoStepCollision(this.co,((Wall) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Bomb){
-			if(((Bomb)a).owner!=this || ((Bomb)a).playerOut){
-				this.data.undoStepCollision(this.co,((Bomb) a).co);
-			}else{
-			}
+			this.data.undoStepCollision(this.co,((Bomb) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Explosion){
 			death=true;
@@ -85,8 +75,9 @@ public class Player extends GameObject implements Moveable {
 			SGImage deathNode=new SGImage();
 			deathNode.setClipArea(clipArea);
 			deathNode.setImage(deathImage);
-			((SGTransform)this.go).addChild(deathNode);
-			System.out.println("AHHHHH!!!! I'm Dead");
+			((SGTransform)this.go).removeChild();
+			((SGTransform)this.go).setChild(deathNode);
+			System.out.println("*I AM DESTROYED* bad äng!!!! ");
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
@@ -100,15 +91,15 @@ public class Player extends GameObject implements Moveable {
 
 
 	static{
-		collisionArea=new Area(new Rectangle(13,6,13,28));
+		collisionArea=new Area(new Rectangle(13,2,13,36));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		images=new BufferedImage[4];
 		
 		try {
-			images[0] = ImageIO.read(new File("src/resources/player_front.png"));
-			images[1] = ImageIO.read(new File("src/resources/player_back.png"));
-			images[2] = ImageIO.read(new File("src/resources/player_left.png"));
-			images[3] = ImageIO.read(new File("src/resources/player_right.png"));
+			images[0] = ImageIO.read(new File("src/resources/enemy_front.png"));
+			images[1] = ImageIO.read(new File("src/resources/enemy_back.png"));
+			images[2] = ImageIO.read(new File("src/resources/enemy_left.png"));
+			images[3] = ImageIO.read(new File("src/resources/enemy_right.png"));
 			deathImage = ImageIO.read(new File("src/resources/asche.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -116,19 +107,19 @@ public class Player extends GameObject implements Moveable {
 	}
 
 
-	public Bomb bombDown() {
+	public void bombDown() {
 		if(bombCounter>0){
 			bombCounter--;
 			data.now=true;
+			SGameEngine.get().now=true;
 			int dir=this.data.getDirection();
 			double x=0,y=0;
-		//	if(dir==0)y= Player.clipArea.getBounds2D().getHeight();
-		//	if(dir==90)x=Player.clipArea.getBounds2D().getWidth();
-		//	if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
-		//	if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
-			return new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y));
+			if(dir==0)y= Enemy.clipArea.getBounds2D().getHeight();
+			if(dir==90)x=Enemy.clipArea.getBounds2D().getWidth();
+			if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
+			if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
+		//	SGameEngine.get().addBomb(new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y)));
 		}
-		return null;
 	}
 	public void bombUp(){
 		if(bombCounter<=bombMax)
@@ -141,12 +132,12 @@ public class Player extends GameObject implements Moveable {
 			this.co.setCollisionArea(collisionArea.createTransformedArea(this.absTransform));
 			this.collisionsInitialized=true;
 		}else{
-			System.err.println("Player.initializeCollisions()");
+			System.err.println("Enemy.initializeCollisions()");
 			System.err.println("    AbsolutePositions are not initialized");		
 		}
 	}
 	public Area getBaseCollisionArea(){
-		return Player.collisionArea;
+		return Enemy.collisionArea;
 	}
 
 	@Override
