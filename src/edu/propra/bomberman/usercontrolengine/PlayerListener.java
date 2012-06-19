@@ -10,20 +10,39 @@ import edu.propra.bomberman.gameengine.actions.StopMoveAction;
 import edu.propra.bomberman.gameengine.objects.Player;
 
 public class PlayerListener extends Listener {
-
+	private int keyUp;
+	private int keyLeft;
+	private int keyRight;
+	private int keyDown;
+	private int keyBomb;
+		
 	private boolean spacedown=false;
 	
-	public PlayerListener(Player player) {
+	public PlayerListener(Object player,int keyUp,int keyDown,int keyLeft, int keyRight,int keyBomb) {
 		this.actor=player;
+		this.keyUp=keyUp;
+		this.keyDown=keyDown;
+		this.keyRight=keyRight;
+		this.keyLeft=keyLeft;
+		this.keyBomb=keyBomb;
 	}
+	
+	public void login(UserControlEngine ucE){
+		ucE.addListener(keyDown, this);
+		ucE.addListener(keyUp, this);
+		ucE.addListener(keyRight, this);
+		ucE.addListener(keyLeft, this);
+		ucE.addListener(keyBomb, this);	
+	}
+	
 	
 	@Override
 	public ActionObject keyDownEvent(HashMap<Integer, Integer> keysDown,Integer keyCode) {
 		boolean up,left,down,right,upleft,upright,downleft,downright;
-		down=keysDown.containsKey(KeyEvent.VK_UP );
-		up=keysDown.containsKey(KeyEvent.VK_DOWN );
-		left=keysDown.containsKey(KeyEvent.VK_LEFT );
-		right=keysDown.containsKey(KeyEvent.VK_RIGHT);
+		down=keysDown.containsKey(keyUp );
+		up=keysDown.containsKey(keyDown);
+		left=keysDown.containsKey(keyLeft);
+		right=keysDown.containsKey(keyRight);
 		
 		if(up && down){up=false;down=false;}
 		if(left && right){left=false;right=false;}
@@ -35,7 +54,7 @@ public class PlayerListener extends Listener {
 		downright=(down && right);
 		
 		
-		if(keyCode!=KeyEvent.VK_SPACE){
+		if(keyCode!=keyBomb){
 			if(upleft){
 				return new StartMoveAction(315,this.actor,System.currentTimeMillis());
 			}else if(upright){
@@ -67,10 +86,10 @@ public class PlayerListener extends Listener {
 	@Override
 	public ActionObject keyUpEvent(HashMap<Integer, Integer> keysDown, Integer keyRelease) {
 		boolean up,left,down,right, upleft,upright,downleft,downright;
-		down=keysDown.containsKey(KeyEvent.VK_UP );
-		up=keysDown.containsKey(KeyEvent.VK_DOWN );
-		left=keysDown.containsKey(KeyEvent.VK_LEFT );
-		right=keysDown.containsKey(KeyEvent.VK_RIGHT);
+		down=keysDown.containsKey(keyUp);
+		up=keysDown.containsKey(keyDown);
+		left=keysDown.containsKey(keyLeft);
+		right=keysDown.containsKey(keyRight);
 		
 		if(up && down){up=false;down=false;}
 		if(left && right){left=false;right=false;}
@@ -81,7 +100,7 @@ public class PlayerListener extends Listener {
 		downright=(down && right);
 		
 		
-		if(keyRelease!=KeyEvent.VK_SPACE){
+		if(keyRelease!=keyBomb){
 			if(upleft){
 				return new StartMoveAction(315,this.actor,System.currentTimeMillis());
 			}else if(upright){
@@ -109,7 +128,7 @@ public class PlayerListener extends Listener {
 
 	@Override
 	public ActionObject keyTypedEvent(Integer keyCode) {
-		if(keyCode==KeyEvent.VK_SPACE && !spacedown){
+		if(keyCode==keyBomb && !spacedown){
 			return new BombDownAction(this.actor,System.currentTimeMillis());
 		}
 		return null;

@@ -150,7 +150,7 @@ public class Bomb extends GameObject {
 	}
 
 	static {
-		collisionArea = new Area(new Rectangle(2, 2, 36, 36));
+		collisionArea = new Area(new Rectangle(8, 6, 29, 29));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
 			image = ImageIO.read(new File("src/resources/bombe.png"));

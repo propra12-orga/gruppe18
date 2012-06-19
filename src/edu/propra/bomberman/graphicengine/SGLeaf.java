@@ -30,9 +30,8 @@ public class SGLeaf extends SGNode {
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
 		setActTrans(transform);
-		g2d.setClip(clipArea.createTransformedArea(transform));
 		this.paint(transform,g2d);
-		g2d.setClip(null);
+
 	}
 	
 	public void paint(AffineTransform transform, Graphics2D g2d) {

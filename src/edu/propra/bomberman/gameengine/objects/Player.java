@@ -126,7 +126,7 @@ public class Player extends GameObject implements Moveable {
 		//	if(dir==90)x=Player.clipArea.getBounds2D().getWidth();
 		//	if(dir==180)y=-Bomb.clipArea.getBounds2D().getHeight();
 		//	if(dir==270)x=-Bomb.clipArea.getBounds2D().getWidth();
-			return new Bomb(this,(int)(this.absTransform.getTranslateX()+x),(int)(this.absTransform.getTranslateY()+y));
+			return new Bomb(this,(int)(this.absTransform.getTranslateX()+collisionArea.getBounds().x+x),(int)(this.absTransform.getTranslateY()+collisionArea.getBounds().y+y));
 		}
 		return null;
 	}

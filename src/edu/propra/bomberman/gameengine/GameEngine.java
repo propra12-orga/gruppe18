@@ -21,11 +21,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
+
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.actions.BombUpAction;
 import edu.propra.bomberman.gameengine.actions.ExplosionEnd;
 import edu.propra.bomberman.gameengine.objects.Bomb;
+import edu.propra.bomberman.gameengine.objects.Enemy;
 import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
 import edu.propra.bomberman.gameengine.objects.GameObject;
@@ -216,8 +219,7 @@ public class GameEngine {
 	public static void main(String[] args) {
 		GameEngine gameEngine = SGameEngine.get();
 		gameEngine.initializeGame();
-		
-		
+			
 		JFrame test = new JFrame();
 		test.setContentPane(gameEngine.gE.getPanel());
 		test.pack();
@@ -225,36 +227,11 @@ public class GameEngine {
 		test.setVisible(true);
 
 		
-		/*
-		Wall wall = new Wall(0, 0);
-		gameEngine.cE.AddObject(wall.getCo());
-		gameEngine.gE.getScene().addChild(wall.getGo());
-
-		SGGroup blocks = new SGGroup();
-		FixedBlock block1 = new FixedBlock(80, 80);
-		gameEngine.cE.AddObject(block1.getCo());
-		blocks.addChild(block1.getGo());
-		FixedBlock block2 = new FixedBlock(160, 160);
-		gameEngine.cE.AddObject(block2.getCo());
-		blocks.addChild(block2.getGo());
-		FixedBlock block3 = new FixedBlock(80, 160);
-		gameEngine.cE.AddObject(block3.getCo());
-		blocks.addChild(block3.getGo());
-		FixedBlock block4 = new FixedBlock(160, 80);
-		gameEngine.cE.AddObject(block4.getCo());
-		blocks.addChild(block4.getGo());
-		FixedBlock block5 = new FixedBlock(240, 80);
-		gameEngine.cE.AddObject(block5.getCo());
-		blocks.addChild(block5.getGo());
-
-		gameEngine.gE.getScene().addChild(blocks);
-		*/
+		gameEngine.startTwoPlayer();
 		
 		
 		
 		
-		// gameEngine.gE.startDrawing();
-		gameEngine.startGame();
 	}
 
 	public void initializeGame(){
@@ -267,24 +244,33 @@ public class GameEngine {
 		}
 		background.setClipArea(new Area(new Rectangle(0, 0, 800, 600)));
 		this.gE.addSGNode(background, null);
-
 		this.objectsRoot=(GameObjectGroup) this.loadMap("");
-		
-		
-		// TODO refactor to load Background by MapLoader
-		
-		
-		//TODO refactor to move this to a better point (e.g. Player added over Network)
-		Player player = new Player(185, 185);
+	}
+	
+	public void startOnePlayer(){
+		Player player = new Player(25,25);
 		this.addObject(player, null);
+		PlayerListener listener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_SPACE);
+		listener.login(this.ucE);
 		
+		// gameEngine.gE.startDrawing();
+		this.startGame();	
+	
+	}
+
+	public void startTwoPlayer(){
+		Player player = new Player(25,25);
+		this.addObject(player, null);
+		PlayerListener playerListener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_ENTER);
+		playerListener.login(this.ucE);
 		
-		PlayerListener listener = new PlayerListener(player);
-		this.ucE.addListener(KeyEvent.VK_DOWN, listener);
-		this.ucE.addListener(KeyEvent.VK_UP, listener);
-		this.ucE.addListener(KeyEvent.VK_RIGHT, listener);
-		this.ucE.addListener(KeyEvent.VK_LEFT, listener);
-		this.ucE.addListener(KeyEvent.VK_SPACE, listener);		
+		Enemy enemy= new Enemy(735,535);
+		this.addObject(enemy, null);
+		PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
+		enemyListener.login(this.ucE);
+		
+		// gameEngine.gE.startDrawing();
+		this.startGame();	
 	}
 	
 	public void addAction(ActionObject action) {
@@ -327,12 +313,14 @@ public class GameEngine {
 	boolean roundDone=true;
 	public void doRound() {
 		if(!roundDone)System.out.println("Round Thread Collision");
+		this.gE.getPanel().updateCache=false;
 		roundDone=false;
 		doActions();
 		doPreMoves();
 		this.cE.CheckCollision();
 		doCollisions();
 		doMoves();
+		this.gE.getPanel().updateCache=true;
 		this.gE.getPanel().repaint();
 		roundDone=true;
 		//System.out.println(dur);
@@ -364,13 +352,7 @@ public class GameEngine {
 		this.cE.DelObject(obj.getCo());		
 	}	
 	
-	public void addBomb(Bomb newBomb) {
-	}
 	public void explodeBomb(Bomb bomb){
-		this.removeObject(bomb);
-		Explosion boom=new Explosion((int)bomb.absTransform.getTranslateX(), (int)bomb.absTransform.getTranslateY(), 3);
-		this.addObject(boom,null);
-		this.actionTimeline.add(new ExplosionEnd(boom,System.currentTimeMillis()+1000));
 	}
 	public void removeExplosion(Explosion boom){
 		this.removeObject(boom);

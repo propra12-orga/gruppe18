@@ -2,6 +2,9 @@ package edu.propra.bomberman.graphicengine;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -11,13 +14,22 @@ public class SGPanel extends JPanel {
 
 	public SGPanel() {
 		scene = new SGScene();
+		
+		cache=new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 	}
 
+	private BufferedImage cache;
+	public boolean updateCache=true;
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		scene.PaintRecursive(null, (Graphics2D) g);
+		if(updateCache){
+			Graphics2D g2d=cache.createGraphics();
+			scene.PaintRecursive(null,g2d);
+		}
+		((Graphics2D)g).drawImage((Image)cache, new AffineTransform(), null);
 	}
+	
 
 	public SGScene getScene() {
 		return scene;

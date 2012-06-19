@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,18 +35,11 @@ public class Explosion extends GameObject {
 		this.go=new SGTransform();
 		
 		((SGTransform)this.go).getTransform().setTransform(trans);
-		SGGroup group=new SGGroup();
-		((SGTransform)this.go).addChild(group);
 		
-		sDebug=new SGArea();
-		sDebug.setClipArea(new Area(new Rectangle(-1000,-1000,1000,1000)));
-		sDebug.setDrawarea(this.calculateClipArea());
-		sDebug.setColor(new Color(255,0,0));
-		group.addChild(sDebug);
 		
 		SGImage leaf=new SGImage(image);
 		leaf.setClipArea(this.calculateClipArea());
-		group.addChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 		
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
@@ -57,12 +51,62 @@ public class Explosion extends GameObject {
 	@Override
 	public void collisionWith(Object a) {
 		if(a instanceof FixedBlock ){
+			reduceCollision(a);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
 		}
+	}
+	private void reduceCollision(Object a){
+		Area partnerArea=((GameObject)a).co.getCollisionArea();
+		Area ownArea=this.co.getCollisionArea();
+		Area intersectionArea=(Area)partnerArea.clone();
+		intersectionArea.intersect(ownArea);
+		Rectangle2D partnerBounds=partnerArea.getBounds2D();
+		Rectangle2D ownBounds=ownArea.getBounds2D();
+		Rectangle2D intersectionBounds=intersectionArea.getBounds2D();
+		double partnerX=partnerBounds.getCenterX();
+		double partnerY=partnerBounds.getCenterY();
+		double ownX=ownBounds.getCenterX();
+		double ownY=ownBounds.getCenterY();
+		double intersectionX=intersectionBounds.getCenterX();
+		double intersectionY=intersectionBounds.getCenterY();
+		
+		Area toSubtract=new Area();
+		//works just for rectangular shapes
+		Rectangle test;
+		if(intersectionX < ownX){
+			//left part
+			test=new Rectangle((int)(intersectionBounds.getX()+intersectionBounds.getWidth()-ownBounds.getWidth()),(int)intersectionBounds.getY(),(int)ownBounds.getWidth(),(int)intersectionBounds.getHeight());
+			toSubtract.add(new Area(test));
+		}
+		if(intersectionX > ownX){
+			//right part
+			test=new Rectangle((int)(intersectionBounds.getX()),(int)intersectionBounds.getY(),(int)ownBounds.getWidth(),(int)intersectionBounds.getHeight());
+			toSubtract.add(new Area(test));
+		}
+		if(intersectionY < ownY){
+			//top part
+			test=new Rectangle((int)(intersectionBounds.getX()),(int)(intersectionBounds.getY()+intersectionBounds.getHeight()-ownBounds.getHeight()),(int)intersectionBounds.getWidth(),(int)ownBounds.getHeight());
+			toSubtract.add(new Area(test));
+		}
+		if(intersectionY > ownY){
+			//bottom part
+			test=new Rectangle((int)(intersectionBounds.getX()),(int)(intersectionBounds.getY()),(int)intersectionBounds.getWidth(),(int)ownBounds.getHeight());
+			toSubtract.add(new Area(test));
+		}
+		this.co.getCollisionArea().subtract(toSubtract);
+		toSubtract.add(intersectionArea);
+		try {
+			toSubtract.transform(this.absTransform.createInverse());
+		} catch (NoninvertibleTransformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		((SGImage)((SGTransform)this.go).getChild()).getClipArea().subtract(toSubtract);
+		//maybe abs position needs to be changed
 	}
 
 	@Override
