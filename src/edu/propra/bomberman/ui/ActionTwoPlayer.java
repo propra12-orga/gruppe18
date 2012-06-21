@@ -5,20 +5,18 @@ package edu.propra.bomberman.ui;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction; 
-
-import edu.propra.bomberman.graphicengine.SGPanel;
+import javax.swing.AbstractAction;
 
 import main.Bomberman;
+import edu.propra.bomberman.graphicengine.SGPanel;
 
 /**
  * @author Nadescha
  *
  */
-	public class ActionStarten extends AbstractAction {
-
-		public ActionStarten() {
-			super("OnePlayer starten",null);
+public class ActionTwoPlayer extends AbstractAction {
+			public ActionTwoPlayer() {
+			super("Twoplayer starten",null);
 			putValue(SHORT_DESCRIPTION, "Hier starten Sie das Programm");
 			
 		}
@@ -36,7 +34,7 @@ import main.Bomberman;
 			Bomberman.gameFrame.invalidate();
 			Bomberman.gameFrame.pack();
 			Bomberman.gameFrame.setVisible(true);
-			Bomberman.gameFrame.gameEngine.startOnePlayer();
+			Bomberman.gameFrame.gameEngine.startTwoPlayer();
 			
 			
 		}
