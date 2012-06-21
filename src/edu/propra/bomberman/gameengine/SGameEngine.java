@@ -6,4 +6,5 @@ public class SGameEngine {
 		if(instance==null) instance=new GameEngine();
 		return SGameEngine.instance;
 	}
+	
 }

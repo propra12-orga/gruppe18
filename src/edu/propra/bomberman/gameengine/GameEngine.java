@@ -22,6 +22,7 @@ import org.xml.sax.SAXException;
 
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
+import edu.propra.bomberman.gameengine.actions.GameOverAction;
 import edu.propra.bomberman.gameengine.objects.Bomb;
 import edu.propra.bomberman.gameengine.objects.Enemy;
 import edu.propra.bomberman.gameengine.objects.Explosion;
@@ -230,7 +231,7 @@ public class GameEngine {
 		this.addObject(player, null);
 		PlayerListener listener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_SPACE);
 		listener.login(this.ucE);
-		
+		this.players=1;
 		// gameEngine.gE.startDrawing();
 		this.startGame();	
 	
@@ -247,6 +248,7 @@ public class GameEngine {
 		PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
 		enemyListener.login(this.ucE);
 		
+		this.players=2;
 		// gameEngine.gE.startDrawing();
 		this.startGame();	
 	}
@@ -276,6 +278,7 @@ public class GameEngine {
 	}
 
 	boolean roundDone=true;
+	private int players;
 	public void doRound() {
 		if(!roundDone)System.out.println("Round Thread Collision");
 		this.gE.getPanel().updateCache=false;
@@ -329,5 +332,12 @@ public class GameEngine {
 
 	public CollisionEngine getCollisionEngine() {
 		return this.cE;
+	}
+
+	public void removePlayer(Object actor) {
+		this.players--;
+		if(this.players==0){
+			this.addAction(new GameOverAction());
+		}
 	}
 }

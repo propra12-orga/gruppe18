@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
+import edu.propra.bomberman.gameengine.actions.PlayerDeadAction;
 import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
@@ -63,6 +64,7 @@ public class Player extends GameObject implements Moveable {
 
 	@Override
 	public void collisionWith(Object a) {
+		if(!death){
 		if(a instanceof FixedBlock ){
 			//this.data.undoStepCollision(this.co,((FixedBlock) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
@@ -82,18 +84,18 @@ public class Player extends GameObject implements Moveable {
 			}
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Explosion){
-			death=true;
 			this.data.block();
 			SGImage deathNode=new SGImage();
 			deathNode.setClipArea(clipArea);
 			deathNode.setImage(deathImage);
 			((SGTransform)this.go).addChild(deathNode);
-			System.out.println("AHHHHH!!!! I'm Dead");
+			SGameEngine.get().addAction(new PlayerDeadAction(this));
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Exit){
 	
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
+		}
 		}
 	}
 	
@@ -156,5 +158,9 @@ public class Player extends GameObject implements Moveable {
 	@Override
 	public void ConditionChanged(int cond) {
 		
+	}
+
+	public void isDead(boolean b) {
+		this.death=b;
 	}
 }
