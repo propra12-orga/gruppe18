@@ -1,3 +1,4 @@
+package edu.propra.bomberman.networkengine.netzwerk;
 
 public class BombermanServer extends NetzwerkClassAlt{
 
