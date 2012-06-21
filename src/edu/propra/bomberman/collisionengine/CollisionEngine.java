@@ -1,9 +1,14 @@
 package edu.propra.bomberman.collisionengine;
 
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.propra.bomberman.gameengine.GameEngine;
+import edu.propra.bomberman.gameengine.objects.Bomb;
 
 public class CollisionEngine {
 
@@ -14,9 +19,9 @@ public class CollisionEngine {
 	private GameEngine gameEngine;
 
 	public CollisionEngine() {
-		objects=new ArrayList<CollisionObject>();
+		objects = new ArrayList<CollisionObject>();
 	}
-	
+
 	/**
 	 * @param args
 	 */
@@ -31,7 +36,6 @@ public class CollisionEngine {
 	public void AddObject(CollisionObject obj) {
 		objects.add(obj);
 	}
-	
 
 	/**
 	 * Methode entfernt ein Collisionsobjekt
@@ -54,9 +58,10 @@ public class CollisionEngine {
 		 */
 		for (int i = 0; i < objects.size(); i++) {
 			a = objects.get(i);
-			for (int j = i+1; j < objects.size(); j++) {
+			for (int j = i + 1; j < objects.size(); j++) {
 				b = objects.get(j);
-				if(a==b)continue;
+				if (a == b)
+					continue;
 				/**
 				 * vergleiche a und b indem a geclont wird
 				 */
@@ -66,7 +71,7 @@ public class CollisionEngine {
 					/**
 					 * Teilt der Gameengine mit ob objekte kollidieren
 					 */
-					
+
 					getGameEngine().collisionBetween(a.getPrivot(), b.getPrivot());
 				}
 			}
@@ -79,6 +84,74 @@ public class CollisionEngine {
 
 	public void setGameEngine(GameEngine gameEngine) {
 		this.gameEngine = gameEngine;
+	}
+
+	public AffineTransform checkCollisionsDirectly(CollisionObject oldObject, AffineTransform trans) {
+		double xPossible = trans.getTranslateX();
+		double yPossible = trans.getTranslateY();
+		double dist = Math.sqrt(Math.pow(xPossible, 2) + Math.pow(yPossible, 2));
+
+		boolean posx = true;
+		boolean posy = true;
+		if (xPossible < 0) {
+			posx = false;
+		} else if (xPossible > 0) {
+			posx = true;
+		}
+		if (yPossible < 0) {
+			posy = false;
+		} else if (yPossible > 0) {
+			posy = true;
+		}
+
+		oldObject.getCollisionArea().transform(trans);
+
+		//TODO find way to optimize move when colliding with corner
+		
+		Area intersection;
+		CollisionObject partnerObj;
+		Iterator<CollisionObject> it = this.objects.iterator();
+		while (it.hasNext()) {
+			partnerObj = it.next();
+			if (partnerObj != oldObject) {
+				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
+					intersection = (Area) partnerObj.getCollisionArea().clone();
+					intersection.intersect(oldObject.getCollisionArea());
+					if (!intersection.isEmpty()) {
+						AffineTransform undo = new AffineTransform();
+						Rectangle iR = intersection.getBounds();
+						if (iR.width < iR.height) {
+							if (xPossible < 0) {
+								xPossible += iR.width;
+								undo.translate(iR.width, 0);
+							} else if (xPossible > 0) {
+								xPossible -= iR.width;
+								undo.translate(-iR.width, 0);
+							}
+						} else if (iR.width > iR.height) {
+							if (yPossible < 0) {
+								yPossible += iR.height;
+								undo.translate(0, iR.height);
+							} else if (yPossible > 0) {
+								yPossible -= iR.height;
+								undo.translate(0, -iR.height);
+							}
+						}
+						oldObject.getCollisionArea().transform(undo);
+					}
+				}
+			}
+		}
+		/*if (xPossible < 0 && posx)
+			xPossible = 0;
+		if (xPossible > 0 && !posx)
+			xPossible = 0;
+		if (yPossible < 0 && posy)
+			yPossible = 0;
+		if (yPossible > 0 && !posy)
+			yPossible = 0;*/
+		trans.setToTranslation(xPossible, yPossible);
+		return trans;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
+import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.graphicengine.SGNode;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
@@ -47,6 +48,8 @@ public class MovingData {
 				AffineTransform strech = new AffineTransform();
 				Area colArea = parent.co.getCollisionArea();
 				Rectangle2D colBounds = colArea.getBounds2D();
+				
+			/*	
 				if (direction == 180) {// y<0
 					// strech.setToScale(1,
 					// ((lastStepSize+(double)colBounds.getHeight())/(double)colBounds.getHeight()));
@@ -63,11 +66,14 @@ public class MovingData {
 				if (direction == 270) {// x<0
 					// strech.setToScale(((lastStepSize+(double)colBounds.getWidth())/(double)colBounds.getWidth()),1);
 					lastStep.setToTranslation(-lastStepSize, 0);
-				}
-
-				strech.concatenate(lastStep);
-				strech.concatenate(parent.absTransform);
-				parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(strech));
+				}*/
+				lastStep.setToTranslation(lastStepSize*Math.sin(Math.toRadians(direction)), lastStepSize*Math.cos(Math.toRadians(direction)));
+				//strech.concatenate(lastStep);
+				//strech.concatenate(parent.absTransform);
+				lastStep=SGameEngine.get().getCollisionEngine().checkCollisionsDirectly(parent.co, lastStep);
+				//AffineTransform res=(AffineTransform) lastStep.clone();
+				//res.concatenate(lastStep);
+				//parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(res));
 				// colArea.transform(lastStep);
 
 				step1 = true;
@@ -84,8 +90,8 @@ public class MovingData {
 				dsg++;
 				((SGTransform) go.go).getTransform().concatenate(this.lastStep);
 				parent.absTransform.concatenate(this.lastStep);
-				if (parent instanceof Player)
-					parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(parent.absTransform));
+				//if (parent instanceof Player)
+				parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(parent.absTransform));
 				this.lastStep.setToIdentity();
 				this.step1 = false;
 			}

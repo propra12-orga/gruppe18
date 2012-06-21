@@ -221,11 +221,15 @@ public class GameEngine {
 		gameEngine.initializeGame();
 			
 		JFrame test = new JFrame();
+	
+		
 		test.setContentPane(gameEngine.gE.getPanel());
+		
 		test.pack();
 		test.addKeyListener(gameEngine.ucE);
 		test.setVisible(true);
 
+		
 		
 		gameEngine.startTwoPlayer();
 		
@@ -360,5 +364,9 @@ public class GameEngine {
 
 	public void removeAction(ActionObject action) {
 		this.actionTimeline.remove(action);
+	}
+
+	public CollisionEngine getCollisionEngine() {
+		return this.cE;
 	}
 }

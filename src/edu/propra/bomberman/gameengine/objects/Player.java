@@ -3,6 +3,7 @@ package edu.propra.bomberman.gameengine.objects;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +36,10 @@ public class Player extends GameObject implements Moveable {
 		//Construct Graphics Subgraph for Player Object
 		this.go=new SGTransform();
 		((SGTransform)this.go).getTransform().setTransform(trans);
-		//SGImage leaf=new SGImage(images[0]);
-		SGAnimation leaf=new SGAnimation(images, 1000);
-		leaf.setRepeat(false);
+//		SGAnimation leaf=new SGAnimation(images, 1000);
+//		leaf.setRepeat(false);
+		
+		SGImage leaf=new SGImage(images[0]);
 		//ToDo:
 		//Zwischenvariable lastkey speichert die Bewegung /Action Objekt
 		//das Blatt soll gezeichnet werden aus dem Animationsabschnitt welches zu der Richtung zeigt
@@ -48,34 +50,34 @@ public class Player extends GameObject implements Moveable {
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
 		co.setPrivot(this);
+
+		leaf.debugColl=this.co;
 		
 		this.absTransform=(AffineTransform) trans.clone();
 		// Initialize Data to make Player Object moveable
 		data=new MovingData(this);
 		data.setActTrans(leaf.getActTrans());
-		data.setSpeed(5);
-		
-	
+		data.setSpeed(5);	
 	
 	}
 
 	@Override
 	public void collisionWith(Object a) {
 		if(a instanceof FixedBlock ){
-			this.data.undoStepCollision(this.co,((FixedBlock) a).co);
+			//this.data.undoStepCollision(this.co,((FixedBlock) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}if(a instanceof IceBlock ){
-			this.data.undoStepCollision(this.co,((IceBlock) a).co);
+			//this.data.undoStepCollision(this.co,((IceBlock) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
-			this.data.undoStepCollision(this.co,((Player) a).co);
+			//this.data.undoStepCollision(this.co,((Player) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
 		}else if(a instanceof Wall){
-			this.data.undoStepCollision(this.co,((Wall) a).co);
+			//this.data.undoStepCollision(this.co,((Wall) a).co);
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
 		}else if(a instanceof Bomb){
 			if(((Bomb)a).owner!=this || ((Bomb)a).playerOut){
-				this.data.undoStepCollision(this.co,((Bomb) a).co);
+				//this.data.undoStepCollision(this.co,((Bomb) a).co);
 			}else{
 			}
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
