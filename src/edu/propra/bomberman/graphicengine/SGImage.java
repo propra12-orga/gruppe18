@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
+
+import edu.propra.bomberman.collisionengine.CollisionObject;
 /**
  * @author Nadescha
  *
@@ -19,7 +21,7 @@ public class SGImage extends SGLeaf {
 	 */
 	
 	private BufferedImage image ;
-	
+
 	
 	
 	
@@ -41,11 +43,16 @@ public class SGImage extends SGLeaf {
 
 
 
+	public CollisionObject debugColl=null;
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {
 		// Debug cliparea
-		//g2d.setColor(new Color(255,0,0));
-		//g2d.fill(this.getClipArea().createTransformedArea(transform));
+		if(debugColl!=null){
+			g2d.setColor(new Color(255,0,0));
+			g2d.fill(debugColl.getCollisionArea());
+			int t=debugColl.getCollisionArea().getBounds().x;
+			System.out.print("");
+		}
 	
 		g2d.setClip((Area)this.getClipArea().createTransformedArea(transform));
 		g2d.drawImage((Image)image, transform, null);
