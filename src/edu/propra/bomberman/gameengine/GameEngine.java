@@ -244,18 +244,10 @@ public class GameEngine {
 		PlayerListener playerListener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_ENTER);
 		playerListener.login(this.ucE);
 		
-<<<<<<< HEAD
-//		Enemy enemy= new Enemy(735,535);
-	//	this.addObject(enemy, null);
-	//	PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
-//		enemyListener.login(this.ucE);
-=======
 		Player enemy= new Player(735,535,"Player 2",1);
 		this.addObject(enemy, null);
 		PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
-		enemyListener.login(this.ucE);
->>>>>>> 537928c0c9dc6d9add227d4c6865aef49b939bd0
-		
+		enemyListener.login(this.ucE);		
 		// gameEngine.gE.startDrawing();
 		this.startGame();	
 	}

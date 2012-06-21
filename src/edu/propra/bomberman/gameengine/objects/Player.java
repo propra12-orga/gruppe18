@@ -21,7 +21,6 @@ public class Player extends GameObject implements Moveable {
 	public static Area clipArea;
 	public static BufferedImage[][] images;
 	private static BufferedImage deathImage;
-<<<<<<< HEAD
 	private boolean death = false;
 	public int bombCounter = 3;
 	private MovingData data;
@@ -43,33 +42,6 @@ public class Player extends GameObject implements Moveable {
 		// Zwischenvariable lastkey speichert die Bewegung /Action Objekt
 		// das Blatt soll gezeichnet werden aus dem Animationsabschnitt welches
 		// zu der Richtung zeigt
-
-=======
-	private boolean death=false;
-	public int bombCounter=3;
-	private MovingData data ;
-	private int bombMax=3;
-	String name;
-
-	
-	public Player(int x,int y,String name,int color) {
-		this.name=name;
-		
-		AffineTransform trans=new AffineTransform();
-		trans.setToTranslation(x, y);
-		
-		//Construct Graphics Subgraph for Player Object
-		this.go=new SGTransform();
-		((SGTransform)this.go).getTransform().setTransform(trans);
-//		SGAnimation leaf=new SGAnimation(images, 1000);
-//		leaf.setRepeat(false);
-		
-		SGImage leaf=new SGImage(images[color][0]);
-		//ToDo:
-		//Zwischenvariable lastkey speichert die Bewegung /Action Objekt
-		//das Blatt soll gezeichnet werden aus dem Animationsabschnitt welches zu der Richtung zeigt
-		
->>>>>>> 537928c0c9dc6d9add227d4c6865aef49b939bd0
 		leaf.setClipArea(clipArea);
 		((SGTransform) this.go).addChild(leaf);
 
@@ -143,20 +115,6 @@ public class Player extends GameObject implements Moveable {
 		return this.data;
 	}
 
-	static {
-		collisionArea = new Area(new Rectangle(13, 6, 13, 28));
-		clipArea = new Area(new Rectangle(0, 0, 40, 40));
-		images = new BufferedImage[4];
-
-<<<<<<< HEAD
-		try {
-			images[0] = ImageIO
-					.read(new File("src/resources/player_front.png"));
-			images[1] = ImageIO.read(new File("src/resources/player_back.png"));
-			images[2] = ImageIO.read(new File("src/resources/player_left.png"));
-			images[3] = ImageIO
-					.read(new File("src/resources/player_right.png"));
-=======
 	static{
 		collisionArea=new Area(new Rectangle(13,6,13,28));
 		clipArea=new Area(new Rectangle(0,0,40,40));
@@ -171,8 +129,6 @@ public class Player extends GameObject implements Moveable {
 			images[1][1] = ImageIO.read(new File("src/resources/enemy_back.png"));
 			images[1][2] = ImageIO.read(new File("src/resources/enemy_left.png"));
 			images[1][3] = ImageIO.read(new File("src/resources/enemy_right.png"));
-			
->>>>>>> 537928c0c9dc6d9add227d4c6865aef49b939bd0
 			deathImage = ImageIO.read(new File("src/resources/asche.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
