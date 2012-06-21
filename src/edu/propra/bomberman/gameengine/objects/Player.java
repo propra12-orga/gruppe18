@@ -90,6 +90,8 @@ public class Player extends GameObject implements Moveable {
 			((SGTransform)this.go).addChild(deathNode);
 			System.out.println("AHHHHH!!!! I'm Dead");
 			//System.out.println("Movement Collision between "+this.toString()+" and Wall "+ a.toString());		
+		}else if(a instanceof Exit){
+	
 		}else{
 			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
 		}

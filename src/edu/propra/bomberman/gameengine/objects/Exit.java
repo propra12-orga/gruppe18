@@ -13,12 +13,12 @@ import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
-public class FixedGun extends GameObject {
+public class Exit extends GameObject {
 	public static Area collisionArea=null;
 	public static Area clipArea=null;
 	public static BufferedImage image=null;
 
-	public FixedGun(int x,int y) {
+	public Exit(int x,int y) {
 		
 		AffineTransform trans=new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -27,7 +27,7 @@ public class FixedGun extends GameObject {
 		((SGTransform)this.go).getTransform().setTransform(trans);
 		SGImage leaf=new SGImage(image);
 		leaf.setClipArea(clipArea);
-		((SGTransform)this.go).setChild(leaf);
+		((SGTransform)this.go).addChild(leaf);
 	
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
@@ -35,48 +35,10 @@ public class FixedGun extends GameObject {
 		
 		this.absTransform=(AffineTransform) trans.clone();
 	}
-
-/* Laserkanone Pseudocode zielt auf player Koordinaten
-	
-/* w h feste breite
-
-	private static void fixedshooter() {
-		double x = Player.x;
-		double y = Player.y;
-
-	
-
-		counter++;
-		double ang = Math.atan2(y, x) * 180 / Math.PI + 90;
-		double speed = 12;
-		double angRad = Math.toRadians(ang - 90);
-		double movx = Math.cos(angRad) * speed;
-
-		double movy = Math.sin(angRad) * speed;
-		StdDraw.text(0, h, String.valueOf(ang));
-
-
-
-		movx += movx / -counter;
-		movy += movy / -counter;
-
-		StdDraw.circle(movx, movy, Math.abs(1 - counter * 0.2));
-		StdDraw.picture(0, 0, "kanone.png", 5, 5, ang);
-		
-
-		StdDraw.setPenColor(color);
-
-		if (counter >= 10) {
-			counter = 1;
-
-		}	
-	
-*/
-	
 	
 	@Override
 	public void collisionWith(Object a) {
-		if(a instanceof FixedGun ){
+		if(a instanceof Exit ){
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
 			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
@@ -91,7 +53,7 @@ public class FixedGun extends GameObject {
 		collisionArea=new Area(new Rectangle(0,0,40,40));
 		clipArea=new Area(new Rectangle(0,0,40,40));
 		try {
-			image = ImageIO.read(new File("src/resources/kanone.png"));
+			image = ImageIO.read(new File("src/resources/treppe.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

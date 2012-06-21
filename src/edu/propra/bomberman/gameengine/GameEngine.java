@@ -8,7 +8,6 @@ import java.awt.geom.Area;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 import javax.imageio.ImageIO;
@@ -21,11 +20,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
-import edu.propra.bomberman.gameengine.actions.BombUpAction;
-import edu.propra.bomberman.gameengine.actions.ExplosionEnd;
 import edu.propra.bomberman.gameengine.objects.Bomb;
 import edu.propra.bomberman.gameengine.objects.Enemy;
 import edu.propra.bomberman.gameengine.objects.Explosion;
@@ -33,16 +29,13 @@ import edu.propra.bomberman.gameengine.objects.FixedBlock;
 import edu.propra.bomberman.gameengine.objects.GameObject;
 import edu.propra.bomberman.gameengine.objects.GameObjectGroup;
 import edu.propra.bomberman.gameengine.objects.IceBlock;
-import edu.propra.bomberman.gameengine.objects.Moveable;
 import edu.propra.bomberman.gameengine.objects.Player;
 import edu.propra.bomberman.gameengine.objects.Wall;
 import edu.propra.bomberman.graphicengine.GraphicEngine;
 import edu.propra.bomberman.graphicengine.IParent;
-import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGGroup;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGScene;
-import edu.propra.bomberman.graphicengine.SGTransform;
 import edu.propra.bomberman.networkengine.NetworkEngine;
 import edu.propra.bomberman.usercontrolengine.PlayerListener;
 import edu.propra.bomberman.usercontrolengine.UserControlEngine;
@@ -170,13 +163,6 @@ public class GameEngine {
 			IceBlock iceblock=new IceBlock(x, y);
 			return iceblock;
 		}
-		/*if(node.getNodeName().equals("geImage")){
-			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			String url=node.getAttributes().getNamedItem("url").getNodeValue();
-			GameImage fb=new GameImage(x, y,url);
-			return fb;
-		}*/
 		System.err.println("Unknown Type of Node when parsing XML");
 		return null;
 		
@@ -218,23 +204,12 @@ public class GameEngine {
 	public static void main(String[] args) {
 		GameEngine gameEngine = SGameEngine.get();
 		gameEngine.initializeGame();
-			
 		JFrame test = new JFrame();
-	
-		
 		test.setContentPane(gameEngine.gE.getPanel());
-		
 		test.pack();
 		test.addKeyListener(gameEngine.ucE);
 		test.setVisible(true);
-
-		
-		
 		gameEngine.startTwoPlayer();
-		
-		
-		
-		
 	}
 
 	public void initializeGame(){
@@ -290,23 +265,10 @@ public class GameEngine {
 
 	public void doPreMoves() {
 		objectsRoot.doPreMoves();
-		/*for (GameObject go : this.objects) {
-			if (go instanceof Moveable) {
-				if (((Moveable) go).getMovingData().isMoving())
-					((Moveable) go).getMovingData().doStepCollision(go.getCo());
-			}
-		}*/
 	}
 
 	public void doMoves() {
 		objectsRoot.doMoves();
-		/*
-		for (GameObject go : this.objects) {
-			if (go instanceof Moveable) {
-				if (((Moveable) go).getMovingData().isMoving())
-					((Moveable) go).getMovingData().doStepGraphic(go);
-			}
-		}*/
 	}
 
 	public void startGame() {
