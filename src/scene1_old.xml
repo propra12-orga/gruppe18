@@ -75,7 +75,6 @@
 		<geFixedBlock x="520" y="440" />
 		<geFixedBlock x="600" y="440" />
 		<geFixedBlock x="680" y="440" />
-		<geExit x="400" y="280" />
+
 	</geGroup>
-	
 </geGroup>
