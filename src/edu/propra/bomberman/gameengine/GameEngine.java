@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.objects.Bomb;
-import edu.propra.bomberman.gameengine.objects.Enemy;
+import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
 import edu.propra.bomberman.gameengine.objects.GameObject;
@@ -141,7 +141,12 @@ public class GameEngine {
 			Wall wall=new Wall(x, y);
 			return wall;
 		}
-
+		if(node.getNodeName().equals("geExit")){
+			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
+			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+			Exit exit=new Exit(x, y);
+			return exit;
+		}
 		if(node.getNodeName().equals("geBomb")){
 			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
@@ -242,10 +247,10 @@ public class GameEngine {
 		PlayerListener playerListener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_ENTER);
 		playerListener.login(this.ucE);
 		
-		Enemy enemy= new Enemy(735,535);
-		this.addObject(enemy, null);
-		PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
-		enemyListener.login(this.ucE);
+//		Enemy enemy= new Enemy(735,535);
+	//	this.addObject(enemy, null);
+	//	PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
+//		enemyListener.login(this.ucE);
 		
 		// gameEngine.gE.startDrawing();
 		this.startGame();	
