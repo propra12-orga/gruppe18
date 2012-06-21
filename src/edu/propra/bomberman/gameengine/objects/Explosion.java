@@ -44,13 +44,14 @@ public class Explosion extends GameObject {
 		//Construct Collision Object for Player Object
 		this.co=new CollisionObject();
 		co.setPrivot(this);
+		//leaf.debugColl=this.co;
 		
 		this.absTransform=(AffineTransform) trans.clone();
 	}
 	
 	@Override
 	public void collisionWith(Object a) {
-		if(a instanceof FixedBlock ){
+		if(a instanceof FixedBlock || a instanceof IceBlock || a instanceof Wall){
 			reduceCollision(a);
 			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
 		}else if(a instanceof Player){
@@ -97,6 +98,7 @@ public class Explosion extends GameObject {
 			test=new Rectangle((int)(intersectionBounds.getX()),(int)(intersectionBounds.getY()),(int)intersectionBounds.getWidth(),(int)ownBounds.getHeight());
 			toSubtract.add(new Area(test));
 		}
+		toSubtract.subtract(intersectionArea);
 		this.co.getCollisionArea().subtract(toSubtract);
 		toSubtract.add(intersectionArea);
 		try {

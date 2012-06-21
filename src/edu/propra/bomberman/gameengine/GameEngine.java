@@ -3,6 +3,7 @@ package edu.propra.bomberman.gameengine;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.io.File;
@@ -24,7 +25,7 @@ import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;
 import edu.propra.bomberman.gameengine.objects.Bomb;
-import edu.propra.bomberman.gameengine.objects.Enemy;
+import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
 import edu.propra.bomberman.gameengine.objects.GameObject;
@@ -61,7 +62,6 @@ public class GameEngine {
 		actionTimeline = new PriorityQueue<ActionObject>();
 		objectsRoot=null;
 
-		gE.getPanel().addKeyListener(ucE);
 
 	}
 
@@ -142,7 +142,12 @@ public class GameEngine {
 			Wall wall=new Wall(x, y);
 			return wall;
 		}
-
+		if(node.getNodeName().equals("geExit")){
+			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
+			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+			Exit exit=new Exit(x, y);
+			return exit;
+		}
 		if(node.getNodeName().equals("geBomb")){
 			int x=Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y=Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
@@ -204,12 +209,9 @@ public class GameEngine {
 
 	public static void main(String[] args) {
 		GameEngine gameEngine = SGameEngine.get();
-		gameEngine.initializeGame();
 		JFrame test = new JFrame();
+		gameEngine.initializeGame();
 		test.setContentPane(gameEngine.gE.getPanel());
-		test.pack();
-		test.addKeyListener(gameEngine.ucE);
-		test.setVisible(true);
 		gameEngine.startTwoPlayer();
 	}
 
@@ -227,7 +229,7 @@ public class GameEngine {
 	}
 	
 	public void startOnePlayer(){
-		Player player = new Player(25,25);
+		Player player = new Player(25,25,"Player 1",0);
 		this.addObject(player, null);
 		PlayerListener listener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_SPACE);
 		listener.login(this.ucE);
@@ -238,16 +240,15 @@ public class GameEngine {
 	}
 
 	public void startTwoPlayer(){
-		Player player = new Player(25,25);
+		Player player = new Player(25,25,"Player 1" ,0);
 		this.addObject(player, null);
 		PlayerListener playerListener = new PlayerListener(player,KeyEvent.VK_UP,KeyEvent.VK_DOWN,KeyEvent.VK_LEFT,KeyEvent.VK_RIGHT,KeyEvent.VK_ENTER);
 		playerListener.login(this.ucE);
 		
-		Enemy enemy= new Enemy(735,535);
+		Player enemy= new Player(735,535,"Player 2",1);
 		this.addObject(enemy, null);
 		PlayerListener enemyListener = new PlayerListener(enemy,KeyEvent.VK_W,KeyEvent.VK_S,KeyEvent.VK_A,KeyEvent.VK_D,KeyEvent.VK_SPACE);
-		enemyListener.login(this.ucE);
-		
+		enemyListener.login(this.ucE);		
 		this.players=2;
 		// gameEngine.gE.startDrawing();
 		this.startGame();	
@@ -339,5 +340,11 @@ public class GameEngine {
 		if(this.players==0){
 			this.addAction(new GameOverAction());
 		}
+	public GraphicEngine getGraphicEngine() {
+		return this.gE;
+	}
+
+	public UserControlEngine getUserControlEngine() {
+		return this.ucE;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import edu.propra.bomberman.gameengine.GameEngine;
 import edu.propra.bomberman.gameengine.objects.Bomb;
+import edu.propra.bomberman.gameengine.objects.Exit;
 
 public class CollisionEngine {
 
@@ -113,7 +114,7 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					intersection = (Area) partnerObj.getCollisionArea().clone();
 					intersection.intersect(oldObject.getCollisionArea());

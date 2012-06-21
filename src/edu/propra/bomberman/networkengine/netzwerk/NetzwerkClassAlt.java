@@ -1,3 +1,6 @@
+package edu.propra.bomberman.networkengine.netzwerk;
+
+
 import java.net.*;
 import java.io.*;
 
