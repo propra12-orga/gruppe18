@@ -340,6 +340,7 @@ public class GameEngine {
 		if(this.players==0){
 			this.addAction(new GameOverAction());
 		}
+	}
 	public GraphicEngine getGraphicEngine() {
 		return this.gE;
 	}

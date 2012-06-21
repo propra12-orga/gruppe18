@@ -3,7 +3,6 @@ package edu.propra.bomberman.gameengine.objects;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +25,9 @@ public class Player extends GameObject implements Moveable {
 	public int bombCounter = 3;
 	private MovingData data;
 	private int bombMax = 3;
+	private String name;
 
-	public Player(int x, int y) {
+	public Player(int x, int y,String name, int type) {
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -38,7 +38,7 @@ public class Player extends GameObject implements Moveable {
 		// SGAnimation leaf=new SGAnimation(images, 1000);
 		// leaf.setRepeat(false);
 
-		SGImage leaf = new SGImage(images[0]);
+		SGImage leaf = new SGImage(images[type][0]);
 		// ToDo:
 		// Zwischenvariable lastkey speichert die Bewegung /Action Objekt
 		// das Blatt soll gezeichnet werden aus dem Animationsabschnitt welches
@@ -168,5 +168,13 @@ public class Player extends GameObject implements Moveable {
 
 	public void isDead(boolean b) {
 		this.death=b;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
