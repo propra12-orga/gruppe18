@@ -25,14 +25,6 @@ public class CollisionEngine {
 	}
 
 	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
 	 * Methode fügt ein Collisionsobjekt hinzu
 	 */
 	public void AddObject(CollisionObject obj) {
@@ -66,14 +58,16 @@ public class CollisionEngine {
 				/**
 				 * vergleiche a und b indem a geclont wird
 				 */
-				temp = (Area) a.getCollisionArea().clone();
-				temp.intersect(b.getCollisionArea());
-				if (!temp.isEmpty()) {
-					/**
-					 * Teilt der Gameengine mit ob objekte kollidieren
-					 */
+				if (a.getCollisionArea().getBounds().intersects(b.getCollisionArea().getBounds())) {
+					temp = (Area) a.getCollisionArea().clone();
+					temp.intersect(b.getCollisionArea());
+					if (!temp.isEmpty()) {
+						/**
+						 * Teilt der Gameengine mit ob objekte kollidieren
+						 */
 
-					getGameEngine().collisionBetween(a.getPrivot(), b.getPrivot());
+						getGameEngine().collisionBetween(a.getPrivot(), b.getPrivot());
+					}
 				}
 			}
 		}
@@ -114,32 +108,34 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			//TODO create interface for objects which aren't blocking others
+			// TODO create interface for objects which aren't blocking others
 			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
-					intersection = (Area) partnerObj.getCollisionArea().clone();
-					intersection.intersect(oldObject.getCollisionArea());
-					if (!intersection.isEmpty()) {
-						AffineTransform undo = new AffineTransform();
-						Rectangle iR = intersection.getBounds();
-						if (iR.width < iR.height) {
-							if (xPossible < 0) {
-								xPossible += iR.width;
-								undo.translate(iR.width, 0);
-							} else if (xPossible > 0) {
-								xPossible -= iR.width;
-								undo.translate(-iR.width, 0);
+					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
+						intersection = (Area) partnerObj.getCollisionArea().clone();
+						intersection.intersect(oldObject.getCollisionArea());
+						if (!intersection.isEmpty()) {
+							AffineTransform undo = new AffineTransform();
+							Rectangle iR = intersection.getBounds();
+							if (iR.width < iR.height) {
+								if (xPossible < 0) {
+									xPossible += iR.width;
+									undo.translate(iR.width, 0);
+								} else if (xPossible > 0) {
+									xPossible -= iR.width;
+									undo.translate(-iR.width, 0);
+								}
+							} else if (iR.width > iR.height) {
+								if (yPossible < 0) {
+									yPossible += iR.height;
+									undo.translate(0, iR.height);
+								} else if (yPossible > 0) {
+									yPossible -= iR.height;
+									undo.translate(0, -iR.height);
+								}
 							}
-						} else if (iR.width > iR.height) {
-							if (yPossible < 0) {
-								yPossible += iR.height;
-								undo.translate(0, iR.height);
-							} else if (yPossible > 0) {
-								yPossible -= iR.height;
-								undo.translate(0, -iR.height);
-							}
+							oldObject.getCollisionArea().transform(undo);
 						}
-						oldObject.getCollisionArea().transform(undo);
 					}
 				}
 			}

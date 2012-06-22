@@ -71,7 +71,7 @@ public class GameEngine {
 		DocumentBuilder dBuilder;
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse("src/scene1.xml");
+			Document doc = dBuilder.parse(filename);
 			Node root = doc.getFirstChild();
 			Node act = root;
 			GameObjectGroup actGO = null;
@@ -215,13 +215,14 @@ public class GameEngine {
 		}
 		background.setClipArea(new Area(new Rectangle(0, 0, 800, 600)));
 		this.gE.addSGNode(background, null);
-		this.objectsRoot = (GameObjectGroup) this.loadMap("");
 	}
 
 	public void startOnePlayer() {
+		int scene=(int)(Math.random()*(5d-1d)+1d);
+		this.objectsRoot = (GameObjectGroup) this.loadMap("src/scene"+scene+".xml");
 		Player player = new Player(25, 25, "Player 1", 0);
 		this.addObject(player, null);
-		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
+		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 		listener.login(this.ucE);
 		this.players = 1;
 		// gameEngine.gE.startDrawing();
@@ -230,6 +231,8 @@ public class GameEngine {
 	}
 
 	public void startTwoPlayer() {
+		int scene=(int)(Math.random()*(9d-5d)+5d);
+		this.objectsRoot = (GameObjectGroup) this.loadMap("src/scene"+scene+".xml");
 		Player player = new Player(25, 25, "Player 1", 0);
 		this.addObject(player, null);
 		PlayerListener playerListener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -272,20 +275,22 @@ public class GameEngine {
 
 	boolean		roundDone	= true;
 	private int	players;
-
+	long dur=0;
 	public void doRound() {
-		if (!roundDone) System.out.println("Round Thread Collision");
-		this.gE.getPanel().updateCache = false;
+		if (!roundDone)return;
 		roundDone = false;
+		//dur=System.currentTimeMillis();
+		this.gE.getPanel().updateCache = false;
 		doActions();
 		doPreMoves();
 		this.cE.CheckCollision();
 		doCollisions();
 		doMoves();
 		this.gE.getPanel().updateCache = true;
-		this.gE.getPanel().repaint();
+		this.gE.getPanel().repaint(); 
+		//dur=System.currentTimeMillis()-dur;	
+		//System.out.println(dur);
 		roundDone = true;
-		// System.out.println(dur);
 	}
 
 	public void addObject(GameObject obj, GameObjectGroup parent) {
