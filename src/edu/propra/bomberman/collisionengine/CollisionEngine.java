@@ -3,21 +3,22 @@ package edu.propra.bomberman.collisionengine;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.propra.bomberman.gameengine.GameEngine;
 import edu.propra.bomberman.gameengine.objects.Bomb;
+import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.Exit;
+import edu.propra.bomberman.gameengine.objects.Explosion;
 
 public class CollisionEngine {
 
 	/**
 	 * Arrayliste fuer die Kollisionsobjekte
 	 */
-	ArrayList<CollisionObject> objects;
-	private GameEngine gameEngine;
+	ArrayList<CollisionObject>	objects;
+	private GameEngine			gameEngine;
 
 	public CollisionEngine() {
 		objects = new ArrayList<CollisionObject>();
@@ -61,8 +62,7 @@ public class CollisionEngine {
 			a = objects.get(i);
 			for (int j = i + 1; j < objects.size(); j++) {
 				b = objects.get(j);
-				if (a == b)
-					continue;
+				if (a == b) continue;
 				/**
 				 * vergleiche a und b indem a geclont wird
 				 */
@@ -107,14 +107,15 @@ public class CollisionEngine {
 
 		oldObject.getCollisionArea().transform(trans);
 
-		//TODO find way to optimize move when colliding with corner
-		
+		// TODO find way to optimize move when colliding with corner
+
 		Area intersection;
 		CollisionObject partnerObj;
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit)) {
+			//TODO create interface for objects which aren't blocking others
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					intersection = (Area) partnerObj.getCollisionArea().clone();
 					intersection.intersect(oldObject.getCollisionArea());
@@ -143,16 +144,17 @@ public class CollisionEngine {
 				}
 			}
 		}
-		/*if (xPossible < 0 && posx)
-			xPossible = 0;
-		if (xPossible > 0 && !posx)
-			xPossible = 0;
-		if (yPossible < 0 && posy)
-			yPossible = 0;
-		if (yPossible > 0 && !posy)
-			yPossible = 0;*/
+		/*
+		 * if (xPossible < 0 && posx) xPossible = 0; if (xPossible > 0 && !posx)
+		 * xPossible = 0; if (yPossible < 0 && posy) yPossible = 0; if
+		 * (yPossible > 0 && !posy) yPossible = 0;
+		 */
 		trans.setToTranslation(xPossible, yPossible);
 		return trans;
+	}
+
+	public void releaseData() {
+		this.objects.clear();
 	}
 
 }

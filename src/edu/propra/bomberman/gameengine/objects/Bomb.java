@@ -3,7 +3,6 @@ package edu.propra.bomberman.gameengine.objects;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +11,16 @@ import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
-import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.actions.BombUpAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class Bomb extends GameObject {
-	public static Area collisionArea = null;
-	public static Area clipArea = null;
-	public static BufferedImage image = null;
-	private BombUpAction action;
-	public Player owner;
+	public static Area			collisionArea	= null;
+	public static Area			clipArea		= null;
+	public static BufferedImage	image			= null;
+	private BombUpAction		action;
+	public Player				owner;
 
 	public Bomb(Player owner, int x, int y) {
 		this.owner = owner;
@@ -42,40 +40,38 @@ public class Bomb extends GameObject {
 		this.absTransform = (AffineTransform) trans.clone();
 	}
 
-	
-	private boolean done=false;
+	private boolean	done	= false;
+
 	@Override
 	public void collisionWith(Object a) {
 		if (a instanceof Explosion) {
 			SGameEngine.get().removeAction(this.action);
 			this.action.action();
 		} else if (a instanceof Bomb) {
-			if (!removed){
-				if(this.action.getTime()<((Bomb)a).action.getTime())return;
+			if (!removed) {
+				if (this.action.getTime() < ((Bomb) a).action.getTime()) return;
 				removed = true;
 				SGameEngine.get().removeObject(this);
 				SGameEngine.get().removeAction(this.action);
 				this.owner.bombUp();
-				done=true;
+				done = true;
 			}
 		} else if (a instanceof FixedBlock) {
-			if (!removed)
-				repositionBomb(((FixedBlock) a).getCo().getCollisionArea());
+			if (!removed) repositionBomb(((FixedBlock) a).getCo().getCollisionArea());
 		} else if (a instanceof IceBlock) {
-			if (!removed)
-				repositionBomb(((IceBlock) a).getCo().getCollisionArea());
+			if (!removed) repositionBomb(((IceBlock) a).getCo().getCollisionArea());
 		} else if (a instanceof Wall) {
-			if (!removed)
-				repositionBomb(((Wall) a).getCo().getCollisionArea());
+			if (!removed) repositionBomb(((Wall) a).getCo().getCollisionArea());
 		} else {
 			// System.out.println("Collision between "+this.toString()+" and "+
 			// a.toString());
 		}
 	}
 
-	private boolean removed = false;
-	private int collisionCount=0;
-	public boolean playerOut=false;
+	private boolean	removed			= false;
+	private int		collisionCount	= 0;
+	public boolean	playerOut		= false;
+
 	public void repositionBomb(Area colArea) {
 		Area intersection = (Area) this.getCo().getCollisionArea().clone();
 		intersection.intersect(colArea);
@@ -91,19 +87,19 @@ public class Bomb extends GameObject {
 			SGameEngine.get().removeObject(this);
 			SGameEngine.get().removeAction(this.action);
 			this.owner.bombUp();
-			collisionCount=0;
+			collisionCount = 0;
 		} else if (Math.abs(diffX) < Math.abs(diffY) || diffX == 0) {
 			// move vertical
 			if (diffY > 0) {
 				// move bomb up
 				this.absTransform.translate(0, intersection.getBounds2D().getHeight());
 				((SGTransform) this.go).getTransform().translate(0, intersection.getBounds2D().getHeight());
-				this.co.setCollisionArea(this.collisionArea.createTransformedArea(this.absTransform));
+				this.co.setCollisionArea(Bomb.collisionArea.createTransformedArea(this.absTransform));
 			} else {
 				// move bomb down
 				this.absTransform.translate(0, -intersection.getBounds2D().getHeight());
 				((SGTransform) this.go).getTransform().translate(0, -intersection.getBounds2D().getHeight());
-				this.co.setCollisionArea(this.collisionArea.createTransformedArea(this.absTransform));
+				this.co.setCollisionArea(Bomb.collisionArea.createTransformedArea(this.absTransform));
 			}
 		} else if (Math.abs(diffX) > Math.abs(diffY) || diffY == 0) {
 			// move horizontal
@@ -111,12 +107,12 @@ public class Bomb extends GameObject {
 				// move bomb left x--
 				this.absTransform.translate(intersection.getBounds2D().getWidth(), 0);
 				((SGTransform) this.go).getTransform().translate(intersection.getBounds2D().getWidth(), 0);
-				this.co.setCollisionArea(this.collisionArea.createTransformedArea(this.absTransform));
+				this.co.setCollisionArea(Bomb.collisionArea.createTransformedArea(this.absTransform));
 			} else {
 				// move bomb right x++
 				this.absTransform.translate(-intersection.getBounds2D().getWidth(), 0);
 				((SGTransform) this.go).getTransform().translate(-intersection.getBounds2D().getWidth(), 0);
-				this.co.setCollisionArea(this.collisionArea.createTransformedArea(this.absTransform));
+				this.co.setCollisionArea(Bomb.collisionArea.createTransformedArea(this.absTransform));
 			}
 		} else {
 			// remove bomb
@@ -124,7 +120,7 @@ public class Bomb extends GameObject {
 			SGameEngine.get().removeObject(this);
 			SGameEngine.get().removeAction(this.action);
 			this.owner.bombUp();
-			collisionCount=0;
+			collisionCount = 0;
 		}
 
 	}

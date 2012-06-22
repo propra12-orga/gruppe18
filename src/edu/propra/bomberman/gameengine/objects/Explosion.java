@@ -1,6 +1,5 @@
 package edu.propra.bomberman.gameengine.objects;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -14,88 +13,92 @@ import javax.imageio.ImageIO;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGArea;
-import edu.propra.bomberman.graphicengine.SGGroup;
 import edu.propra.bomberman.graphicengine.SGImage;
-import edu.propra.bomberman.graphicengine.SGScene;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class Explosion extends GameObject {
-	public static Area collisionArea=null;
-	public static Area clipArea=null;
-	public static BufferedImage image=null;
-	private int size;
-	
-	private SGArea sDebug;
-	public Explosion(int x,int y,int size) {
-		this.size=size;
-		
-		AffineTransform trans=new AffineTransform();
-		trans.setToTranslation(x-(size-1)*clipArea.getBounds2D().getWidth()/2, y-(size-1)*clipArea.getBounds2D().getHeight()/2);
-		//Construct Graphics Subgraph for Player Object
-		this.go=new SGTransform();
-		
-		((SGTransform)this.go).getTransform().setTransform(trans);
-		
-		
-		SGImage leaf=new SGImage(image);
+	public static Area			collisionArea	= null;
+	public static Area			clipArea		= null;
+	public static BufferedImage	image			= null;
+	private int					size;
+
+	private SGArea				sDebug;
+
+	public Explosion(int x, int y, int size) {
+		this.size = size;
+
+		AffineTransform trans = new AffineTransform();
+		trans.setToTranslation(x - (size - 1) * clipArea.getBounds2D().getWidth() / 2, y - (size - 1) * clipArea.getBounds2D().getHeight() / 2);
+		// Construct Graphics Subgraph for Player Object
+		this.go = new SGTransform();
+
+		((SGTransform) this.go).getTransform().setTransform(trans);
+
+		SGImage leaf = new SGImage(image);
 		leaf.setClipArea(this.calculateClipArea());
-		((SGTransform)this.go).addChild(leaf);
-		
-		//Construct Collision Object for Player Object
-		this.co=new CollisionObject();
+		((SGTransform) this.go).addChild(leaf);
+
+		// Construct Collision Object for Player Object
+		this.co = new CollisionObject();
 		co.setPrivot(this);
-		//leaf.debugColl=this.co;
-		
-		this.absTransform=(AffineTransform) trans.clone();
+		// leaf.debugColl=this.co;
+
+		this.absTransform = (AffineTransform) trans.clone();
 	}
-	
+
 	@Override
 	public void collisionWith(Object a) {
-		if(a instanceof FixedBlock || a instanceof IceBlock || a instanceof Wall){
+		if (a instanceof FixedBlock || a instanceof IceBlock || a instanceof Wall) {
 			reduceCollision(a);
-			//System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+ a.toString());
-		}else if(a instanceof Player){
-			//System.out.println("Movement Collision between "+this.toString()+" and Player "+ a.toString());		
-		}else{
-			//System.out.println("Collision between "+this.toString()+" and "+ a.toString());			
+			// System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+
+			// a.toString());
+		} else if (a instanceof Player) {
+			// System.out.println("Movement Collision between "+this.toString()+" and Player "+
+			// a.toString());
+		} else {
+			// System.out.println("Collision between "+this.toString()+" and "+
+			// a.toString());
 		}
 	}
-	private void reduceCollision(Object a){
-		Area partnerArea=((GameObject)a).co.getCollisionArea();
-		Area ownArea=this.co.getCollisionArea();
-		Area intersectionArea=(Area)partnerArea.clone();
+
+	private void reduceCollision(Object a) {
+		if(a instanceof Explosion || a instanceof Bomb)return;
+		Area partnerArea = ((GameObject) a).co.getCollisionArea();
+		Area ownArea = this.co.getCollisionArea();
+		Area intersectionArea = (Area) partnerArea.clone();
 		intersectionArea.intersect(ownArea);
-		Rectangle2D partnerBounds=partnerArea.getBounds2D();
-		Rectangle2D ownBounds=ownArea.getBounds2D();
-		Rectangle2D intersectionBounds=intersectionArea.getBounds2D();
-		double partnerX=partnerBounds.getCenterX();
-		double partnerY=partnerBounds.getCenterY();
-		double ownX=ownBounds.getCenterX();
-		double ownY=ownBounds.getCenterY();
-		double intersectionX=intersectionBounds.getCenterX();
-		double intersectionY=intersectionBounds.getCenterY();
-		
-		Area toSubtract=new Area();
-		//works just for rectangular shapes
+		Rectangle2D partnerBounds = partnerArea.getBounds2D();
+		Rectangle2D ownBounds = ownArea.getBounds2D();
+		Rectangle2D intersectionBounds = intersectionArea.getBounds2D();
+		double partnerX = partnerBounds.getCenterX();
+		double partnerY = partnerBounds.getCenterY();
+		double ownX = ownBounds.getCenterX();
+		double ownY = ownBounds.getCenterY();
+		double intersectionX = intersectionBounds.getCenterX();
+		double intersectionY = intersectionBounds.getCenterY();
+
+		Area toSubtract = new Area();
+		// works just for rectangular shapes
+		// TODO solve bug : explosion is wrong reduced in corner
 		Rectangle test;
-		if(intersectionX < ownX){
-			//left part
-			test=new Rectangle((int)(intersectionBounds.getX()+intersectionBounds.getWidth()-ownBounds.getWidth()),(int)intersectionBounds.getY(),(int)ownBounds.getWidth(),(int)intersectionBounds.getHeight());
+		if (intersectionX < ownX) {
+			// left part
+			test = new Rectangle((int) (intersectionBounds.getX() + intersectionBounds.getWidth() - ownBounds.getWidth()), (int) intersectionBounds.getY(), (int) ownBounds.getWidth(), (int) intersectionBounds.getHeight());
 			toSubtract.add(new Area(test));
 		}
-		if(intersectionX > ownX){
-			//right part
-			test=new Rectangle((int)(intersectionBounds.getX()),(int)intersectionBounds.getY(),(int)ownBounds.getWidth(),(int)intersectionBounds.getHeight());
+		if (intersectionX > ownX) {
+			// right part
+			test = new Rectangle((int) (intersectionBounds.getX()), (int) intersectionBounds.getY(), (int) ownBounds.getWidth(), (int) intersectionBounds.getHeight());
 			toSubtract.add(new Area(test));
 		}
-		if(intersectionY < ownY){
-			//top part
-			test=new Rectangle((int)(intersectionBounds.getX()),(int)(intersectionBounds.getY()+intersectionBounds.getHeight()-ownBounds.getHeight()),(int)intersectionBounds.getWidth(),(int)ownBounds.getHeight());
+		if (intersectionY < ownY) {
+			// top part
+			test = new Rectangle((int) (intersectionBounds.getX()), (int) (intersectionBounds.getY() + intersectionBounds.getHeight() - ownBounds.getHeight()), (int) intersectionBounds.getWidth(), (int) ownBounds.getHeight());
 			toSubtract.add(new Area(test));
 		}
-		if(intersectionY > ownY){
-			//bottom part
-			test=new Rectangle((int)(intersectionBounds.getX()),(int)(intersectionBounds.getY()),(int)intersectionBounds.getWidth(),(int)ownBounds.getHeight());
+		if (intersectionY > ownY) {
+			// bottom part
+			test = new Rectangle((int) (intersectionBounds.getX()), (int) (intersectionBounds.getY()), (int) intersectionBounds.getWidth(), (int) ownBounds.getHeight());
 			toSubtract.add(new Area(test));
 		}
 		toSubtract.subtract(intersectionArea);
@@ -107,43 +110,42 @@ public class Explosion extends GameObject {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		((SGImage)((SGTransform)this.go).getChild()).getClipArea().subtract(toSubtract);
-		//maybe abs position needs to be changed
+		((SGImage) ((SGTransform) this.go).getChild()).getClipArea().subtract(toSubtract);
+		// maybe abs position needs to be changed
 	}
 
 	@Override
 	public void initializeAbsolutePositions(AffineTransform trans) {
 		this.absTransform.concatenate(trans);
-		this.isAbsIntialized=true;
+		this.isAbsIntialized = true;
 	}
-	
-	private Area calculateClipArea(){
-		Area exp=new Area();
-		exp.add(new Area(new Rectangle((int)clipArea.getBounds().getWidth()*(size-1)/2,0,(int)clipArea.getBounds().getWidth(),(int)clipArea.getBounds().getHeight()*(size))));
-		exp.add(new Area(new Rectangle(0,(int)clipArea.getBounds().getHeight()*((size-1)/2),(int)clipArea.getBounds().getWidth()*(size),(int)clipArea.getBounds().getHeight())));
+
+	private Area calculateClipArea() {
+		Area exp = new Area();
+		exp.add(new Area(new Rectangle((int) clipArea.getBounds().getWidth() * (size - 1) / 2, 0, (int) clipArea.getBounds().getWidth(), (int) clipArea.getBounds().getHeight() * (size))));
+		exp.add(new Area(new Rectangle(0, (int) clipArea.getBounds().getHeight() * ((size - 1) / 2), (int) clipArea.getBounds().getWidth() * (size), (int) clipArea.getBounds().getHeight())));
 		return exp;
 	}
 
 	@Override
 	public void initializeCollisions() {
-		if(this.isAbsIntialized){
-			Area exp=new Area();
-			exp.add(new Area(new Rectangle((int)collisionArea.getBounds().getWidth()*(size-1)/2,0,(int)collisionArea.getBounds().getWidth(),(int)collisionArea.getBounds().getHeight()*(size))));
-			exp.add(new Area(new Rectangle(0,(int)collisionArea.getBounds().getHeight()*((size-1)/2),(int)collisionArea.getBounds().getWidth()*(size),(int)collisionArea.getBounds().getHeight())));
+		if (this.isAbsIntialized) {
+			Area exp = new Area();
+			exp.add(new Area(new Rectangle((int) collisionArea.getBounds().getWidth() * (size - 1) / 2, 0, (int) collisionArea.getBounds().getWidth(), (int) collisionArea.getBounds().getHeight() * (size))));
+			exp.add(new Area(new Rectangle(0, (int) collisionArea.getBounds().getHeight() * ((size - 1) / 2), (int) collisionArea.getBounds().getWidth() * (size), (int) collisionArea.getBounds().getHeight())));
 			this.co.setCollisionArea(exp.createTransformedArea(this.absTransform));
-			this.collisionsInitialized=true;
-			
-			
-		}else{
+			this.collisionsInitialized = true;
+
+		} else {
 			System.err.println("FixedBlock.initializeCollisions()");
 			System.err.println("  Absolute positions are not initialized");
 		}
-		
+
 	}
 
-	static{
-		collisionArea=new Area(new Rectangle(0,0,40,40));
-		clipArea=new Area(new Rectangle(0,0,40,40));
+	static {
+		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
+		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
 			image = ImageIO.read(new File("src/resources/explosion.png"));
 		} catch (IOException e) {

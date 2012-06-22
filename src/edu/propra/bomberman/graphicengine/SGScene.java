@@ -8,12 +8,10 @@ import java.awt.geom.AffineTransform;
 
 /**
  * @author Nadescha
- *
+ * 
  */
 public class SGScene extends SGNode implements IParent {
-	private SGGroup child;
-	
-	
+	private SGGroup	child;
 
 	/**
 	 * 
@@ -22,26 +20,36 @@ public class SGScene extends SGNode implements IParent {
 		child = new SGGroup();
 		child.setParent(this);
 	}
+
 	@Override
-	public void addChild(Object child){
+	public void addChild(Object child) {
 		this.child.addChild(child);
 	}
 
 	@Override
-	public void removeChild(Object child){
+	public void removeChild(Object child) {
 		this.child.removeChild(child);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom.AffineTransform, java.awt.Graphics2D)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom
+	 * .AffineTransform, java.awt.Graphics2D)
 	 */
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
-		if(transform==null)transform=new AffineTransform();
+		if (transform == null) transform = new AffineTransform();
 		child.PaintRecursive(transform, g2d);
 	}
 
-	public SGGroup getChild(){
+	public SGGroup getChild() {
 		return this.child;
+	}
+	@Override
+	public void releaseAll(){
+		if(this.child!=null){
+			this.child.releaseAll();
+		}
 	}
 }

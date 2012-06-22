@@ -7,9 +7,9 @@ import javax.swing.AbstractAction;
 public class ActionBeenden extends AbstractAction {
 
 	public ActionBeenden() {
-		super("Beenden",null);
+		super("Beenden", null);
 		putValue(SHORT_DESCRIPTION, "Hier beenden Sie das Programm");
-		
+
 	}
 
 	@Override

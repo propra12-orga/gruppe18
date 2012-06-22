@@ -7,12 +7,13 @@ public class ExplosionEnd extends ActionObject {
 
 	public ExplosionEnd(Explosion actor, long time) {
 		super();
-		this.time=time;
-		this.actor=actor;
+		this.time = time;
+		this.actor = actor;
 	}
+
 	@Override
 	public void action() {
-		SGameEngine.get().removeExplosion((Explosion)actor);
+		SGameEngine.get().removeExplosion((Explosion) actor);
 	}
 
 }

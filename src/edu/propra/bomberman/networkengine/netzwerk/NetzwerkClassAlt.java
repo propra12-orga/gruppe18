@@ -1,6 +1,5 @@
 package edu.propra.bomberman.networkengine.netzwerk;
 
-
 import java.net.*;
 import java.io.*;
 
@@ -9,12 +8,11 @@ import java.io.*;
  */
 public class NetzwerkClassAlt {
 
-	static int backlog = 10;
-	static int port = 2233;
-	boolean Server = false;
+	static int	backlog	= 10;
+	static int	port	= 2233;
+	boolean		Server	= false;
 
-	
-public void BomberClient() {
+	public void BomberClient() {
 	
 	try {
 		// Erzeugung eines Client mit Ein- und Ausgabeströmen
@@ -27,8 +25,8 @@ public void BomberClient() {
 		}	
 	}
 }
-	
-public void TekkiClient() {
+
+	public void TekkiClient() {
 	
 	try {
 		// Erzeugung eines Client mit Ein- und Ausgabeströmen
@@ -40,17 +38,10 @@ public void TekkiClient() {
 			e.printStackTrace(); //Bei Ausgabe den Fehler ausgeben
 		}	
 	}
-}	
-	
-	
-	
-	
-	
-	
-/*
- * Eine Alternative für die Server-Socket Instantiierung	
- */
-	
+}	/*
+	 * Eine Alternative für die Server-Socket Instantiierung
+	 */
+
 	public void ServerSocket() {
 		
 		// Abfrage, ob ein Server gewünscht ist

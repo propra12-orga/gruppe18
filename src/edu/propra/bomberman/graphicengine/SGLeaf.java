@@ -11,31 +11,35 @@ import java.awt.geom.Area;
 
 /**
  * @author Nadescha
- *
+ * 
  */
 public class SGLeaf extends SGNode {
-	private Area clipArea;
-	private AffineTransform actTrans;
+	private Area			clipArea;
+	private AffineTransform	actTrans;
+
 	/**
 	 * 
 	 */
 	public SGLeaf() {
-		clipArea=new Area();
-		actTrans=new AffineTransform();
+		clipArea = new Area();
+		actTrans = new AffineTransform();
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom.AffineTransform)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * edu.propra.bomberman.graphicengine.SGNode#PaintRecursive(java.awt.geom
+	 * .AffineTransform)
 	 */
 	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
 		setActTrans(transform);
-		this.paint(transform,g2d);
+		this.paint(transform, g2d);
 
 	}
-	
+
 	public void paint(AffineTransform transform, Graphics2D g2d) {
-		g2d.setColor(new Color(255,0,0));
+		g2d.setColor(new Color(255, 0, 0));
 		g2d.fill(clipArea.createTransformedArea(transform));
 	}
 
@@ -53,6 +57,12 @@ public class SGLeaf extends SGNode {
 
 	public void setActTrans(AffineTransform actTrans) {
 		this.actTrans.setTransform(actTrans);
+	}
+
+	@Override
+	public void releaseAll() {
+		return;
+		
 	}
 
 }

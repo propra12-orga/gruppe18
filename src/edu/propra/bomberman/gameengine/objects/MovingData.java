@@ -1,26 +1,21 @@
 package edu.propra.bomberman.gameengine.objects;
 
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
-import edu.propra.bomberman.graphicengine.SGNode;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class MovingData {
-	private boolean moving;
-	private int speed;
-	private AffineTransform step;
-	private AffineTransform actTrans;
-	private boolean step1;
-	private int direction;
-	private GameObject parent;
+	private boolean			moving;
+	private int				speed;
+	private AffineTransform	step;
+	private AffineTransform	actTrans;
+	private boolean			step1;
+	private int				direction;
+	private GameObject		parent;
 
 	public MovingData(GameObject parent) {
 		this.parent = parent;
@@ -30,14 +25,14 @@ public class MovingData {
 		lastStep = new AffineTransform();
 	}
 
-	private long dsc = 0;
+	private long			dsc			= 0;
 
-	private long lastStart = 0;
-	private AffineTransform lastStep;
-	private double lastStepSize;
-	private Rectangle2D lastColRect;
-	public boolean now = false;
-	private boolean blocked = false;
+	private long			lastStart	= 0;
+	private AffineTransform	lastStep;
+	private double			lastStepSize;
+	private Rectangle2D		lastColRect;
+	public boolean			now			= false;
+	private boolean			blocked		= false;
 
 	public void doStepCollision() {
 		if (this.moving) {
@@ -48,32 +43,33 @@ public class MovingData {
 				AffineTransform strech = new AffineTransform();
 				Area colArea = parent.co.getCollisionArea();
 				Rectangle2D colBounds = colArea.getBounds2D();
-				
-			/*	
-				if (direction == 180) {// y<0
-					// strech.setToScale(1,
-					// ((lastStepSize+(double)colBounds.getHeight())/(double)colBounds.getHeight()));
-					lastStep.setToTranslation(0, -lastStepSize);
-				}
-				if (direction == 90) {// x>0
-					// strech.setToScale(((lastStepSize+(double)colBounds.getWidth())/(double)colBounds.getWidth()),1);
-					lastStep.setToTranslation(lastStepSize, 0);
-				}
-				if (direction == 0) {// y>0
-					// strech.setToScale(1,((lastStepSize+(double)colBounds.getHeight())/(double)colBounds.getHeight()));
-					lastStep.setToTranslation(0, lastStepSize);
-				}
-				if (direction == 270) {// x<0
-					// strech.setToScale(((lastStepSize+(double)colBounds.getWidth())/(double)colBounds.getWidth()),1);
-					lastStep.setToTranslation(-lastStepSize, 0);
-				}*/
-				lastStep.setToTranslation(lastStepSize*Math.sin(Math.toRadians(direction)), lastStepSize*Math.cos(Math.toRadians(direction)));
-				//strech.concatenate(lastStep);
-				//strech.concatenate(parent.absTransform);
-				lastStep=SGameEngine.get().getCollisionEngine().checkCollisionsDirectly(parent.co, lastStep);
-				//AffineTransform res=(AffineTransform) lastStep.clone();
-				//res.concatenate(lastStep);
-				//parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(res));
+
+				/*
+				 * if (direction == 180) {// y<0 // strech.setToScale(1, //
+				 * ((lastStepSize
+				 * +(double)colBounds.getHeight())/(double)colBounds
+				 * .getHeight())); lastStep.setToTranslation(0, -lastStepSize);
+				 * } if (direction == 90) {// x>0 //
+				 * strech.setToScale(((lastStepSize
+				 * +(double)colBounds.getWidth())
+				 * /(double)colBounds.getWidth()),1);
+				 * lastStep.setToTranslation(lastStepSize, 0); } if (direction
+				 * == 0) {// y>0 //
+				 * strech.setToScale(1,((lastStepSize+(double)colBounds
+				 * .getHeight())/(double)colBounds.getHeight()));
+				 * lastStep.setToTranslation(0, lastStepSize); } if (direction
+				 * == 270) {// x<0 //
+				 * strech.setToScale(((lastStepSize+(double)colBounds
+				 * .getWidth())/(double)colBounds.getWidth()),1);
+				 * lastStep.setToTranslation(-lastStepSize, 0); }
+				 */
+				lastStep.setToTranslation(lastStepSize * Math.sin(Math.toRadians(direction)), lastStepSize * Math.cos(Math.toRadians(direction)));
+				// strech.concatenate(lastStep);
+				// strech.concatenate(parent.absTransform);
+				lastStep = SGameEngine.get().getCollisionEngine().checkCollisionsDirectly(parent.co, lastStep);
+				// AffineTransform res=(AffineTransform) lastStep.clone();
+				// res.concatenate(lastStep);
+				// parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(res));
 				// colArea.transform(lastStep);
 
 				step1 = true;
@@ -82,7 +78,7 @@ public class MovingData {
 		}
 	}
 
-	private long dsg = 0;
+	private long	dsg	= 0;
 
 	public void doStepGraphic(GameObject go) {
 		if (!this.blocked) {
@@ -90,7 +86,7 @@ public class MovingData {
 				dsg++;
 				((SGTransform) go.go).getTransform().concatenate(this.lastStep);
 				parent.absTransform.concatenate(this.lastStep);
-				//if (parent instanceof Player)
+				// if (parent instanceof Player)
 				parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(parent.absTransform));
 				this.lastStep.setToIdentity();
 				this.step1 = false;
@@ -98,9 +94,9 @@ public class MovingData {
 		}
 	}
 
-	private long usc = 0;
-	private AffineTransform back = new AffineTransform();
-	boolean coli = false;
+	private long			usc		= 0;
+	private AffineTransform	back	= new AffineTransform();
+	boolean					coli	= false;
 
 	public void undoStepCollision(CollisionObject cothis, CollisionObject other) {
 
@@ -138,10 +134,8 @@ public class MovingData {
 			double tx = Math.sin(Math.toRadians(direction));
 			double ty = Math.cos(Math.toRadians(direction));
 			lastStart = System.currentTimeMillis();
-			if ((tx < 0.0000001 && tx > -0.0000001))
-				tx = 0;
-			if ((ty < 0.0000001 && ty > -0.0000001))
-				ty = 0;
+			if ((tx < 0.0000001 && tx > -0.0000001)) tx = 0;
+			if ((ty < 0.0000001 && ty > -0.0000001)) ty = 0;
 			this.getStep().setToTranslation(tx, ty);
 			this.moving = true;
 		}

@@ -3,8 +3,8 @@ package edu.propra.bomberman.collisionengine;
 import java.awt.geom.Area;
 
 public class CollisionObject {
-	private Area CollisionArea;
-	private Object privot;
+	private Area	CollisionArea;
+	private Object	privot;
 
 	/**
 	 * collisionArea getter, setter

@@ -10,33 +10,34 @@ import java.awt.geom.AffineTransform;
 
 /**
  * @author Nadescha
- *
+ * 
  */
 public class SGText extends SGLeaf {
-	private String text;
-	private Color color;
-	
-	
+	private String	text;
+	private Color	color;
+
 	/**
 	 * 
 	 */
 	public SGText() {
 		text = new String();
-		color = new Color(0,0,0);
-		
-		
+		color = new Color(0, 0, 0);
+
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.propra.bomberman.graphicengine.SGLeaf#paint(java.awt.geom.AffineTransform, java.awt.Graphics2D)
+	/*
+	 * (non-Javadoc)
+	 * @see
+	 * edu.propra.bomberman.graphicengine.SGLeaf#paint(java.awt.geom.AffineTransform
+	 * , java.awt.Graphics2D)
 	 */
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {
-		int size=22;
+		int size = 22;
 		g2d.setFont(new Font("Sans", Font.BOLD, size));
 		g2d.setColor(color);
-		g2d.drawString(text, (int)transform.getTranslateX(), (int)transform.getTranslateY()+size);
-		
+		g2d.drawString(text, (int) transform.getTranslateX(), (int) transform.getTranslateY() + size);
+
 	}
 
 	/**
@@ -47,7 +48,8 @@ public class SGText extends SGLeaf {
 	}
 
 	/**
-	 * @param text the text to set
+	 * @param text
+	 *            the text to set
 	 */
 	public void setText(String text) {
 		this.text = text;
@@ -61,7 +63,8 @@ public class SGText extends SGLeaf {
 	}
 
 	/**
-	 * @param color the color to set
+	 * @param color
+	 *            the color to set
 	 */
 	public void setColor(Color color) {
 		this.color = color;
