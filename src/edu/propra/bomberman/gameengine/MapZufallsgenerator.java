@@ -15,18 +15,13 @@ public class MapZufallsgenerator {
 	int EisBlock = 4;
 	int StatBlock = 5;
 	int Wand = 6;
-
+	// boolean, um bei erstelltem Objekt auf true zu setzen
 	boolean Start1bel = false;
 	boolean Start2bel = false;
 	boolean Endebel = false;
 	boolean Wandbel = false;
 	// Hilfsarrays für einmal und mehrmals zu erstellende Objekte
-	boolean[] ObjBel = { Start1bel, Start2bel, Endebel, Wandbel }; // boolean,
-																	// um bei
-																	// erstellten
-																	// Objekt
-																	// auf true
-																	// zu setzen
+	boolean[] ObjBel = { Start1bel, Start2bel, Endebel, Wandbel }; 
 	int[] Objekt = { Start1, Start2, Ende1, Wand };
 	int[] AltObjekt = { EisBlock, StatBlock };
 	int i, x, y, z;
@@ -78,8 +73,9 @@ public class MapZufallsgenerator {
 
 		
 		/*
-		 * Die Abfrage prüft, ob Start1, Start2, Ende schon belegt sind, um
-		 * Mehrfachbelegung zu vermeiden
+		 *  Einmal gebrauchte Objekte werden sofort durch Zufallszahlen
+		 *  einer Position zu geordnet 
+		 * 
 		 */
 		
 				// StartPoint Start1 = new StartPoint(x, y,"Spieler 1");
@@ -115,11 +111,11 @@ public class MapZufallsgenerator {
 				System.out.println("Wall " + "x:" + x + " y:" + y);
 		
 
-		// Warum for nicht klappt, weiß ich nicht
-
 		/*
-		 * Zufällige Werte für die in den drei Arrays gespeicherten Variablen.
-		 * x, y sind Werte für die Koordinaten auf dem Spielfeld
+		 * Zufällige Werte für die Objekte FixedBlock und IceBlock.
+		 * x, y sind Werte für die Koordinaten auf dem Spielfeld und werden im Array used gespeichert
+		 * Mit der Variable Counter kann später der Schwierigkeitsgrat variiert werden, da dieser die
+		 * Anzahl der Fixed- und IceBlöcke angibt, letzere sind die zerstörbaren
 		 */
 		for (int counter=0;counter<10;counter++) {
 
