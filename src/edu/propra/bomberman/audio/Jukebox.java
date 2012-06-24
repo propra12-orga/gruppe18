@@ -16,8 +16,8 @@ public class Jukebox {
 			ClassLoader loader = Jukebox.class.getClassLoader();
 			// load AudioClips
 			sounds = new AudioClip[2];
-			sounds[0] = Applet.newAudioClip(loader.getResource("src/resources/gun.wav"));
-			sounds[1] = Applet.newAudioClip(loader.getResource("src/resources/roll.wav"));
+			sounds[0] = Applet.newAudioClip(loader.getResource("resources/gun.wav"));
+			sounds[1] = Applet.newAudioClip(loader.getResource("resources/roll.wav"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
