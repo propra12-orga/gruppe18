@@ -10,6 +10,7 @@ public class GameOverAction extends ActionObject {
 
 	@Override
 	public void action() {
+		TimeoutAction.main(null);
 		System.out.println("Game Over");
 		SGameEngine.get().endGame();
 	}
