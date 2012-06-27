@@ -117,7 +117,7 @@ public class MapZufallsgenerator {
 		 * Mit der Variable Counter kann später der Schwierigkeitsgrat variiert werden, da dieser die
 		 * Anzahl der Fixed- und IceBlöcke angibt, letzere sind die zerstörbaren
 		 */
-		for (int counter=0;counter<10;counter++) {
+		for (int counter=0;counter<20;counter++) {
 
 			i = (int) (Math.random() * 4.0 * 1.0);
 			x = (int) (Math.random() * 20.0 * 1.0);
