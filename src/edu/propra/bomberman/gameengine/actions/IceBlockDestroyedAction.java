@@ -16,7 +16,6 @@ public class IceBlockDestroyedAction extends ActionObject {
 	public void action(){
 		SGameEngine.get().removeObject((GameObject)this.actor);
 		int x =(int)(Math.random()*(chance-1)+1d);
-		System.out.println("rand: "+x);
 		if(x==((int)chance)-1){
 			//TODO add zufallszahl für die verschiedenen items
 			SGameEngine.get().addAction(new ItemDropAction(0,(int)((IceBlock)actor).absTransform.getTranslateX(),(int)((IceBlock)actor).absTransform.getTranslateY()));

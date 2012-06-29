@@ -82,7 +82,8 @@ public class Player extends GameObject implements Moveable {
 	}
 
 	static {
-		collisionArea = new Area(new Rectangle(13, 6, 13, 28));
+//		collisionArea = new Area(new Rectangle(13, 6, 13, 28));
+		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		images = new BufferedImage[2][4];
 

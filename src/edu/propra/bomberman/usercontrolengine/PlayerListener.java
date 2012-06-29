@@ -36,19 +36,24 @@ public class PlayerListener extends Listener {
 	@Override
 	public ActionObject keyDownEvent(HashMap<Integer, Integer> keysDown, Integer keyCode) {
 		boolean up, left, down, right, upleft, upright, downleft, downright;
-		down = keysDown.containsKey(keyUp);
-		up = keysDown.containsKey(keyDown);
-		left = keysDown.containsKey(keyLeft);
-		right = keysDown.containsKey(keyRight);
-
-		if (up && down) {
-			up = false;
-			down = false;
-		}
-		if (left && right) {
-			left = false;
-			right = false;
-		}
+		//down = keysDown.containsKey(keyUp);
+		//up = keysDown.containsKey(keyDown);
+		//left = keysDown.containsKey(keyLeft);
+		//right = keysDown.containsKey(keyRight);
+		down = keyCode==keyUp;
+		up = keyCode==keyDown;
+		left = keyCode==keyLeft;
+		right = keyCode==keyRight;
+				
+		
+		//if (up && down) {
+		//	up = false;
+		//	down = false;
+		//}
+		//if (left && right) {
+		//	left = false;
+		//	right = false;
+		//}
 
 		upleft = (up && left);
 		upright = (up && right);
@@ -56,15 +61,16 @@ public class PlayerListener extends Listener {
 		downright = (down && right);
 
 		if (keyCode != keyBomb) {
-			if (upleft) {
-				return new StartMoveAction(315, this.actor, System.currentTimeMillis());
-			} else if (upright) {
-				return new StartMoveAction(45, this.actor, System.currentTimeMillis());
-			} else if (downleft) {
-				return new StartMoveAction(225, this.actor, System.currentTimeMillis());
-			} else if (downright) {
-				return new StartMoveAction(135, this.actor, System.currentTimeMillis());
-			} else if (down) {
+		//	if (upleft) {
+		//		return new StartMoveAction(315, this.actor, System.currentTimeMillis());
+		//	} else if (upright) {
+		//		return new StartMoveAction(45, this.actor, System.currentTimeMillis());
+		//	} else if (downleft) {
+		//		return new StartMoveAction(225, this.actor, System.currentTimeMillis());
+		//	} else if (downright) {
+		//		return new StartMoveAction(135, this.actor, System.currentTimeMillis());
+		//	} else if (down) {
+			if(down){
 				return new StartMoveAction(180, this.actor, System.currentTimeMillis());
 			} else if (up) {
 				return new StartMoveAction(0, this.actor, System.currentTimeMillis());

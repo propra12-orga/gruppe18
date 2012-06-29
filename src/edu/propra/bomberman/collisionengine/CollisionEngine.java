@@ -82,6 +82,158 @@ public class CollisionEngine {
 	}
 
 	public AffineTransform checkCollisionsDirectly(CollisionObject oldObject, AffineTransform trans) {
+		int dir;
+		if (trans.getTranslateX() < 0.01 && trans.getTranslateX() > -0.01) {
+			trans.setToTranslation(0, trans.getTranslateY());
+			if (trans.getTranslateY() > 0) {
+				dir = 180;//down
+			} else {
+				dir = 0;//up
+			}
+		} else {
+			trans.setToTranslation(trans.getTranslateX(), 0);
+			if (trans.getTranslateX() > 0) {
+				dir = 90;//right
+			} else {
+				dir = 270;//left
+			}
+		}
+		Area undone = (Area) oldObject.getCollisionArea().clone();
+		oldObject.getCollisionArea().transform(trans);
+		Area intersection = new Area();
+		Area tempIntersection;
+		CollisionObject partnerObj;
+		Iterator<CollisionObject> it = this.objects.iterator();
+		while (it.hasNext()) {
+			partnerObj = it.next();
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)) {
+				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
+					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
+						tempIntersection = (Area) partnerObj.getCollisionArea().clone();
+						tempIntersection.intersect(oldObject.getCollisionArea());
+						intersection.add(tempIntersection);
+					}
+				}
+			}
+		}
+		//transLength must be used
+		if (!intersection.isEmpty()) {
+			//System.out.println("Trans before = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
+			if (dir == 90) { //right x>0 y=0			|| dir==270){//horizontal
+				//System.out.print("Moving right - ");
+				if (intersection.getBounds().height < oldObject.getCollisionArea().getBounds2D().getHeight() / 2) {
+					//ecke  
+					if (intersection.getBounds().y == oldObject.getCollisionArea().getBounds().y) {
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(0, trans.getTranslateX());
+						} else {
+							trans.translate(-intersection.getBounds().height, intersection.getBounds().height);
+						}
+						//System.out.println("Ecke unten");
+					} else {
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(0, -trans.getTranslateX());
+						} else {
+							trans.translate(-intersection.getBounds().height, -intersection.getBounds().height);
+						}
+						//System.out.println("Ecke oben");
+					}
+				} else {
+					trans.translate(-trans.getTranslateX(), 0);
+					//System.out.println("Kante");
+				}
+			}
+			if (dir == 270) { //left				|| dir==270){//horizontal
+				//System.out.print("moving left - ");
+				if (intersection.getBounds().height < oldObject.getCollisionArea().getBounds2D().getHeight() / 2) {
+					//ecke
+					if (intersection.getBounds().y == oldObject.getCollisionArea().getBounds().y) {
+						if (intersection.getBounds().getBounds().height > -trans.getTranslateX()) {
+							trans.setToTranslation(0, -trans.getTranslateX());
+						} else {
+							trans.translate(intersection.getBounds().height, intersection.getBounds().height);
+						}
+					//	System.out.println("Ecke unten");
+					} else {
+						if (intersection.getBounds().getBounds().height > -trans.getTranslateX()) {
+							trans.setToTranslation(0, trans.getTranslateX());
+						} else {
+							trans.translate(intersection.getBounds().height, -intersection.getBounds().height);
+						}
+						//System.out.println("Ecke oben");
+					}
+				} else {
+					trans.translate(-trans.getTranslateX(), 0);
+					//System.out.println("Kante");
+				}
+			}
+
+			if (dir == 180) { //down				|| dir==270){//horizontal
+				//System.out.print("moving down - ");
+				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth()*4/5) {
+					//ecke
+					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
+						//rechts
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(trans.getTranslateY(),0);
+						} else {
+							trans.translate(intersection.getBounds().width, -intersection.getBounds().width);
+						}
+				
+						//System.out.println("Ecke rechts");
+					} else {
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(-trans.getTranslateY(),0);
+						} else {
+							trans.translate(-intersection.getBounds().width, -intersection.getBounds().width);
+						}
+
+						//System.out.println("Ecke links");
+					}
+				} else {
+					trans.translate(0, -trans.getTranslateY());
+					//System.out.println("Kante");
+				}
+			}
+
+			if (dir == 0) { //up				|| dir==270){//horizontal
+				//(System.out.print("mmoving up - ");
+				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth()*4/5) {
+					//ecke
+					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
+						//rechts
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(-trans.getTranslateY(),0);
+						} else {
+							trans.translate(intersection.getBounds().width, intersection.getBounds().width);
+						}
+					//	System.out.println("Ecke rechts");
+					} else {
+						//links
+						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
+							trans.setToTranslation(trans.getTranslateY(),0);
+						} else {
+							trans.translate(-intersection.getBounds().width, intersection.getBounds().width);
+						}
+						//System.out.println("Ecke links");
+					}
+				} else {
+					trans.translate(0, -trans.getTranslateY());
+				//	System.out.println("Kante");
+				}
+			}
+
+			//if (!intersection.isEmpty()) System.out.println("Trans after = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
+			undone.transform(trans);
+			//check references
+			oldObject.setCollisionArea(undone);
+		}
+		
+		return trans;
+
+	}
+
+	public AffineTransform checkCollisionsDirectly2(CollisionObject oldObject, AffineTransform trans) {
 		double xPossible = trans.getTranslateX();
 		double yPossible = trans.getTranslateY();
 		double dist = Math.sqrt(Math.pow(xPossible, 2) + Math.pow(yPossible, 2));

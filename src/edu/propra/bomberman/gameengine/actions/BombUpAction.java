@@ -18,7 +18,7 @@ public class BombUpAction extends ActionObject {
 		SGameEngine.get().removeObject((Bomb) actor);
 		Explosion boom = new Explosion((int) ((Bomb) actor).absTransform.getTranslateX(), (int) ((Bomb) actor).absTransform.getTranslateY(), 3);
 		SGameEngine.get().addObject(boom, null);
-		SGameEngine.get().addAction(new ExplosionEnd(boom, System.currentTimeMillis() + 1000));
+		SGameEngine.get().addAction(new ExplosionEnd(boom, System.currentTimeMillis() + 500));
 
 	}
 
