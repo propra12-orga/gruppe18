@@ -61,7 +61,7 @@ public class Jukebox {
 		Sequence music = jukebox.loadSequence("resources/Deadmau5_-_Arguru.mid"); // load Sequence http://www.nonstop2k.com/community/midifiles/3239-deadmau5-arguru-progressive-house-midi.html
 		jukebox.playSequence(music); // start playing Sequence
 		try {
-			Thread.sleep(105000); // wait a bit
+			Thread.sleep(5000); // wait a bit
 		} catch (InterruptedException ex) {
 		}
 		Sequence music2 = jukebox.loadSequence("resources/atb__don't_stop.mid"); // load Sequence http://www.nonstop2k.com/community/midifiles/980-atb-don-t-stop-trance-midi.html
