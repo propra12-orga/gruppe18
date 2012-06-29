@@ -12,13 +12,14 @@ import javax.imageio.ImageIO;
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.BombUpAction;
+import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class Bomb extends GameObject {
 	public static Area			collisionArea	= null;
 	public static Area			clipArea		= null;
-	public static BufferedImage	image			= null;
+	public static BufferedImage[]	images			= null;
 	private BombUpAction		action;
 	public Player				owner;
 
@@ -29,7 +30,7 @@ public class Bomb extends GameObject {
 		// Construct Graphics Subgraph for Player Object
 		this.go = new SGTransform();
 		((SGTransform) this.go).getTransform().setTransform(trans);
-		SGImage leaf = new SGImage(image);
+		SGAnimation leaf = new SGAnimation(images,2000);
 		leaf.setClipArea(clipArea);
 		((SGTransform) this.go).addChild(leaf);
 
@@ -148,8 +149,11 @@ public class Bomb extends GameObject {
 	static {
 		collisionArea = new Area(new Rectangle(8, 6, 29, 29));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		images = new BufferedImage[52];
 		try {
-			image = ImageIO.read(new File("src/resources/bombe.png"));
+			for(int x=0;x<52;x++){
+				images[x] = ImageIO.read(new File("src/resources/bombe"+x+".png"));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
