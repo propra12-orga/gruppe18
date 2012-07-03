@@ -58,7 +58,8 @@ public class ServerProtocol {
 		if(messageParts[3].equals("BombDownAction")){
 			if(Integer.parseInt(messageParts[5])<-9999)return null;
 			Object actor=SGameEngine.get().getByOID(messageParts[7]);
-			SGameEngine.get().addAction(new BombDownAction(actor,Long.parseLong( messageParts[8])-sC.syncTime, messageParts[4], Integer.parseInt(messageParts[5]), Integer.parseInt(messageParts[6])),false);
+			SGameEngine.get().addAction(new BombDownAction(actor,Long.parseLong( messageParts[8])+sC.syncTime, messageParts[4], Integer.parseInt(messageParts[5]), Integer.parseInt(messageParts[6])),false);
+			System.out.println("mytime: "+System.currentTimeMillis()+" bombtime"+(Long.parseLong( messageParts[8])+sC.syncTime)+" synctime:"+sC.syncTime);
 		}else if(messageParts[3].equals("StartMoveAction")){
 			Object actor=SGameEngine.get().getByOID(messageParts[5]);
 			((Player)actor).absTransform.setToTranslation(Integer.parseInt( messageParts[7]), Integer.parseInt( messageParts[8]));
@@ -111,6 +112,7 @@ public class ServerProtocol {
 	}
 
 	private String SyncTimeRequest(String[] messageParts) {
+		this.sC.setSyncTime(Long.parseLong(messageParts[3]));
 		return messageParts[0]+" Response SyncTime "+System.currentTimeMillis();
 	}
 
