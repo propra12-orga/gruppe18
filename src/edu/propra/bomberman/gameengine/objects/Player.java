@@ -55,7 +55,7 @@ public class Player extends GameObject implements Moveable {
 		this.co = new CollisionObject();
 		co.setPrivot(this);
 
-		leaf.debugColl = this.co;
+		leaf.debugColl = null;
 
 		this.absTransform = (AffineTransform) trans.clone();
 		// Initialize Data to make Player Object moveable
