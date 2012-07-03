@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
@@ -18,8 +20,8 @@ public class FixedBlock extends GameObject {
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
 
-	public FixedBlock(int x, int y) {
-
+	public FixedBlock(int x, int y, String oid) {
+		this.setOid(oid);
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
 		// Construct Graphics Subgraph for Player Object
@@ -36,28 +38,15 @@ public class FixedBlock extends GameObject {
 		this.absTransform = (AffineTransform) trans.clone();
 	}
 
+
 	@Override
-	public void collisionWith(Object a) {
-		if (a instanceof FixedBlock) {
-			// System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+
-			// a.toString());
-		} else if (a instanceof Player) {
-			// System.out.println("Movement Collision between "+this.toString()+" and Player "+
-			// a.toString());
-		} else if (a instanceof Bomb) {
-			// System.out.println("Movement Collision between "+this.toString()+" and Wall "+
-			// a.toString());
-		} else {
-			// System.out.println("Collision between "+this.toString()+" and "+
-			// a.toString());
-		}
-	}
+	public void collisionWith(Object a) {}
 
 	static {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
-			image = ImageIO.read(new File("src/resources/festerblock.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/festerblock.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -73,5 +62,13 @@ public class FixedBlock extends GameObject {
 			System.err.println("  Absolute positions are not initialized");
 		}
 
+	}
+
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "FixedBlock "+x+" "+y+" "+this.getOid();
 	}
 }

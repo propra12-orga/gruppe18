@@ -15,5 +15,10 @@ public class PlayerWonAction extends ActionObject {
 		SGameEngine.get().endGame();
 
 	}
+	@Override
+	public String getMessageData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

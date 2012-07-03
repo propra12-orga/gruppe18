@@ -6,8 +6,11 @@ import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
+
+import main.Bomberman;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
@@ -23,7 +26,8 @@ public class Bomb extends GameObject {
 	private BombUpAction		action;
 	public Player				owner;
 
-	public Bomb(Player owner, int x, int y) {
+	public Bomb(Player owner, int x, int y,String oid) {
+		this.setOid(oid);
 		this.owner = owner;
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -152,10 +156,18 @@ public class Bomb extends GameObject {
 		images = new BufferedImage[52];
 		try {
 			for(int x=0;x<52;x++){
-				images[x] = ImageIO.read(new File("src/resources/bombe"+x+".png"));
+				images[x] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/bombe"+x+".png").openStream());
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "Bomb "+x+" "+y+" "+this.getOid();
 	}
 }

@@ -35,7 +35,7 @@ public class UserControlEngine implements KeyListener {
 		keysDown.put(e.getKeyCode(), e.getKeyCode());
 		if (listener.containsKey(e.getKeyCode())) {
 			for (Listener listen : listener.get(e.getKeyCode())) {
-				gameEngine.addAction(listen.keyDownEvent(keysDown, e.getKeyCode()));
+				gameEngine.addAction(listen.keyDownEvent(keysDown, e.getKeyCode()),true);
 			}
 		}
 	}
@@ -45,7 +45,7 @@ public class UserControlEngine implements KeyListener {
 		keysDown.remove(e.getKeyCode());
 		if (listener.containsKey(e.getKeyCode())) {
 			for (Listener listen : listener.get(e.getKeyCode())) {
-				gameEngine.addAction(listen.keyUpEvent(keysDown, e.getKeyCode()));
+				gameEngine.addAction(listen.keyUpEvent(keysDown, e.getKeyCode()),true);
 			}
 		}
 	}

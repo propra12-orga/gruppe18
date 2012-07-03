@@ -34,6 +34,8 @@ public class StartPanel extends JPanel {
 		gbc.gridy = 1;
 		this.add(twoplayer, gbc);
 
+		
+		
 	}
 
 	@Override

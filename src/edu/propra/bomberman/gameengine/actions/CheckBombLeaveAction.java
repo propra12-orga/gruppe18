@@ -26,4 +26,10 @@ public class CheckBombLeaveAction extends ActionObject {
 
 	}
 
+	@Override
+	public String getMessageData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

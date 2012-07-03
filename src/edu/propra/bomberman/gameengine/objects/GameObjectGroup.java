@@ -11,7 +11,8 @@ import edu.propra.bomberman.graphicengine.SGTransform;
 public class GameObjectGroup extends GameObject implements IParent {
 	ArrayList<GameObject>	group;
 
-	public GameObjectGroup(int x, int y) {
+	public GameObjectGroup(int x, int y,String oid) {
+		this.setOid(oid);
 		this.group = new ArrayList<GameObject>();
 		this.go = new SGTransform();
 		((SGTransform) this.go).getTransform().setToTranslation(x, y);
@@ -89,5 +90,22 @@ public class GameObjectGroup extends GameObject implements IParent {
 				((GameObjectGroup)child).releaseData();
 		}
 		group.clear();
+	}
+
+	public GameObject getByOid(String oid) {
+		if(this.getOid().equals(oid))return this;
+		GameObject ret=null;
+		for (GameObject child : this.group) {
+				ret=child.getByOid(oid);
+				if(ret!=null)return ret;
+		}
+		return ret;
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "GameObjectGroup "+x+" "+y+" "+this.getOid();
 	}
 }

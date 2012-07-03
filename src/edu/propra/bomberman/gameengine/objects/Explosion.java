@@ -11,6 +11,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGArea;
 import edu.propra.bomberman.graphicengine.SGImage;
@@ -24,7 +26,8 @@ public class Explosion extends GameObject {
 
 	private SGArea				sDebug;
 
-	public Explosion(int x, int y, int size) {
+	public Explosion(int x, int y, int size,String oid) {
+		this.setOid(oid);
 		this.size = size;
 
 		AffineTransform trans = new AffineTransform();
@@ -147,9 +150,16 @@ public class Explosion extends GameObject {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
-			image = ImageIO.read(new File("src/resources/explosion.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "Explosion "+x+" "+y+" "+this.getOid();
 	}
 }

@@ -1,5 +1,6 @@
 package edu.propra.bomberman.gameengine.actions;
 
+import edu.propra.bomberman.audio.Jukebox;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.objects.Player;
 import edu.propra.bomberman.graphicengine.SGImage;
@@ -21,6 +22,13 @@ public class PlayerDeadAction extends ActionObject {
 		((SGTransform) ((Player) actor).getGo()).addChild(deathNode);
 		((Player) this.actor).isDead(true);
 		SGameEngine.get().removePlayer(this.actor);
+		SGameEngine.get().getSoundEngine().playSound(Jukebox.Roll);
+
+	}
+
+	@Override
+	public String getMessageData() {
+		return " PlayerDeadAction "+((Player)actor).getOid()+" "+time;
 	}
 
 }

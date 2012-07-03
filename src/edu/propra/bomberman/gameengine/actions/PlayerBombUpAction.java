@@ -17,5 +17,10 @@ public class PlayerBombUpAction extends ActionObject {
 		((Player)actor).bombCountUp();
 		SGameEngine.get().removeObject(item);
 	}
+	@Override
+	public String getMessageData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

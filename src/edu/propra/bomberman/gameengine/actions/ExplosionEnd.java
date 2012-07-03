@@ -16,4 +16,10 @@ public class ExplosionEnd extends ActionObject {
 		SGameEngine.get().removeExplosion((Explosion) actor);
 	}
 
+	@Override
+	public String getMessageData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

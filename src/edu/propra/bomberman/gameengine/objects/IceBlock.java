@@ -9,9 +9,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.IceBlockDestroyedAction;
+import edu.propra.bomberman.gameengine.actions.ItemDropAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
@@ -19,9 +22,23 @@ public class IceBlock extends GameObject {
 	public static Area			collisionArea	= null;
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
+	public int type=-1;
+	
+	public int chance=10;
+	public int types=1;
+	
+	public IceBlock(int x, int y,String oid,int type) {
+		this.setOid(oid);
 
-	public IceBlock(int x, int y) {
-
+		
+		if(type==-1){
+			int rand =(int)(Math.random()*(chance-1)+1d);
+			if(rand==((int)chance)-1){
+				this.type=(int) (Math.random()*(types-1)+1d);
+			}
+		}
+		
+		
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
 		// Construct Graphics Subgraph for Player Object
@@ -36,6 +53,8 @@ public class IceBlock extends GameObject {
 		co.setPrivot(this);
 
 		this.absTransform = (AffineTransform) trans.clone();
+	
+		
 	}
 
 	private int	counter	= 1;
@@ -45,10 +64,8 @@ public class IceBlock extends GameObject {
 		if (a instanceof Explosion) {
 			counter--;
 			if (counter == 0){
-				SGameEngine.get().addAction(new IceBlockDestroyedAction(this));
+				SGameEngine.get().addAction(new IceBlockDestroyedAction(this,SGameEngine.get().getActionID(),type));
 			}
-		} else {
-			
 		}
 	}
 
@@ -56,7 +73,7 @@ public class IceBlock extends GameObject {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
-			image = ImageIO.read(new File("src/resources/weichblock.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/weichblock.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -72,5 +89,12 @@ public class IceBlock extends GameObject {
 			System.err.println("  Absolute positions are not initialized");
 		}
 
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "IceBlock "+x+" "+y+" "+this.getOid()+" "+type;
 	}
 }

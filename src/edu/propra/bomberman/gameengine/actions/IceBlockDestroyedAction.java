@@ -6,20 +6,24 @@ import edu.propra.bomberman.gameengine.objects.IceBlock;
 
 public class IceBlockDestroyedAction extends ActionObject {
 
-	public IceBlockDestroyedAction(IceBlock actor) {
+	public int type=-1;
+	public IceBlockDestroyedAction(IceBlock actor, String aid,int type) {
 		this.actor=actor;
 		this.time=System.currentTimeMillis();
+		this.type=type;
 	}
 	
 	private static double chance=10;
 	@Override
 	public void action(){
 		SGameEngine.get().removeObject((GameObject)this.actor);
-		int x =(int)(Math.random()*(chance-1)+1d);
-		if(x==((int)chance)-1){
-			//TODO add zufallszahl für die verschiedenen items
-			SGameEngine.get().addAction(new ItemDropAction(0,(int)((IceBlock)actor).absTransform.getTranslateX(),(int)((IceBlock)actor).absTransform.getTranslateY()));
+		if(type!=-1){
+			SGameEngine.get().addAction(new ItemDropAction(type,(int)((IceBlock)actor).absTransform.getTranslateX(),(int)((IceBlock)actor).absTransform.getTranslateY()),false);
 		}
+	}
+	@Override
+	public String getMessageData() {
+		return null;
 	}
 
 }

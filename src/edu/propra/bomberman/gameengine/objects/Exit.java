@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
@@ -18,7 +20,8 @@ public class Exit extends GameObject {
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
 
-	public Exit(int x, int y) {
+	public Exit(int x, int y,String oid) {
+		this.setOid(oid);
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -49,7 +52,7 @@ public class Exit extends GameObject {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
-			image = ImageIO.read(new File("src/resources/treppe.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/treppe.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,5 +68,12 @@ public class Exit extends GameObject {
 			System.err.println("  Absolute positions are not initialized");
 		}
 
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "Exit "+x+" "+y+" "+this.getOid();
 	}
 }

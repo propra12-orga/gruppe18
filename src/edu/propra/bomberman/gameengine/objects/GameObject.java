@@ -10,7 +10,7 @@ public abstract class GameObject {
 	protected SGNode			go;
 	public AffineTransform		absTransform;
 	private GameObject			parent;
-
+	private String 				oid;
 	public abstract void collisionWith(Object a);
 
 	public CollisionObject getCo() {
@@ -59,5 +59,20 @@ public abstract class GameObject {
 	public void setParent(GameObject parent) {
 		this.parent = parent;
 	}
+
+	public String getOid() {
+		return oid;
+	}
+
+	public void setOid(String oid) {
+		this.oid = oid;
+	}
+
+	public GameObject getByOid(String oid2) {
+		if(this.oid.equals(oid2))return this;
+		return null;
+	}
+	
+	public abstract String getMessageData();
 
 }

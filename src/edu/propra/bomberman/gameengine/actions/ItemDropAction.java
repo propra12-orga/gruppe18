@@ -8,8 +8,8 @@ public class ItemDropAction extends ActionObject {
 	public ItemDropAction(int type,int x,int y) {
 		this.time=System.currentTimeMillis();
 		switch (type) {
-			case 0:
-					this.actor=new BombUpItem(x,y);
+			case 1:
+				this.actor=new BombUpItem(x,y,"oid"+SGameEngine.get().ObjectCounter);
 				break;
 			default:
 				break;
@@ -18,8 +18,14 @@ public class ItemDropAction extends ActionObject {
 	
 	@Override
 	public void action() {
-		SGameEngine.get().addObject((BombUpItem)this.actor, null);
+		SGameEngine.get().addObject((BombUpItem)this.actor, null,true);
 		System.out.println("BombUpItem dropped");
+	}
+
+	@Override
+	public String getMessageData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

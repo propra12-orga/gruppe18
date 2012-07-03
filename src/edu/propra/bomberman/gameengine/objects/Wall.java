@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
@@ -19,7 +21,8 @@ public class Wall extends GameObject {
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
 
-	public Wall(int x, int y) {
+	public Wall(int x, int y, String oid) {
+		this.setOid(oid);
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -69,10 +72,17 @@ public class Wall extends GameObject {
 		clipArea = new Area(new Rectangle(0, 0, 800, 600));
 		clipArea.subtract(new Area(new Rectangle(21, 21, 767, 567)));
 		try {
-			image = ImageIO.read(new File("src/resources/aussenwand.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/aussenwand.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "Wall "+x+" "+y+" "+this.getOid();
 	}
 
 }

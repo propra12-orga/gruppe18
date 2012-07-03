@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Bomberman;
+
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
@@ -20,7 +22,8 @@ public class BombUpItem extends GameObject {
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
 
-	public BombUpItem(int x, int y) {
+	public BombUpItem(int x, int y,String oid) {
+		this.setOid(oid);
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -62,10 +65,17 @@ public class BombUpItem extends GameObject {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
 		try {
-			image = ImageIO.read(new File("src/resources/item.png"));
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/item.png").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
+		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
+		return "BombUpItem "+x+" "+y+" "+this.getOid();
 	}
 
 }

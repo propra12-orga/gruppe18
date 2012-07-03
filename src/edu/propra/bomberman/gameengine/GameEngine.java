@@ -22,8 +22,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import edu.propra.bomberman.audio.Jukebox;
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
+import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;
 import edu.propra.bomberman.gameengine.objects.Bomb;
 import edu.propra.bomberman.gameengine.objects.Exit;
@@ -38,8 +40,9 @@ import edu.propra.bomberman.graphicengine.GraphicEngine;
 import edu.propra.bomberman.graphicengine.IParent;
 import edu.propra.bomberman.graphicengine.SGGroup;
 import edu.propra.bomberman.graphicengine.SGImage;
+import edu.propra.bomberman.graphicengine.SGPanel;
 import edu.propra.bomberman.graphicengine.SGScene;
-import edu.propra.bomberman.networkengine.NetworkEngine;
+import edu.propra.bomberman.networkengine.network.NetworkEngine;
 import edu.propra.bomberman.usercontrolengine.PlayerListener;
 import edu.propra.bomberman.usercontrolengine.UserControlEngine;
 
@@ -48,10 +51,13 @@ public class GameEngine {
 	private CollisionEngine				cE;
 	private NetworkEngine				nE;
 	private UserControlEngine			ucE;
-
+	private Jukebox						sE;
+	
 	private PriorityQueue<ActionObject>	actionTimeline;
 	private GameObjectGroup				objectsRoot;
 
+	public long ObjectCounter=0;
+	
 	public GameEngine() {
 		// initialize Engines
 		gE = new GraphicEngine();
@@ -59,6 +65,7 @@ public class GameEngine {
 		cE.setGameEngine(this);
 		nE = new NetworkEngine();
 		ucE = new UserControlEngine(this);
+		setSoundEngine(new Jukebox());
 
 		actionTimeline = new PriorityQueue<ActionObject>();
 		objectsRoot = null;
@@ -71,7 +78,7 @@ public class GameEngine {
 		DocumentBuilder dBuilder;
 		try {
 			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(filename);
+			Document doc = dBuilder.parse(Bomberman.class.getClassLoader().getResourceAsStream(filename));
 			Node root = doc.getFirstChild();
 			Node act = root;
 			GameObjectGroup actGO = null;
@@ -83,14 +90,14 @@ public class GameEngine {
 						if (actGO == null) {
 							actGO = (GameObjectGroup) this.getNewGO(act);
 							GOroot = actGO;
-							this.addObject(actGO, null);
+							this.addObject(actGO, null,true);
 						} else {
 							GameObjectGroup actGO2 = (GameObjectGroup) this.getNewGO(act);
-							this.addObject(actGO2, actGO);
+							this.addObject(actGO2, actGO,true);
 							actGO = actGO2;
 						}
 					} else {
-						this.addObject(this.getNewGO(act), actGO);
+						this.addObject(this.getNewGO(act), actGO,true);
 					}
 
 				}
@@ -128,31 +135,31 @@ public class GameEngine {
 		if (node.getNodeName().equals("geGroup")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			GameObjectGroup group = new GameObjectGroup(x, y);
+			GameObjectGroup group = new GameObjectGroup(x, y,"oid"+ObjectCounter);
 			return group;
 		}
 		if (node.getNodeName().equals("geFixedBlock")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			FixedBlock fb = new FixedBlock(x, y);
+			FixedBlock fb = new FixedBlock(x, y,"oid"+ObjectCounter);
 			return fb;
 		}
 		if (node.getNodeName().equals("geWall")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Wall wall = new Wall(x, y);
+			Wall wall = new Wall(x, y,"oid"+ObjectCounter);
 			return wall;
 		}
 		if (node.getNodeName().equals("geExit")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Exit exit = new Exit(x, y);
+			Exit exit = new Exit(x, y,"oid"+ObjectCounter);
 			return exit;
 		}
 		if (node.getNodeName().equals("geBomb")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Bomb bomb = new Bomb(null, x, y);
+			Bomb bomb = new Bomb(null, x, y,"oid"+ObjectCounter);
 			return bomb;
 		}
 
@@ -160,14 +167,14 @@ public class GameEngine {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
 			int size = Integer.parseInt(node.getAttributes().getNamedItem("size").getNodeValue());
-			Explosion explosion = new Explosion(x, y, size);
+			Explosion explosion = new Explosion(x, y, size,"oid"+ObjectCounter);
 			return explosion;
 		}
 
 		if (node.getNodeName().equals("geIceBlock")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
 			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			IceBlock iceblock = new IceBlock(x, y);
+			IceBlock iceblock = new IceBlock(x, y,"oid"+ObjectCounter,-1);
 			return iceblock;
 		}
 		System.err.println("Unknown Type of Node when parsing XML");
@@ -209,7 +216,7 @@ public class GameEngine {
 		gE.getPanel().setPreferredSize(new Dimension(800, 600));
 		SGImage background = new SGImage();
 		try {
-			background.setImage(ImageIO.read(new File("src/resources/background.png")));
+			background.setImage(ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/background.png").openStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -219,9 +226,9 @@ public class GameEngine {
 
 	public void startOnePlayer() {
 		int scene=(int)(Math.random()*(5d-1d)+1d);
-		this.objectsRoot = (GameObjectGroup) this.loadMap("src/scene"+scene+".xml");
-		Player player = new Player(25, 25, "Player 1", 0);
-		this.addObject(player, null);
+		this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");
+		Player player = new Player(25, 25, "Player 1", 0,"oid"+ObjectCounter);
+		this.addObject(player, null,false);
 		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 		listener.login(this.ucE);
 		this.players = 1;
@@ -229,17 +236,37 @@ public class GameEngine {
 		this.startGame();
 
 	}
-
+	public void startTwoPlayerNetwork() {
+		this.nE.connect();
+		this.nE.start();
+		}
+	
+	public void AllPlayersConnected(){
+		if(this.nE.isServer()){
+			this.nE.broadcastMessage("IDPPP Broadcast EndPlayerSelectionPhase");
+			int scene=(int)(Math.random()*(9d-5d)+5d);
+			this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");	
+			Player player1 = new Player(25, 25, "Player1", 0,"oid"+ObjectCounter);
+			this.setPlayer(player1,true);
+			
+			//TODO Make this for individualPlayer
+			this.nE.broadcastMessage("MIDQQQ Broadcast AddPlayer oid"+ObjectCounter);
+			Player player2 = new Player(735, 535, "Player2", 1,"oid"+ObjectCounter);
+			this.addObject(player2, null,true);
+			this.players = 2;
+		}
+		this.startGame();
+	}
 	public void startTwoPlayer() {
 		int scene=(int)(Math.random()*(9d-5d)+5d);
-		this.objectsRoot = (GameObjectGroup) this.loadMap("src/scene"+scene+".xml");
-		Player player = new Player(25, 25, "Player 1", 0);
-		this.addObject(player, null);
+		this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");
+		Player player = new Player(25, 25, "Player1", 0,"oid"+ObjectCounter);
+		this.addObject(player, null,false);
 		PlayerListener playerListener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
 		playerListener.login(this.ucE);
 
-		Player enemy = new Player(735, 535, "Player 2", 1);
-		this.addObject(enemy, null);
+		Player enemy = new Player(735, 535, "Player2", 1,"oid"+ObjectCounter);
+		this.addObject(enemy, null,false);
 		PlayerListener enemyListener = new PlayerListener(enemy, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
 		enemyListener.login(this.ucE);
 		this.players = 2;
@@ -248,9 +275,17 @@ public class GameEngine {
 	}
 
 	public void addAction(ActionObject action) {
-		if (action != null) actionTimeline.add(action);
+		if (action != null){
+			actionTimeline.add(action);
+			actionCount++;
+		}
 	}
 
+	public void addAction(ActionObject action, boolean submit) {
+		addAction(action);
+		if(submit && action!=null)
+			this.nE.broadcastMessage("MIDYYY Broadcast AddAction"+action.getMessageData());
+	}
 	public void doActions() {
 		long time = System.currentTimeMillis();
 		while (!actionTimeline.isEmpty() && actionTimeline.peek().getTime() < time) {
@@ -269,6 +304,14 @@ public class GameEngine {
 	private GameRoundThread	gt;
 
 	public void startGame() {
+		if(this.nE.networkGame && this.nE.isServer()){
+			this.nE.InitializeMapPhaseOver();
+		}		
+
+		Bomberman.gameFrame.addKeyListener(this.getUserControlEngine());
+		Bomberman.gameFrame.invalidate();
+		Bomberman.gameFrame.pack();
+		Bomberman.gameFrame.setVisible(true);
 		gt = new GameRoundThread(this);
 		new Thread(gt).start();
 	}
@@ -293,10 +336,11 @@ public class GameEngine {
 		roundDone = true;
 	}
 
-	public void addObject(GameObject obj, GameObjectGroup parent) {
+	public GameObjectGroup addObject(GameObject obj, GameObjectGroup parent) {
+		ObjectCounter++;
 		if (parent == null) parent = this.objectsRoot;
 		if (parent == null) {
-			parent = (GameObjectGroup) obj;
+			parent = null;
 			this.objectsRoot = (GameObjectGroup) obj;
 			obj.initializeAbsolutePositions(new AffineTransform());
 			obj.initializeCollisions();
@@ -308,8 +352,16 @@ public class GameEngine {
 			this.gE.addSGNode(obj.getGo(), parent.getGoLeaf());
 			if (!(obj instanceof GameObjectGroup)) this.cE.AddObject(obj.getCo());
 		}
-		// obj.addToScene(this.gE.getScene().getChild());
-		// obj.addToCollisionEngine(this.cE);
+		return parent;
+	}
+	public void addObject(GameObject obj, GameObjectGroup parent, boolean doAdd) {
+		parent=this.addObject(obj, parent);
+		if(doAdd && this.nE.networkGame)
+			if(parent!=null)
+				this.nE.broadcastMessage("MIDXXX Broadcast AddObject "+obj.getMessageData()+" "+parent.getOid());
+			else
+				this.nE.broadcastMessage("MIDXXX Broadcast AddObject "+obj.getMessageData()+" 0");
+		
 	}
 
 	public void removeObject(GameObject obj) {
@@ -354,7 +406,7 @@ public class GameEngine {
 	public void removePlayer(Object actor) {
 		this.players--;
 		if (this.players == 0) {
-			this.addAction(new GameOverAction());
+			this.addAction(new GameOverAction(this.getActionID(),System.currentTimeMillis()),true);
 		}
 	}
 
@@ -365,4 +417,28 @@ public class GameEngine {
 	public UserControlEngine getUserControlEngine() {
 		return this.ucE;
 	}
+
+	public Jukebox getSoundEngine() {
+		return sE;
+	}
+
+	public void setSoundEngine(Jukebox sE) {
+		this.sE = sE;
+	}
+
+	public GameObject getByOID(String oid) {
+		return this.objectsRoot.getByOid(oid);
+	}
+
+	public void setPlayer(Player player,boolean submit) {
+		this.addObject(player, null,submit);
+		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
+		listener.login(this.ucE);
+	}
+
+	long actionCount=0;
+	public String getActionID() {
+		return "aid"+actionCount;
+	}
+
 }

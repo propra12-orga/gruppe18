@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import main.Bomberman;
+import edu.propra.bomberman.gameengine.SGameEngine;
+import edu.propra.bomberman.graphicengine.SGPanel;
+
 /**
  * @author Nadescha
  * 
@@ -26,8 +30,11 @@ public class ActionNetzwerk extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
+		Bomberman.gameFrame.setVisible(false);
+		SGPanel panel = SGameEngine.get().getGraphicEngine().getPanel();
+		Bomberman.gameFrame.setContentPane(panel);
+		SGameEngine.get().initializeGame();
+		SGameEngine.get().startTwoPlayerNetwork();
 	}
 
 }

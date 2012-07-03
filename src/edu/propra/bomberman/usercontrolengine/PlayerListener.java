@@ -2,10 +2,14 @@ package edu.propra.bomberman.usercontrolengine;
 
 import java.util.HashMap;
 
+import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.actions.StartMoveAction;
 import edu.propra.bomberman.gameengine.actions.StopMoveAction;
+import edu.propra.bomberman.gameengine.objects.Player;
+import edu.propra.bomberman.graphicengine.SGAnimation;
+import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class PlayerListener extends Listener {
 	private int		keyUp;
@@ -84,7 +88,7 @@ public class PlayerListener extends Listener {
 		} else {
 			if (!spacedown) {
 				spacedown = true;
-				return new BombDownAction(this.actor, System.currentTimeMillis());
+				return new BombDownAction(this.actor, System.currentTimeMillis(),SGameEngine.get().getActionID());
 			}
 		}
 		return null;
@@ -141,7 +145,7 @@ public class PlayerListener extends Listener {
 	@Override
 	public ActionObject keyTypedEvent(Integer keyCode) {
 		if (keyCode == keyBomb && !spacedown) {
-			return new BombDownAction(this.actor, System.currentTimeMillis());
+			return new BombDownAction(this.actor, System.currentTimeMillis(),SGameEngine.get().getActionID());
 		}
 		return null;
 	}

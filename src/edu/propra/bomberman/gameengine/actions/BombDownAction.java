@@ -8,23 +8,46 @@ import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class BombDownAction extends ActionObject {
+	int		x	= -10000, y = -10000;
+	String	oid;
+	Bomb	bomb;
 
-	public BombDownAction(Object actor, long time) {
+	public BombDownAction(Object actor, long time, String aid) {
 		this.actor = actor;
 		this.time = time;
+		this.aid = aid;
+		bomb = ((Player) actor).bombDown();
+		if(bomb!=null){
+			x = (int) ((SGTransform) bomb.getGo()).getTransform().getTranslateX();
+			y = (int) ((SGTransform) bomb.getGo()).getTransform().getTranslateY();
+		}
+	}
+
+	public BombDownAction(Object actor, long time, String aid, int x, int y) {
+		this.actor = actor;
+		this.time = time;
+		this.aid = aid;
+		this.x = x;
+		this.y = y;
 	}
 
 	@Override
 	public void action() {
-		Bomb newBomb = ((Player) actor).bombDown();
-		if (newBomb != null) {
+		if (bomb == null && x>-9999) bomb = new Bomb(((Player) actor), x, y, oid);
+		if(bomb!=null){
+			System.out.println("Bomb at: " + x + " , " + y);
 			GameEngine ge = SGameEngine.get();
-			ge.addObject(newBomb, null);
-			newBomb.setAction(new BombUpAction(newBomb, System.currentTimeMillis() + 2000));
-			((SGAnimation)((SGTransform)newBomb.getGo()).getChild()).start();
-			ge.addAction(newBomb.getAction());
-			ge.addAction(new CheckBombLeaveAction(newBomb, System.currentTimeMillis() + 50));
+			ge.addObject(bomb, null, false);
+			bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000,SGameEngine.get().getActionID()));
+			((SGAnimation) ((SGTransform) bomb.getGo()).getChild()).start();
+			ge.addAction(bomb.getAction());
+			ge.addAction(new CheckBombLeaveAction(bomb, this.getTime() + 50));
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		return " BombDownAction " + aid + " " + x + " " + y + " " + ((Player) actor).getOid() + " " + time;
 	}
 
 }
