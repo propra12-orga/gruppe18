@@ -28,7 +28,7 @@ public class Client implements Runnable {
 	public boolean connect() {
 		boolean connected = false;
 		try {
-			socket = new Socket(InetAddress.getByName("192.168.1.102"), 4434);
+			socket = new Socket(InetAddress.getLocalHost(), 4444);
 			connected = true;
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);

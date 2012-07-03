@@ -60,19 +60,19 @@ public class ClientProtocol {
 		if(messageParts[3].equals("BombDownAction")){
 			if(Integer.parseInt(messageParts[5])<-9999)return null;
 			Object actor=SGameEngine.get().getByOID(messageParts[7]);
-			SGameEngine.get().addAction(new BombDownAction(actor,Long.parseLong( messageParts[8])-this.nE.syncTime, messageParts[4], Integer.parseInt(messageParts[5]), Integer.parseInt(messageParts[6])),false);
+			SGameEngine.get().addAction(new BombDownAction(actor,Long.parseLong( messageParts[8])+this.nE.syncTime, messageParts[4], Integer.parseInt(messageParts[5]), Integer.parseInt(messageParts[6])),false);
 		}else if(messageParts[3].equals("StartMoveAction")){
 			Object actor=SGameEngine.get().getByOID(messageParts[5]);
 			((Player)actor).absTransform.setToTranslation(Integer.parseInt( messageParts[7]), Integer.parseInt( messageParts[8]));
 			((SGTransform)((Player)actor).getGo()).getTransform().setToTranslation(Integer.parseInt( messageParts[7]), Integer.parseInt( messageParts[8]));
-			SGameEngine.get().addAction(new StartMoveAction(Integer.parseInt( messageParts[4]),actor, Long.parseLong(messageParts[6])-this.nE.syncTime),false);		
+			SGameEngine.get().addAction(new StartMoveAction(Integer.parseInt( messageParts[4]),actor, Long.parseLong(messageParts[6])+this.nE.syncTime),false);		
 		}else if(messageParts[3].equals("StopMoveAction")){
 			Object actor=SGameEngine.get().getByOID(messageParts[4]);
 			((Player)actor).absTransform.setToTranslation(Integer.parseInt( messageParts[6]), Integer.parseInt( messageParts[7]));
 			((SGTransform)((Player)actor).getGo()).getTransform().setToTranslation(Integer.parseInt( messageParts[6]), Integer.parseInt( messageParts[7]));
-			SGameEngine.get().addAction(new StopMoveAction(actor, Long.parseLong(messageParts[5])-this.nE.syncTime),false);	
+			SGameEngine.get().addAction(new StopMoveAction(actor, Long.parseLong(messageParts[5])+this.nE.syncTime),false);	
 		}else if(messageParts[3].equals("GameOverAction")){
-			SGameEngine.get().addAction(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5])));
+			SGameEngine.get().addAction(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5])+this.nE.syncTime));
 		}else if(messageParts[3].equals("PlayerDeadAction")){
 			if(messageParts[4].equals(playeroid)){
 				Player actor=(Player)SGameEngine.get().getByOID(messageParts[4]);	
