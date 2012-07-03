@@ -226,7 +226,9 @@ public class GameEngine {
 
 	public void startOnePlayer() {
 		int scene=(int)(Math.random()*(5d-1d)+1d);
-		this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");
+		//this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");
+		RandomMapGenerator randmap=new RandomMapGenerator();
+		this.objectsRoot = (GameObjectGroup) randmap.RandomMap();//.("scene"+scene+".xml");
 		Player player = new Player(25, 25, "Player 1", 0,"oid"+ObjectCounter);
 		this.addObject(player, null,false);
 		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
@@ -283,7 +285,7 @@ public class GameEngine {
 
 	public void addAction(ActionObject action, boolean submit) {
 		addAction(action);
-		if(submit && action!=null)
+		if(submit && action!=null && this.nE.networkGame)
 			this.nE.broadcastMessage("MIDYYY Broadcast AddAction"+action.getMessageData());
 	}
 	public void doActions() {
@@ -365,9 +367,11 @@ public class GameEngine {
 	}
 
 	public void removeObject(GameObject obj) {
-		((IParent) obj.getParent()).removeChild(obj);
-		this.gE.removeSGNode(obj.getGo());
-		this.cE.DelObject(obj.getCo());
+		if(obj!=null && obj.getParent()!=null){
+			((IParent) obj.getParent()).removeChild(obj);
+			this.gE.removeSGNode(obj.getGo());
+			this.cE.DelObject(obj.getCo());
+		}
 	}
 
 	public void endGame() {

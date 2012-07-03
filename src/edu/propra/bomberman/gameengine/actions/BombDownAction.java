@@ -38,7 +38,7 @@ public class BombDownAction extends ActionObject {
 			System.out.println("Bomb at: " + x + " , " + y);
 			GameEngine ge = SGameEngine.get();
 			ge.addObject(bomb, null, false);
-			bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000,SGameEngine.get().getActionID()));
+			bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000,SGameEngine.get().getActionID(),((Player)actor).bombSize));
 			((SGAnimation) ((SGTransform) bomb.getGo()).getChild()).start();
 			ge.addAction(bomb.getAction());
 			ge.addAction(new CheckBombLeaveAction(bomb, this.getTime() + 50));

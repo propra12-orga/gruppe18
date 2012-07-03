@@ -13,7 +13,6 @@ public class Bomberman {
 	 */
 	public static void main(String[] args) {
 		gameFrame = new GameFrame();
-		Jukebox.main(args);
 	}
 
 }

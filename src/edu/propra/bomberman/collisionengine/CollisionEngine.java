@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import edu.propra.bomberman.gameengine.GameEngine;
 import edu.propra.bomberman.gameengine.objects.Bomb;
+import edu.propra.bomberman.gameengine.objects.BombGrowItem;
 import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
@@ -106,7 +107,7 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						tempIntersection = (Area) partnerObj.getCollisionArea().clone();
@@ -261,7 +262,7 @@ public class CollisionEngine {
 		while (it.hasNext()) {
 			partnerObj = it.next();
 			// TODO create interface for objects which aren't blocking others
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						intersection = (Area) partnerObj.getCollisionArea().clone();

@@ -21,7 +21,7 @@ import edu.propra.bomberman.graphicengine.SGTransform;
 public class Explosion extends GameObject {
 	public static Area			collisionArea	= null;
 	public static Area			clipArea		= null;
-	public static BufferedImage	image			= null;
+	public static BufferedImage[]	image			= null;
 	private int					size;
 
 	private SGArea				sDebug;
@@ -29,15 +29,16 @@ public class Explosion extends GameObject {
 	public Explosion(int x, int y, int size,String oid) {
 		this.setOid(oid);
 		this.size = size;
+		if(size>9)size=9;
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x - (size - 1) * clipArea.getBounds2D().getWidth() / 2, y - (size - 1) * clipArea.getBounds2D().getHeight() / 2);
 		// Construct Graphics Subgraph for Player Object
 		this.go = new SGTransform();
-
+		int imageIndex=((size-1)/2)-1;
 		((SGTransform) this.go).getTransform().setTransform(trans);
-
-		SGImage leaf = new SGImage(image);
+		
+		SGImage leaf = new SGImage(image[imageIndex]);
 		leaf.setClipArea(this.calculateClipArea());
 		((SGTransform) this.go).addChild(leaf);
 
@@ -149,8 +150,12 @@ public class Explosion extends GameObject {
 	static {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		image=new BufferedImage[4];
 		try {
-			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion.png").openStream());
+			image[0] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion.png").openStream());
+			image[1] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion2.PNG").openStream());
+			image[2] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion3.PNG").openStream());
+			image[3] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/explosion4.PNG").openStream());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

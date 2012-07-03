@@ -57,51 +57,8 @@ public class Jukebox {
 	}
 
 	public void playSound(int index) {
-		//if (index > 0 && index < sounds.length)
-		//	sounds[index].play();
-	}
-
-	public static void main(String[] args) {
-		Jukebox jukebox = new Jukebox(); // initialize jukebox
-/*		
-		jukebox.playSound(0); // play first sound
-		try {
-			Thread.sleep(100); // wait a bit
-		} catch (InterruptedException ex) {
-		}
-		jukebox.playSound(1); // play second sound
-		
-		
-		
-		Sequence music = jukebox.loadSequence("resources/Deadmau5_-_Arguru.mid"); // load Sequence http://www.nonstop2k.com/community/midifiles/3239-deadmau5-arguru-progressive-house-midi.html
-		jukebox.playSequence(music); // start playing Sequence
-		try {
-		
-			
-			Thread.sleep(1000); // wait a bit
-			
-		} catch (InterruptedException ex) {
-		}
-		jukebox.stopSequence();
-		
-		
-		
-		Sequence music2 = jukebox.loadSequence("resources/atb__don't_stop.mid"); // load Sequence http://www.nonstop2k.com/community/midifiles/980-atb-don-t-stop-trance-midi.html
-		jukebox.playSequence(music2); // start playing Sequence
-*/		
-		
-		jukebox.playSound(5);
-		jukebox.playSound(5);
-		jukebox.playSound(5);
-		jukebox.playSound(5);
-		jukebox.playSound(5);
-try {
-		
-			
-			Thread.sleep(1000); // wait a bit
-			
-		} catch (InterruptedException ex) {
-		}
+		if (index > 0 && index < sounds.length)
+			sounds[index].play();
 	}
 
 

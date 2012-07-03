@@ -39,13 +39,13 @@ public class RandomMapGenerator {
 	//
 	// _______________________________________________________________________________________
 
-	public void RandomMap() {
+	public GameObjectGroup RandomMap() {
 
 		// Array zum Zwischenspeichern der Belegungen, um Doppelbelegungen zu
 		// vermeiden
-		int[][] used = new int[9][10];
-		for (int i = 0; i <= 8; i++) {
-			for (int j = 0; j <= 9; j++) {
+		int[][] used = new int[19][14];
+		for (int i = 0; i < 19; i++) {
+			for (int j = 0; j < 14; j++) {
 				used[i][j] = -1;
 			}
 
@@ -55,37 +55,45 @@ public class RandomMapGenerator {
 		 * Einmal gebrauchte Objekte werden sofort durch Zufallszahlen einer
 		 * Position zu geordnet
 		 */
+		GameObjectGroup root=new GameObjectGroup(0, 0, "oid"+SGameEngine.get().ObjectCounter);
+		SGameEngine.get().addObject(root, null);
+	
 
+
+		x = (int) (Math.random() * 19.0 * 1.0);
+		y = (int) (Math.random() * 14.0 * 1.0);
+		Wall Wand = new Wall(0, 0,"oid"+SGameEngine.get().ObjectCounter);
+		SGameEngine.get().addObject(Wand,root);
+		used[x][y] = 6;
+		System.out.println("Wall " + "x:" + x + " y:" + y);
+	
+		GameObjectGroup container=new GameObjectGroup(25, 25, "oid"+SGameEngine.get().ObjectCounter);
+		SGameEngine.get().addObject(container, root);
+	
 		// StartPoint Start1 = new StartPoint(x, y,"Spieler 1");
 		// SGameEngine.get().addObject(Start1);
-		x = (int) (Math.random() * 8.0 * 1.0);
-		y = (int) (Math.random() * 9.0 * 1.0);
+		x = (int) (Math.random() * 19.0 * 1.0);
+		y = (int) (Math.random() * 14.0 * 1.0);
 		// Start1bel = true;
 		used[x][y] = 1;
 		System.out.println("Startpoint1 " + "x:" + x + " y:" + y);
 
 		// StartPoint Start2 = new StartPoint(x, y,"Spieler 2");
 		// SGameEngine.get().addObject(Start2);
-		x = (int) (Math.random() * 8.0 * 1.0);
-		y = (int) (Math.random() * 9.0 * 1.0);
+		x = (int) (Math.random() * 19.0 * 1.0);
+		y = (int) (Math.random() * 14.0 * 1.0);
 		// Start2bel = true;
 		used[x][y] = 2;
 		System.out.println("Startpoint2 " + "x:" + x + " y:" + y);
 
-		// Exit Ende1 = new Exit(x, y);
-		// SGameEngine.get().addObject(Ende1);
+		Exit Ende1 = new Exit(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter);
+		 SGameEngine.get().addObject(Ende1,container);
 		x = (int) (Math.random() * 8.0 * 1.0);
 		y = (int) (Math.random() * 9.0 * 1.0);
 		// Endebel = true;
 		used[x][y] = 3;
 		System.out.println("Exit " + "x:" + x + " y:" + y);
 
-		x = (int) (Math.random() * 8.0 * 1.0);
-		y = (int) (Math.random() * 9.0 * 1.0);
-		Wall Wand = new Wall(x, y);
-		// SGameEngine.get().addObject(Wand);
-		used[x][y] = 6;
-		System.out.println("Wall " + "x:" + x + " y:" + y);
 
 		/**
 		 * @Param Zufällige Werte für die Objekte FixedBlock und IceBlock. x,
@@ -97,10 +105,10 @@ public class RandomMapGenerator {
 		 */
 
 	
-		for (int counter = 0; counter <= 6; counter++) {
+		for (int counter = 0; counter <= 90; counter++) {
 			
-			x = (int) (Math.random() * 8.0 * 1.0);
-			y = (int) (Math.random() * 9.0 * 1.0);
+			x = (int) (Math.random() * 19.0 * 1.0);
+			y = (int) (Math.random() * 14.0 * 1.0);
 			z = (int) (Math.random() * 2.0 * 1.0);
 			/**
 			 * @Paramargs Sind die beide Start- und die Endeposition auf true
@@ -108,16 +116,16 @@ public class RandomMapGenerator {
 			 */
 
 			if ((z == 0) && (used[x][y])==-1) {
-				FixedBlock StatBlock = new FixedBlock(x, y);
-				// SGameEngine.get().addObject(StatBlock);
+				FixedBlock StatBlock = new FixedBlock(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter);
+				SGameEngine.get().addObject(StatBlock,container);
 				used[x][y] = 4;
 				System.out.println("Fixed Block " + "x:" + x + " y:" + y);
 				continue;
 			}
 
 			if ((z == 1) && (used[x][y])==-1) {
-				IceBlock EisBlock = new IceBlock(x, y);
-				// SGameEngine.get().addObject(EisBlock);
+				IceBlock EisBlock = new IceBlock(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter,-1);
+				 SGameEngine.get().addObject(EisBlock,container);
 				used[x][y] = 5;
 				System.out.println("Ice Block " + "x:" + x + " y:" + y);
 				continue;
@@ -125,52 +133,53 @@ public class RandomMapGenerator {
 		}
 	
 System.out.println("Die Karte ist erstellt");
-		for (x = 0; x >= 8; x++) {
-			for (y = 0; y >= 9; y++) {
+		for (x = 1; x < 18; x++) {
+			for (y = 1; y < 13; y++) {
 				if (used[x][y] == 1) {
-					if ((used[x++][y++] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x+1][y+1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y--] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x-1][y-1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x++][y--] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x+1][y-1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y++] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x-1][y+1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				}
 				else if (used[x][y] == 2) {
-					if ((used[x++][y++] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x+1][y+1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y--] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x-1][y-1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x++][y--] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x+1][y-1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y++] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x-1][y+1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				}
 				else if (used[x][y] == 3) {
-					if ((used[x++][y++] == (4 | 5 | 6)) == true) {
+					if ((used[x+1][y+1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y--] == (4 | 5 | 6)) == true) {
+					if ((used[x-1][y-1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x++][y--] == (4 | 5 | 6)) == true) {
+					if ((used[x+1][y-1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x--][y++] == (4 | 5 | 6)) == true) {
+					if ((used[x-1][y+1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				}
 			}
 		}
+		return root;
 	}
 
 	public static void main(String[] args) {

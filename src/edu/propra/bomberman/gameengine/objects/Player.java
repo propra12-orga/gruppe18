@@ -28,6 +28,7 @@ public class Player extends GameObject implements Moveable {
 	private MovingData				data;
 	private int						bombMax		= 3;
 	private String					name;
+	public int bombSize=3;
 
 	public Player(int x, int y, String name, int type,String oid) {
 		this.setOid(oid);
@@ -159,5 +160,10 @@ public class Player extends GameObject implements Moveable {
 		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
 		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
 		return "Player "+x+" "+y+" "+this.getName()+" "+this.getOid();
+	}
+
+	public void bombGrowUp() {
+		this.bombSize+=2;
+		
 	}
 }

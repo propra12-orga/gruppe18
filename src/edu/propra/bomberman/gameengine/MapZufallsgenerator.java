@@ -77,7 +77,8 @@ public class MapZufallsgenerator {
 		 *  einer Position zu geordnet 
 		 * 
 		 */
-		
+				GameObjectGroup root=new GameObjectGroup(25, 25, "oid"+SGameEngine.get().ObjectCounter);
+				SGameEngine.get().addObject(root, null);
 				// StartPoint Start1 = new StartPoint(x, y,"Spieler 1");
 				// SGameEngine.get().addObject(Start1);
 				x = (int) (Math.random() * 20.0 * 1.0);
@@ -95,8 +96,8 @@ public class MapZufallsgenerator {
 				System.out.println("Startpoint " + "x:" + x + " y:" + y);
 
 
-				// Exit Ende1 = new Exit(x, y);
-				// SGameEngine.get().addObject(Ende1);
+				 Exit Ende1 = new Exit(x, y, "oid"+SGameEngine.get().ObjectCounter);
+				 SGameEngine.get().addObject(Ende1,root);
 				x = (int) (Math.random() * 20.0 * 1.0);
 				y = (int) (Math.random() * 20.0 * 1.0);
 				Endebel = true;
@@ -105,7 +106,7 @@ public class MapZufallsgenerator {
 		
 				x = (int) (Math.random() * 20.0 * 1.0);
 				y = (int) (Math.random() * 20.0 * 1.0);
-				Wall Wand = new Wall(x, y);
+				Wall Wand = new Wall(x, y, "oid"+SGameEngine.get().ObjectCounter);
 				// SGameEngine.get().addObject(Wand);
 				used[x][y] = true;
 				System.out.println("Wall " + "x:" + x + " y:" + y);

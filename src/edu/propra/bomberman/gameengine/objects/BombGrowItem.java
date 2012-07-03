@@ -13,32 +13,19 @@ import main.Bomberman;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
-import edu.propra.bomberman.gameengine.actions.IceBlockDestroyedAction;
-import edu.propra.bomberman.gameengine.actions.ItemDropAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombGrowAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
-public class IceBlock extends GameObject {
+public class BombGrowItem extends GameObject {
 	public static Area			collisionArea	= null;
 	public static Area			clipArea		= null;
 	public static BufferedImage	image			= null;
-	public int type=-1;
-	
-	public int chance=4;
-	public int types=3;
-	
-	public IceBlock(int x, int y,String oid,int type) {
+
+	public BombGrowItem(int x, int y,String oid) {
 		this.setOid(oid);
 
-		
-		if(type==-1){
-			int rand =(int)(Math.random()*(chance-1)+1d);
-			if(rand==((int)chance)-1){
-				this.type=(int) (Math.random()*(types-1)+1d);
-			}
-		}
-		System.out.println("itemtype: "+this.type);
-		
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
 		// Construct Graphics Subgraph for Player Object
@@ -53,29 +40,13 @@ public class IceBlock extends GameObject {
 		co.setPrivot(this);
 
 		this.absTransform = (AffineTransform) trans.clone();
-	
-		
 	}
-
-	private int	counter	= 1;
-
+	
+	
 	@Override
 	public void collisionWith(Object a) {
-		if (a instanceof Explosion) {
-			counter--;
-			if (counter == 0){
-				SGameEngine.get().addAction(new IceBlockDestroyedAction(this,SGameEngine.get().getActionID(),type));
-			}
-		}
-	}
-
-	static {
-		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
-		clipArea = new Area(new Rectangle(0, 0, 40, 40));
-		try {
-			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/weichblock.png").openStream());
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(a instanceof Player){
+			SGameEngine.get().addAction(new PlayerBombGrowAction((Player)a,this));
 		}
 	}
 
@@ -85,16 +56,27 @@ public class IceBlock extends GameObject {
 			this.co.setCollisionArea(collisionArea.createTransformedArea(this.absTransform));
 			this.collisionsInitialized = true;
 		} else {
-			System.err.println("IceBlock.initializeCollisions()");
+			System.err.println("Item.initializeCollisions()");
 			System.err.println("  Absolute positions are not initialized");
 		}
-
+		
+	}
+	
+	static {
+		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
+		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		try {
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/handschuh.png").openStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public String getMessageData() {
 		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
 		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
-		return "IceBlock "+x+" "+y+" "+this.getOid()+" "+type;
+		return "BombUpItem "+x+" "+y+" "+this.getOid();
 	}
+
 }
