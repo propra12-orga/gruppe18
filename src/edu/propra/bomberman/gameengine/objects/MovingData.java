@@ -9,13 +9,30 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class MovingData {
-	private boolean			moving;
-	private int				speed;
-	private AffineTransform	step;
 	private AffineTransform	actTrans;
-	private boolean			step1;
+	private AffineTransform	back		= new AffineTransform();
+	private boolean			blocked		= false;
+	boolean					coli		= false;
 	private int				direction;
+	private long			dsc			= 0;
+	private long			dsg			= 0;
+
+	private Rectangle2D		lastColRect;
+
+	private long			lastStart	= 0;
+
+	private AffineTransform	lastStep;
+	private double			lastStepSize;
+	private boolean			moving;
+	public boolean			now			= false;
 	private GameObject		parent;
+	private int				speed;
+
+	private AffineTransform	step;
+
+	private boolean			step1;
+
+	private long			usc			= 0;
 
 	public MovingData(GameObject parent) {
 		this.parent = parent;
@@ -25,20 +42,15 @@ public class MovingData {
 		lastStep = new AffineTransform();
 	}
 
-	private long			dsc			= 0;
-
-	private long			lastStart	= 0;
-	private AffineTransform	lastStep;
-	private double			lastStepSize;
-	private Rectangle2D		lastColRect;
-	public boolean			now			= false;
-	private boolean			blocked		= false;
+	public void block() {
+		this.blocked = true;
+	}
 
 	public void doStepCollision() {
 		if (this.moving) {
 			if (!this.step1 && !this.blocked) {
 				dsc++;
-				long time = System.currentTimeMillis();
+				long time = SGameEngine.get().getTime();
 				lastStepSize = ((time - lastStart) / 10) * speed;
 				AffineTransform strech = new AffineTransform();
 				Area colArea = parent.co.getCollisionArea();
@@ -78,15 +90,12 @@ public class MovingData {
 		}
 	}
 
-	private long	dsg	= 0;
-
 	public void doStepGraphic(GameObject go) {
 		if (!this.blocked) {
 			if (this.step1) {
 				dsg++;
 				((SGTransform) go.go).getTransform().concatenate(this.lastStep);
 				parent.absTransform.concatenate(this.lastStep);
-				// if (parent instanceof Player)
 				parent.co.setCollisionArea(Player.collisionArea.createTransformedArea(parent.absTransform));
 				this.lastStep.setToIdentity();
 				this.step1 = false;
@@ -94,9 +103,69 @@ public class MovingData {
 		}
 	}
 
-	private long			usc		= 0;
-	private AffineTransform	back	= new AffineTransform();
-	boolean					coli	= false;
+	public AffineTransform getActTrans() {
+		return actTrans;
+	}
+
+	public int getDirection() {
+		return this.direction;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public AffineTransform getStep() {
+		return step;
+	}
+
+	public boolean isMoving() {
+		return this.moving;
+	}
+
+	public boolean isStep1() {
+		return step1;
+	}
+
+	public void setActTrans(AffineTransform actTrans) {
+		this.actTrans = actTrans;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public void setStep(AffineTransform step) {
+		this.step = step;
+	}
+
+	public void setStep1(boolean step1) {
+		this.step1 = step1;
+	}
+
+	public void startMoving(int direction) {
+		if (this.direction != direction || !this.moving) {
+			this.direction = direction;
+			// double tx = this.speed * Math.sin(Math.toRadians(direction));
+			// double ty = this.speed * Math.cos(Math.toRadians(direction));
+			double tx = Math.sin(Math.toRadians(direction));
+			double ty = Math.cos(Math.toRadians(direction));
+			lastStart = SGameEngine.get().getTime();
+			if ((tx < 0.0000001 && tx > -0.0000001)) tx = 0;
+			if ((ty < 0.0000001 && ty > -0.0000001)) ty = 0;
+			this.getStep().setToTranslation(tx, ty);
+			this.moving = true;
+		}
+	}
+
+	public void stopMoving() {
+		this.moving = false;
+		this.step.setToIdentity();
+	}
 
 	public void undoStepCollision(CollisionObject cothis, CollisionObject other) {
 
@@ -122,72 +191,6 @@ public class MovingData {
 
 	}
 
-	public boolean isMoving() {
-		return this.moving;
-	}
-
-	public void startMoving(int direction) {
-		if (this.direction != direction || !this.moving) {
-			this.direction = direction;
-			// double tx = this.speed * Math.sin(Math.toRadians(direction));
-			// double ty = this.speed * Math.cos(Math.toRadians(direction));
-			double tx = Math.sin(Math.toRadians(direction));
-			double ty = Math.cos(Math.toRadians(direction));
-			lastStart = System.currentTimeMillis();
-			if ((tx < 0.0000001 && tx > -0.0000001)) tx = 0;
-			if ((ty < 0.0000001 && ty > -0.0000001)) ty = 0;
-			this.getStep().setToTranslation(tx, ty);
-			this.moving = true;
-		}
-	}
-
-	public void stopMoving() {
-		this.moving = false;
-		this.step.setToIdentity();
-	}
-
-	public void setMoving(boolean moving) {
-		this.moving = moving;
-	}
-
-	public int getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-	public AffineTransform getStep() {
-		return step;
-	}
-
-	public void setStep(AffineTransform step) {
-		this.step = step;
-	}
-
-	public AffineTransform getActTrans() {
-		return actTrans;
-	}
-
-	public void setActTrans(AffineTransform actTrans) {
-		this.actTrans = actTrans;
-	}
-
-	public boolean isStep1() {
-		return step1;
-	}
-
-	public void setStep1(boolean step1) {
-		this.step1 = step1;
-	}
-
-	public int getDirection() {
-		return this.direction;
-	}
-
-	public void block() {
-		this.blocked = true;
-	}
+	
 
 }

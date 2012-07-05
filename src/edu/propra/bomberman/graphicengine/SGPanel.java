@@ -9,7 +9,12 @@ import javax.swing.JPanel;
 
 public class SGPanel extends JPanel {
 	private static final long	serialVersionUID	= 1613832323027966341L;
+	private BufferedImage		cache;
+
+	public boolean				ended				= false;
+
 	private SGScene				scene;
+	public boolean				updateCache			= true;
 
 	public SGPanel() {
 		scene = new SGScene();
@@ -17,9 +22,10 @@ public class SGPanel extends JPanel {
 		cache = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 	}
 
-	private BufferedImage	cache;
-	public boolean			updateCache	= true;
-	public boolean			ended=false;
+	public SGScene getScene() {
+		return scene;
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -28,10 +34,6 @@ public class SGPanel extends JPanel {
 			scene.PaintRecursive(null, g2d);
 		}
 		((Graphics2D) g).drawImage(cache, new AffineTransform(), null);
-	}
-
-	public SGScene getScene() {
-		return scene;
 	}
 
 	public void setScene(SGScene scene) {

@@ -34,22 +34,12 @@ import javax.sound.sampled.*;
  */
 public final class StdAudio {
 
-	/**
-	 * The sample rate - 44,100 Hz for CD quality audio.
-	 */
-	public static final int			SAMPLE_RATE			= 44100;
-
-	private static final int		BYTES_PER_SAMPLE	= 2;				// 16-bit
-																			// audio
+	// audio
 	private static final int		BITS_PER_SAMPLE		= 16;				// 16-bit
-																			// audio
-	private static final double		MAX_16_BIT			= Short.MAX_VALUE;	// 32,767
-	private static final int		SAMPLE_BUFFER_SIZE	= 4096;
 
-	private static SourceDataLine	line;									// to
-																			// play
-																			// the
-																			// sound
+	// play
+	// the
+	// sound
 	private static byte[]			buffer;								// our
 																			// internal
 																			// buffer
@@ -60,14 +50,28 @@ public final class StdAudio {
 																			// in
 																			// internal
 																			// buffer
+	private static final int		BYTES_PER_SAMPLE	= 2;				// 16-bit
+	private static SourceDataLine	line;									// to
 
-	// not-instantiable
-	private StdAudio() {
-	}
+	// audio
+	private static final double		MAX_16_BIT			= Short.MAX_VALUE;	// 32,767
+	private static final int		SAMPLE_BUFFER_SIZE	= 4096;
+	/**
+	* The sample rate - 44,100 Hz for CD quality audio.
+	*/
+	public static final int			SAMPLE_RATE			= 44100;
 
 	// static initializer
 	static {
 		init();
+	}
+
+	/**
+	 * Close standard audio.
+	 */
+	public static void close() {
+		line.drain();
+		line.stop();
 	}
 
 	// open up an audio stream
@@ -97,11 +101,61 @@ public final class StdAudio {
 	}
 
 	/**
-	 * Close standard audio.
+	 * Loop a sound file (in .wav or .au format) in a background thread.
 	 */
-	public static void close() {
-		line.drain();
-		line.stop();
+	public static void loop(String filename) {
+		URL url = null;
+		try {
+			File file = new File(filename);
+			if (file.canRead()) url = file.toURI().toURL();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		// URL url = StdAudio.class.getResource(filename);
+		if (url == null) throw new RuntimeException("audio " + filename + " not found");
+		AudioClip clip = Applet.newAudioClip(url);
+		clip.loop();
+	}
+
+	/**
+	 * Test client - play an A major scale to standard audio.
+	 */
+	public static void main(String[] args) {
+
+		// 440 Hz for 1 sec
+		double freq = 440.0;
+		for (int i = 0; i <= StdAudio.SAMPLE_RATE; i++) {
+			StdAudio.play(0.5 * Math.sin(2 * Math.PI * freq * i / StdAudio.SAMPLE_RATE));
+		}
+
+		// scale increments
+		int[] steps = { 0, 2, 4, 5, 7, 9, 11, 12 };
+		for (int i = 0; i < steps.length; i++) {
+			double hz = 440.0 * Math.pow(2, steps[i] / 12.0);
+			StdAudio.play(note(hz, 1.0, 0.5));
+		}
+
+		// need to call this in non-interactive stuff so the program doesn't
+		// terminate
+		// until all the sound leaves the speaker.
+		StdAudio.close();
+
+		// need to terminate a Java program with sound
+		System.exit(0);
+	}
+
+	/***********************************************************************
+	 * sample test client
+	 ***********************************************************************/
+
+	// create a note (sine wave) of the given frequency (Hz), for the given
+	// duration (seconds) scaled to the given volume (amplitude)
+	private static double[] note(double hz, double duration, double amplitude) {
+		int N = (int) (StdAudio.SAMPLE_RATE * duration);
+		double[] a = new double[N + 1];
+		for (int i = 0; i <= N; i++)
+			a[i] = amplitude * Math.sin(2 * Math.PI * i * hz / StdAudio.SAMPLE_RATE);
+		return a;
 	}
 
 	/**
@@ -137,20 +191,6 @@ public final class StdAudio {
 	}
 
 	/**
-	 * Read audio samples from a file (in .wav or .au format) and return them as
-	 * a double array with values between -1.0 and +1.0.
-	 */
-	public static double[] read(String filename) {
-		byte[] data = readByte(filename);
-		int N = data.length;
-		double[] d = new double[N / 2];
-		for (int i = 0; i < N / 2; i++) {
-			d[i] = ((short) (((data[2 * i + 1] & 0xFF) << 8) + (data[2 * i] & 0xFF))) / MAX_16_BIT;
-		}
-		return d;
-	}
-
-	/**
 	 * Play a sound file (in .wav or .au format) in a background thread.
 	 */
 	public static void play(String filename) {
@@ -168,20 +208,17 @@ public final class StdAudio {
 	}
 
 	/**
-	 * Loop a sound file (in .wav or .au format) in a background thread.
+	 * Read audio samples from a file (in .wav or .au format) and return them as
+	 * a double array with values between -1.0 and +1.0.
 	 */
-	public static void loop(String filename) {
-		URL url = null;
-		try {
-			File file = new File(filename);
-			if (file.canRead()) url = file.toURI().toURL();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+	public static double[] read(String filename) {
+		byte[] data = readByte(filename);
+		int N = data.length;
+		double[] d = new double[N / 2];
+		for (int i = 0; i < N / 2; i++) {
+			d[i] = ((short) (((data[2 * i + 1] & 0xFF) << 8) + (data[2 * i] & 0xFF))) / MAX_16_BIT;
 		}
-		// URL url = StdAudio.class.getResource(filename);
-		if (url == null) throw new RuntimeException("audio " + filename + " not found");
-		AudioClip clip = Applet.newAudioClip(url);
-		clip.loop();
+		return d;
 	}
 
 	// return data as a byte array
@@ -245,44 +282,7 @@ public final class StdAudio {
 		}
 	}
 
-	/***********************************************************************
-	 * sample test client
-	 ***********************************************************************/
-
-	// create a note (sine wave) of the given frequency (Hz), for the given
-	// duration (seconds) scaled to the given volume (amplitude)
-	private static double[] note(double hz, double duration, double amplitude) {
-		int N = (int) (StdAudio.SAMPLE_RATE * duration);
-		double[] a = new double[N + 1];
-		for (int i = 0; i <= N; i++)
-			a[i] = amplitude * Math.sin(2 * Math.PI * i * hz / StdAudio.SAMPLE_RATE);
-		return a;
-	}
-
-	/**
-	 * Test client - play an A major scale to standard audio.
-	 */
-	public static void main(String[] args) {
-
-		// 440 Hz for 1 sec
-		double freq = 440.0;
-		for (int i = 0; i <= StdAudio.SAMPLE_RATE; i++) {
-			StdAudio.play(0.5 * Math.sin(2 * Math.PI * freq * i / StdAudio.SAMPLE_RATE));
-		}
-
-		// scale increments
-		int[] steps = { 0, 2, 4, 5, 7, 9, 11, 12 };
-		for (int i = 0; i < steps.length; i++) {
-			double hz = 440.0 * Math.pow(2, steps[i] / 12.0);
-			StdAudio.play(note(hz, 1.0, 0.5));
-		}
-
-		// need to call this in non-interactive stuff so the program doesn't
-		// terminate
-		// until all the sound leaves the speaker.
-		StdAudio.close();
-
-		// need to terminate a Java program with sound
-		System.exit(0);
+	// not-instantiable
+	private StdAudio() {
 	}
 }

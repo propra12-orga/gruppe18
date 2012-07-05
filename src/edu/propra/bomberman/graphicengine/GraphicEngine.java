@@ -1,19 +1,12 @@
 package edu.propra.bomberman.graphicengine;
 
 public class GraphicEngine {
-	private SGPanel					panel;
 	private GraphicsEngineThread	geT;
+	private SGPanel					panel;
 
 	public GraphicEngine() {
 		panel = new SGPanel();
 		this.geT = new GraphicsEngineThread(this);
-	}
-
-	public void startDrawing() {
-		if (this.panel.isVisible()) {
-			Thread t = new Thread(geT);
-			t.start();
-		}
 	}
 
 	public void addSGNode(SGNode newNode, SGNode parent) {
@@ -21,6 +14,24 @@ public class GraphicEngine {
 		if (parent instanceof IParent) {
 			((IParent) parent).addChild(newNode);
 		}
+	}
+
+	/**
+	 * @return the panel
+	 */
+	public SGPanel getPanel() {
+		return panel;
+	}
+
+	public SGScene getScene() {
+		return panel.getScene();
+	}
+
+	public void releaseData() {
+		this.panel.ended = true;
+		this.geT.stopRunning();
+		this.getScene().releaseAll();
+		this.panel.ended = false;
 	}
 
 	public void removeSGNode(SGNode node) {
@@ -31,17 +42,6 @@ public class GraphicEngine {
 		}
 	}
 
-	public SGScene getScene() {
-		return panel.getScene();
-	}
-
-	/**
-	 * @return the panel
-	 */
-	public SGPanel getPanel() {
-		return panel;
-	}
-
 	/**
 	 * @param panel
 	 *            the panel to set
@@ -50,10 +50,10 @@ public class GraphicEngine {
 		this.panel = panel;
 	}
 
-	public void releaseData() {
-		this.panel.ended=true;
-		this.geT.stopRunning();
-		this.getScene().releaseAll();
-		this.panel.ended=false;
+	public void startDrawing() {
+		if (this.panel.isVisible()) {
+			Thread t = new Thread(geT);
+			t.start();
+		}
 	}
 }

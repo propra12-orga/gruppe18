@@ -21,7 +21,7 @@ public class CheckBombLeaveAction extends ActionObject {
 		if (bArea.isEmpty()) {
 			((Bomb) this.actor).playerOut = true;
 		} else {
-			SGameEngine.get().addAction(new CheckBombLeaveAction((Bomb) this.actor, System.currentTimeMillis() + 50));
+			SGameEngine.get().addAction(new CheckBombLeaveAction((Bomb) this.actor, SGameEngine.get().getTime() + 50));
 		}
 
 	}

@@ -13,8 +13,8 @@ import java.awt.geom.Area;
  * 
  */
 public class SGArea extends SGLeaf {
-	private Area	Drawarea;
 	private Color	color;
+	private Area	Drawarea;
 
 	/**
 	 * 
@@ -23,6 +23,20 @@ public class SGArea extends SGLeaf {
 	public SGArea() {
 		Drawarea = new Area();
 		color = new Color(255, 0, 0);
+	}
+
+	/**
+	 * @return the color
+	 */
+	public Color getColor() {
+		return color;
+	}
+
+	/**
+	 * @return the drawarea
+	 */
+	public Area getDrawarea() {
+		return Drawarea;
 	}
 
 	/*
@@ -39,10 +53,11 @@ public class SGArea extends SGLeaf {
 	}
 
 	/**
-	 * @return the drawarea
+	 * @param color
+	 *            the color to set
 	 */
-	public Area getDrawarea() {
-		return Drawarea;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	/**
@@ -51,21 +66,6 @@ public class SGArea extends SGLeaf {
 	 */
 	public void setDrawarea(Area drawarea) {
 		Drawarea = drawarea;
-	}
-
-	/**
-	 * @return the color
-	 */
-	public Color getColor() {
-		return color;
-	}
-
-	/**
-	 * @param color
-	 *            the color to set
-	 */
-	public void setColor(Color color) {
-		this.color = color;
 	}
 
 }

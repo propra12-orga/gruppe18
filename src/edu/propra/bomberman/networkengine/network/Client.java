@@ -10,13 +10,13 @@ import java.net.Socket;
 import java.net.SocketException;
 
 public class Client implements Runnable {
-	Socket			socket;
-	boolean			listen;
-	BufferedReader	in	= null;
-	PrintWriter		out	= null;
 	ClientProtocol	bp;
+	BufferedReader	in	= null;
+	boolean			listen;
 	NetworkEngine	nE;
+	PrintWriter		out	= null;
 	String			PID;
+	Socket			socket;
 
 	public Client(NetworkEngine nE) {
 		this.nE = nE;
@@ -29,6 +29,7 @@ public class Client implements Runnable {
 		boolean connected = false;
 		try {
 			socket = new Socket(InetAddress.getLocalHost(), 4444);
+			//socket = new Socket(InetAddress.getByName("192.168.1.102"), 4444);
 			connected = true;
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
@@ -42,14 +43,8 @@ public class Client implements Runnable {
 		return connected;
 	}
 
-	public void submitMessage(String message) {
-		if (message==null || message.length() == 0) return;
-		System.out.println("--> : " + message);
-		out.println(message);
-	}
-
 	public String receiveMessage(String message) {
-		if (message==null || message.length() == 0 ) return "";
+		if (message == null || message.length() == 0) return "";
 		System.out.println("<-- : " + message);
 		return bp.processInput(message);
 	}
@@ -59,15 +54,17 @@ public class Client implements Runnable {
 		System.out.println("Client is listening");
 		try {
 			while (listen) {
-				String output = this.receiveMessage(in.readLine());
+				String input = in.readLine();
+				System.out.println("Message received: "+System.currentTimeMillis());
+				String output = this.receiveMessage(input);
 				this.submitMessage(output);
 			}
-		} catch(SocketException e){
+		} catch (SocketException e) {
 			System.err.println("Socket Exception");
-			
-		}catch (IOException e) {
+
+		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
 				this.in.close();
 				this.out.close();
@@ -76,6 +73,12 @@ public class Client implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void submitMessage(String message) {
+		if (message == null || message.length() == 0) return;
+		System.out.println("--> : " + message);
+		out.println(message);
 	}
 
 }

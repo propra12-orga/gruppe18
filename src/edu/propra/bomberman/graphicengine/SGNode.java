@@ -15,14 +15,15 @@ public abstract class SGNode {
 	public SGNode() {
 	}
 
-	public abstract void PaintRecursive(AffineTransform transform, Graphics2D g2d);
-
 	public SGNode getParent() {
 		return parent;
 	}
 
+	public abstract void PaintRecursive(AffineTransform transform, Graphics2D g2d);
+
+	public abstract void releaseAll();
+
 	public void setParent(SGNode parent) {
 		this.parent = parent;
 	}
-	public abstract void releaseAll();
 }

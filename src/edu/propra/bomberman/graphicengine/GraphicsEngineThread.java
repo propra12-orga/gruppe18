@@ -9,8 +9,8 @@ package edu.propra.bomberman.graphicengine;
  */
 public class GraphicsEngineThread implements Runnable {
 
-	public boolean			running;
 	public GraphicEngine	ge;
+	public boolean			running;
 
 	public GraphicsEngineThread(GraphicEngine ge) {
 		this.ge = ge;
@@ -35,7 +35,7 @@ public class GraphicsEngineThread implements Runnable {
 	}
 
 	public void stopRunning() {
-		this.running=false;
+		this.running = false;
 	}
 
 }

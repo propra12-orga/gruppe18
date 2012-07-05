@@ -10,7 +10,7 @@ public class PlayerDeadAction extends ActionObject {
 
 	public PlayerDeadAction(Player actor) {
 		this.actor = actor;
-		this.time = System.currentTimeMillis();
+		this.time = SGameEngine.get().getTime();
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class PlayerDeadAction extends ActionObject {
 
 	@Override
 	public String getMessageData() {
-		return " PlayerDeadAction "+((Player)actor).getOid()+" "+time;
+		return " PlayerDeadAction " + ((Player) actor).getOid() + " " + time;
 	}
 
 }

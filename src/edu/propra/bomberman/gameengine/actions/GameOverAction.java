@@ -4,9 +4,9 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 
 public class GameOverAction extends ActionObject {
 
-	public GameOverAction(String aid,long time) {
-		this.time=time;
-		this.aid=aid;
+	public GameOverAction(String aid, long time) {
+		this.time = time;
+		this.aid = aid;
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class GameOverAction extends ActionObject {
 
 	@Override
 	public String getMessageData() {
-		return " GameOverAction "+aid+" "+time;
+		return " GameOverAction " + aid + " " + time;
 	}
 
 }

@@ -13,8 +13,8 @@ import java.awt.geom.AffineTransform;
  * 
  */
 public class SGText extends SGLeaf {
-	private String	text;
 	private Color	color;
+	private String	text;
 
 	/**
 	 * 
@@ -23,6 +23,20 @@ public class SGText extends SGLeaf {
 		text = new String();
 		color = new Color(0, 0, 0);
 
+	}
+
+	/**
+	 * @return the color
+	 */
+	public Color getColor() {
+		return color;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return text;
 	}
 
 	/*
@@ -41,10 +55,11 @@ public class SGText extends SGLeaf {
 	}
 
 	/**
-	 * @return the text
+	 * @param color
+	 *            the color to set
 	 */
-	public String getText() {
-		return text;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	/**
@@ -53,21 +68,6 @@ public class SGText extends SGLeaf {
 	 */
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	/**
-	 * @return the color
-	 */
-	public Color getColor() {
-		return color;
-	}
-
-	/**
-	 * @param color
-	 *            the color to set
-	 */
-	public void setColor(Color color) {
-		this.color = color;
 	}
 
 }

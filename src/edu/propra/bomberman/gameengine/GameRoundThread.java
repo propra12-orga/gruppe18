@@ -23,9 +23,9 @@ public class GameRoundThread implements Runnable {
 
 		}
 	}
-	
-	public void stopRunning(){
-		this.running=false;
+
+	public void stopRunning() {
+		this.running = false;
 	}
 
 }

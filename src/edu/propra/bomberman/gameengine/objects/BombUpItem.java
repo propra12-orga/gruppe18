@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -18,11 +17,21 @@ import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class BombUpItem extends GameObject {
-	public static Area			collisionArea	= null;
 	public static Area			clipArea		= null;
+	public static Area			collisionArea	= null;
 	public static BufferedImage	image			= null;
 
-	public BombUpItem(int x, int y,String oid) {
+	static {
+		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
+		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		try {
+			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/item.png").openStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public BombUpItem(int x, int y, String oid) {
 		this.setOid(oid);
 
 		AffineTransform trans = new AffineTransform();
@@ -40,13 +49,19 @@ public class BombUpItem extends GameObject {
 
 		this.absTransform = (AffineTransform) trans.clone();
 	}
-	
-	
+
 	@Override
 	public void collisionWith(Object a) {
-		if(a instanceof Player){
-			SGameEngine.get().addAction(new PlayerBombUpAction((Player)a,this));
+		if (a instanceof Player) {
+			SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this));
 		}
+	}
+
+	@Override
+	public String getMessageData() {
+		int x = (int) ((SGTransform) this.go).getTransform().getTranslateX();
+		int y = (int) ((SGTransform) this.go).getTransform().getTranslateY();
+		return "BombUpItem " + x + " " + y + " " + this.getOid();
 	}
 
 	@Override
@@ -58,24 +73,7 @@ public class BombUpItem extends GameObject {
 			System.err.println("Item.initializeCollisions()");
 			System.err.println("  Absolute positions are not initialized");
 		}
-		
-	}
-	
-	static {
-		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
-		clipArea = new Area(new Rectangle(0, 0, 40, 40));
-		try {
-			image = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/item.png").openStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
-	@Override
-	public String getMessageData() {
-		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
-		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
-		return "BombUpItem "+x+" "+y+" "+this.getOid();
 	}
 
 }

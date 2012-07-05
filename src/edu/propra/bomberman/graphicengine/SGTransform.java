@@ -12,9 +12,10 @@ public class SGTransform extends SGNode implements IParent {
 	}
 
 	@Override
-	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
-		transform.concatenate(this.transform);
-		if (child != null) child.PaintRecursive(transform, g2d);
+	public void addChild(Object child) {
+		if (this.child != null) this.removeChild(null);
+		this.child = (SGNode) child;
+		this.child.setParent(this);
 	}
 
 	public SGNode getChild() {
@@ -25,15 +26,17 @@ public class SGTransform extends SGNode implements IParent {
 		return transform;
 	}
 
-	public void setTransform(AffineTransform transform) {
-		this.transform = transform;
+	@Override
+	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
+		transform.concatenate(this.transform);
+		if (child != null) child.PaintRecursive(transform, g2d);
 	}
 
 	@Override
-	public void addChild(Object child) {
-		if (this.child != null) this.removeChild(null);
-		this.child = (SGNode) child;
-		this.child.setParent(this);
+	public void releaseAll() {
+		if (this.child != null) this.child.releaseAll();
+		this.child.setParent(null);
+		this.child = null;
 	}
 
 	@Override
@@ -42,11 +45,8 @@ public class SGTransform extends SGNode implements IParent {
 		this.child = null;
 	}
 
-	@Override
-	public void releaseAll() {
-		if(this.child!=null)this.child.releaseAll();
-		this.child.setParent(null);
-		this.child=null;
+	public void setTransform(AffineTransform transform) {
+		this.transform = transform;
 	}
 
 }

@@ -9,7 +9,7 @@ public abstract class Listener {
 
 	public abstract ActionObject keyDownEvent(HashMap<Integer, Integer> keysDown, Integer keyCode);
 
-	public abstract ActionObject keyUpEvent(HashMap<Integer, Integer> keysDown, Integer keyRelease);
-
 	public abstract ActionObject keyTypedEvent(Integer keyCode);
+
+	public abstract ActionObject keyUpEvent(HashMap<Integer, Integer> keysDown, Integer keyRelease);
 }

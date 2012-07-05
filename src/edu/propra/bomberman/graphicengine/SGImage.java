@@ -16,6 +16,8 @@ import edu.propra.bomberman.collisionengine.CollisionObject;
  */
 public class SGImage extends SGLeaf {
 
+	public CollisionObject	debugColl	= null;
+
 	/**
 	 * 
 	 */
@@ -32,7 +34,12 @@ public class SGImage extends SGLeaf {
 		this.image = image;
 	}
 
-	public CollisionObject	debugColl	= null;
+	/**
+	 * @return the image
+	 */
+	public BufferedImage getImage() {
+		return image;
+	}
 
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {
@@ -45,13 +52,6 @@ public class SGImage extends SGLeaf {
 		g2d.setClip(this.getClipArea().createTransformedArea(transform));
 		g2d.drawImage(image, transform, null);
 		g2d.setClip(null);
-	}
-
-	/**
-	 * @return the image
-	 */
-	public BufferedImage getImage() {
-		return image;
 	}
 
 	/**

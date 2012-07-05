@@ -14,8 +14,8 @@ import java.awt.geom.Area;
  * 
  */
 public class SGLeaf extends SGNode {
-	private Area			clipArea;
 	private AffineTransform	actTrans;
+	private Area			clipArea;
 
 	/**
 	 * 
@@ -23,6 +23,19 @@ public class SGLeaf extends SGNode {
 	public SGLeaf() {
 		clipArea = new Area();
 		actTrans = new AffineTransform();
+	}
+
+	public AffineTransform getActTrans() {
+		return actTrans;
+	}
+
+	public Area getClipArea() {
+		return clipArea;
+	}
+
+	public void paint(AffineTransform transform, Graphics2D g2d) {
+		g2d.setColor(new Color(255, 0, 0));
+		g2d.fill(clipArea.createTransformedArea(transform));
 	}
 
 	/*
@@ -38,31 +51,18 @@ public class SGLeaf extends SGNode {
 
 	}
 
-	public void paint(AffineTransform transform, Graphics2D g2d) {
-		g2d.setColor(new Color(255, 0, 0));
-		g2d.fill(clipArea.createTransformedArea(transform));
-	}
+	@Override
+	public void releaseAll() {
+		return;
 
-	public Area getClipArea() {
-		return clipArea;
-	}
-
-	public void setClipArea(Area clipArea) {
-		this.clipArea = clipArea;
-	}
-
-	public AffineTransform getActTrans() {
-		return actTrans;
 	}
 
 	public void setActTrans(AffineTransform actTrans) {
 		this.actTrans.setTransform(actTrans);
 	}
 
-	@Override
-	public void releaseAll() {
-		return;
-		
+	public void setClipArea(Area clipArea) {
+		this.clipArea = clipArea;
 	}
 
 }

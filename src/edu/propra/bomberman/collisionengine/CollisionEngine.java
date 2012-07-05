@@ -15,11 +15,11 @@ import edu.propra.bomberman.gameengine.objects.Explosion;
 
 public class CollisionEngine {
 
+	private GameEngine			gameEngine;
 	/**
 	 * Arrayliste fuer die Kollisionsobjekte
 	 */
 	ArrayList<CollisionObject>	objects;
-	private GameEngine			gameEngine;
 
 	public CollisionEngine() {
 		objects = new ArrayList<CollisionObject>();
@@ -30,13 +30,6 @@ public class CollisionEngine {
 	 */
 	public void AddObject(CollisionObject obj) {
 		objects.add(obj);
-	}
-
-	/**
-	 * Methode entfernt ein Collisionsobjekt
-	 */
-	public void DelObject(CollisionObject obj) {
-		objects.remove(obj);
 	}
 
 	public void CheckCollision() {
@@ -74,14 +67,6 @@ public class CollisionEngine {
 		}
 	}
 
-	public GameEngine getGameEngine() {
-		return gameEngine;
-	}
-
-	public void setGameEngine(GameEngine gameEngine) {
-		this.gameEngine = gameEngine;
-	}
-
 	public AffineTransform checkCollisionsDirectly(CollisionObject oldObject, AffineTransform trans) {
 		int dir;
 		if (trans.getTranslateX() < 0.01 && trans.getTranslateX() > -0.01) {
@@ -107,7 +92,7 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem) && !(partnerObj.getPrivot() instanceof BombGrowItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						tempIntersection = (Area) partnerObj.getCollisionArea().clone();
@@ -154,7 +139,7 @@ public class CollisionEngine {
 						} else {
 							trans.translate(intersection.getBounds().height, intersection.getBounds().height);
 						}
-					//	System.out.println("Ecke unten");
+						//	System.out.println("Ecke unten");
 					} else {
 						if (intersection.getBounds().getBounds().height > -trans.getTranslateX()) {
 							trans.setToTranslation(0, trans.getTranslateX());
@@ -171,20 +156,20 @@ public class CollisionEngine {
 
 			if (dir == 180) { //down				|| dir==270){//horizontal
 				//System.out.print("moving down - ");
-				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth()*4/5) {
+				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth() * 4 / 5) {
 					//ecke
 					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
 						//rechts
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
-							trans.setToTranslation(trans.getTranslateY(),0);
+							trans.setToTranslation(trans.getTranslateY(), 0);
 						} else {
 							trans.translate(intersection.getBounds().width, -intersection.getBounds().width);
 						}
-				
+
 						//System.out.println("Ecke rechts");
 					} else {
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
-							trans.setToTranslation(-trans.getTranslateY(),0);
+							trans.setToTranslation(-trans.getTranslateY(), 0);
 						} else {
 							trans.translate(-intersection.getBounds().width, -intersection.getBounds().width);
 						}
@@ -199,20 +184,20 @@ public class CollisionEngine {
 
 			if (dir == 0) { //up				|| dir==270){//horizontal
 				//(System.out.print("mmoving up - ");
-				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth()*4/5) {
+				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth() * 4 / 5) {
 					//ecke
 					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
 						//rechts
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
-							trans.setToTranslation(-trans.getTranslateY(),0);
+							trans.setToTranslation(-trans.getTranslateY(), 0);
 						} else {
 							trans.translate(intersection.getBounds().width, intersection.getBounds().width);
 						}
-					//	System.out.println("Ecke rechts");
+						//	System.out.println("Ecke rechts");
 					} else {
 						//links
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
-							trans.setToTranslation(trans.getTranslateY(),0);
+							trans.setToTranslation(trans.getTranslateY(), 0);
 						} else {
 							trans.translate(-intersection.getBounds().width, intersection.getBounds().width);
 						}
@@ -220,7 +205,7 @@ public class CollisionEngine {
 					}
 				} else {
 					trans.translate(0, -trans.getTranslateY());
-				//	System.out.println("Kante");
+					//	System.out.println("Kante");
 				}
 			}
 
@@ -229,7 +214,7 @@ public class CollisionEngine {
 			//check references
 			oldObject.setCollisionArea(undone);
 		}
-		
+
 		return trans;
 
 	}
@@ -262,7 +247,7 @@ public class CollisionEngine {
 		while (it.hasNext()) {
 			partnerObj = it.next();
 			// TODO create interface for objects which aren't blocking others
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem) && !(partnerObj.getPrivot() instanceof BombGrowItem)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						intersection = (Area) partnerObj.getCollisionArea().clone();
@@ -302,8 +287,23 @@ public class CollisionEngine {
 		return trans;
 	}
 
+	/**
+	 * Methode entfernt ein Collisionsobjekt
+	 */
+	public void DelObject(CollisionObject obj) {
+		objects.remove(obj);
+	}
+
+	public GameEngine getGameEngine() {
+		return gameEngine;
+	}
+
 	public void releaseData() {
 		this.objects.clear();
+	}
+
+	public void setGameEngine(GameEngine gameEngine) {
+		this.gameEngine = gameEngine;
 	}
 
 }

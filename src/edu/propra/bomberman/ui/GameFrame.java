@@ -18,7 +18,8 @@ public class GameFrame extends JFrame {
 		this.pack();
 		this.setVisible(true);
 	}
-	public void gameEnd(){
+
+	public void gameEnd() {
 		this.setVisible(false);
 		this.setContentPane(new StartPanel());
 		this.pack();

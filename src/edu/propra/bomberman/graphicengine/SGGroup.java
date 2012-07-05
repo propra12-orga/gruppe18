@@ -23,13 +23,6 @@ public class SGGroup extends SGNode implements IParent {
 	}
 
 	@Override
-	public void removeChild(Object child) {
-		synchronized (childs) {
-			this.childs.remove(child);
-		}
-	}
-
-	@Override
 	public void PaintRecursive(AffineTransform transform, Graphics2D g2d) {
 		synchronized (childs) {
 			Iterator<SGNode> i = childs.iterator(); // Must be in synchronized
@@ -41,15 +34,22 @@ public class SGGroup extends SGNode implements IParent {
 
 	@Override
 	public void releaseAll() {
-		synchronized (childs){
+		synchronized (childs) {
 			Iterator<SGNode> i = childs.iterator(); // Must be in synchronized
-			while (i.hasNext()){
-				SGNode next=i.next();
+			while (i.hasNext()) {
+				SGNode next = i.next();
 				next.releaseAll();
-				next.setParent(null);		
+				next.setParent(null);
 			}
 		}
 		childs.clear();
+	}
+
+	@Override
+	public void removeChild(Object child) {
+		synchronized (childs) {
+			this.childs.remove(child);
+		}
 	}
 
 }

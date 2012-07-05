@@ -7,24 +7,24 @@ import edu.propra.bomberman.gameengine.objects.GameObject;
 
 public class ItemDropAction extends ActionObject {
 
-	public ItemDropAction(int type,int x,int y) {
-		this.time=System.currentTimeMillis();
+	public ItemDropAction(int type, int x, int y) {
+		this.time = SGameEngine.get().getTime();
 		switch (type) {
 			case 1:
-				this.actor=new BombUpItem(x,y,"oid"+SGameEngine.get().ObjectCounter);
+				this.actor = new BombUpItem(x, y, "oid" + SGameEngine.get().ObjectCounter);
 				break;
 			case 2:
-				this.actor=new BombGrowItem(x,y,"oid"+SGameEngine.get().ObjectCounter);
+				this.actor = new BombGrowItem(x, y, "oid" + SGameEngine.get().ObjectCounter);
 				break;
 			default:
 				break;
 		}
 	}
-	
+
 	@Override
 	public void action() {
-		
-		SGameEngine.get().addObject((GameObject)this.actor, null,true);
+
+		SGameEngine.get().addObject((GameObject) this.actor, null, true);
 		System.out.println("Item dropped");
 	}
 

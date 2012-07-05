@@ -2,18 +2,32 @@ package edu.propra.bomberman.quantizer;
 
 public class Quantizer {
 
+	//default how long should the stopwatch work
+	private static int		delay		= 5;
+	//String to print out the current interval trough concatenation
+	static String			emp			= "!";
+	//String to print out the right format in realtime
+	static String			format		= "";
+	//default how short should be the interval
+	private static double	fraction	= 1;
 	/**
 	 * @param args
 	 */
-	static boolean reset = false;
-	//default how long should the stopwatch work
-	private static int delay = 5;
-	//default how short should be the interval
-	private static double fraction = 1;
-	//String to print out the right format in realtime
-	static String format = "";
-	//String to print out the current interval trough concatenation
-	static String emp = "!";
+	static boolean			reset		= false;
+
+	public static int getDelay() {
+		return delay;
+	}
+
+	public static double getFraction() {
+		return fraction;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		quant(getDelay());// TODO Auto-generated method stub
+		//start by default values
+	}
 
 	private static int quant(int delay) {
 		// TODO Auto-generated method stub
@@ -23,8 +37,8 @@ public class Quantizer {
 
 			try {
 				Thread.sleep((long) (1000 * getFraction())); // wait a second
-														// multiplied by
-														// fraction
+				// multiplied by
+				// fraction
 			} catch (InterruptedException ex) {
 			}
 			a++;
@@ -41,9 +55,9 @@ public class Quantizer {
 			if (getFraction() == 0.001) {
 				System.out.println(a + "ms");
 				System.out.println("Time is running out!" + emp);
-				format = "_millisec";	
+				format = "_millisec";
 				//Print out current trace
-				
+
 			}
 			if (a >= delay || reset == true) {
 				System.out.println("Quantizer stopped at " + a + format);
@@ -55,12 +69,6 @@ public class Quantizer {
 		//returns the counter
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		quant(getDelay());// TODO Auto-generated method stub
-		//start by default values
-	}
-
 	public static void reset() {
 		// TODO Auto-generated method stub
 		reset = false;
@@ -68,16 +76,8 @@ public class Quantizer {
 
 	}
 
-	public static int getDelay() {
-		return delay;
-	}
-
 	public static void setDelay(int delay) {
 		Quantizer.delay = delay;
-	}
-
-	public static double getFraction() {
-		return fraction;
 	}
 
 	public static void setFraction(double fraction) {

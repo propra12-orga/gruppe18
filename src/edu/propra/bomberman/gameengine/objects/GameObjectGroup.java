@@ -11,7 +11,7 @@ import edu.propra.bomberman.graphicengine.SGTransform;
 public class GameObjectGroup extends GameObject implements IParent {
 	ArrayList<GameObject>	group;
 
-	public GameObjectGroup(int x, int y,String oid) {
+	public GameObjectGroup(int x, int y, String oid) {
 		this.setOid(oid);
 		this.group = new ArrayList<GameObject>();
 		this.go = new SGTransform();
@@ -34,6 +34,13 @@ public class GameObjectGroup extends GameObject implements IParent {
 	}
 
 	@Override
+	public void doMoves() {
+		for (GameObject child : this.group) {
+			child.doMoves();
+		}
+	}
+
+	@Override
 	public void doPreMoves() {
 		for (GameObject child : this.group) {
 			child.doPreMoves();
@@ -41,10 +48,25 @@ public class GameObjectGroup extends GameObject implements IParent {
 	}
 
 	@Override
-	public void doMoves() {
+	public GameObject getByOid(String oid) {
+		if (this.getOid().equals(oid)) return this;
+		GameObject ret = null;
 		for (GameObject child : this.group) {
-			child.doMoves();
+			ret = child.getByOid(oid);
+			if (ret != null) return ret;
 		}
+		return ret;
+	}
+
+	public SGNode getGoLeaf() {
+		return ((SGTransform) this.go).getChild();
+	}
+
+	@Override
+	public String getMessageData() {
+		int x = (int) ((SGTransform) this.go).getTransform().getTranslateX();
+		int y = (int) ((SGTransform) this.go).getTransform().getTranslateY();
+		return "GameObjectGroup " + x + " " + y + " " + this.getOid();
 	}
 
 	@Override
@@ -65,13 +87,11 @@ public class GameObjectGroup extends GameObject implements IParent {
 		}
 	}
 
-	public void removeChildRecursive(GameObject go) {
+	public void releaseData() {
 		for (GameObject child : this.group) {
-			if (child == go) break;
-			if (child instanceof GameObjectGroup) ((GameObjectGroup) child).removeChildRecursive(go);
+			if (child instanceof GameObjectGroup) ((GameObjectGroup) child).releaseData();
 		}
-		this.group.remove(go);
-		return;
+		group.clear();
 	}
 
 	@Override
@@ -80,32 +100,12 @@ public class GameObjectGroup extends GameObject implements IParent {
 		this.group.remove(obj);
 	}
 
-	public SGNode getGoLeaf() {
-		return ((SGTransform) this.go).getChild();
-	}
-
-	public void releaseData() {
+	public void removeChildRecursive(GameObject go) {
 		for (GameObject child : this.group) {
-			if(child instanceof GameObjectGroup)
-				((GameObjectGroup)child).releaseData();
+			if (child == go) break;
+			if (child instanceof GameObjectGroup) ((GameObjectGroup) child).removeChildRecursive(go);
 		}
-		group.clear();
-	}
-
-	public GameObject getByOid(String oid) {
-		if(this.getOid().equals(oid))return this;
-		GameObject ret=null;
-		for (GameObject child : this.group) {
-				ret=child.getByOid(oid);
-				if(ret!=null)return ret;
-		}
-		return ret;
-	}
-
-	@Override
-	public String getMessageData() {
-		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
-		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
-		return "GameObjectGroup "+x+" "+y+" "+this.getOid();
+		this.group.remove(go);
+		return;
 	}
 }
