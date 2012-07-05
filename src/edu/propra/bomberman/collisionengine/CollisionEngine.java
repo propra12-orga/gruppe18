@@ -1,3 +1,4 @@
+//Author Alex
 package edu.propra.bomberman.collisionengine;
 
 import java.awt.Rectangle;
@@ -12,6 +13,7 @@ import edu.propra.bomberman.gameengine.objects.BombGrowItem;
 import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
+import edu.propra.bomberman.gameengine.objects.Skull;
 
 public class CollisionEngine {
 
@@ -107,7 +109,7 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)&& !(partnerObj.getPrivot() instanceof Skull)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						tempIntersection = (Area) partnerObj.getCollisionArea().clone();
@@ -262,7 +264,7 @@ public class CollisionEngine {
 		while (it.hasNext()) {
 			partnerObj = it.next();
 			// TODO create interface for objects which aren't blocking others
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)&& !(partnerObj.getPrivot() instanceof Skull)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						intersection = (Area) partnerObj.getCollisionArea().clone();

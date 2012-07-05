@@ -1,3 +1,5 @@
+//Author Nadescha, Jens
+
 package edu.propra.bomberman.gameengine;
 
 import java.awt.Dimension;

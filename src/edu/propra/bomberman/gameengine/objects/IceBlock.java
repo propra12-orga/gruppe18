@@ -25,7 +25,7 @@ public class IceBlock extends GameObject {
 	public int type=-1;
 	
 	public int chance=4;
-	public int types=3;
+	public int types=4;
 	
 	public IceBlock(int x, int y,String oid,int type) {
 		this.setOid(oid);

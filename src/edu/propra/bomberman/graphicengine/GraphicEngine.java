@@ -1,3 +1,6 @@
+//Author Nadescha
+
+
 package edu.propra.bomberman.graphicengine;
 
 public class GraphicEngine {

@@ -1,5 +1,6 @@
-package edu.propra.bomberman.networkengine.network;
 
+
+package edu.propra.bomberman.networkengine.network;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;

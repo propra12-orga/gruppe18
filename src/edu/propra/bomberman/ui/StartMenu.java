@@ -11,15 +11,18 @@ public class StartMenu extends JMenuBar {
 		JMenu programm = new JMenu("Programm");
 		this.add(programm);
 
-		JMenuItem beenden = new JMenuItem(new ActionBeenden());
-		programm.add(beenden);
-
 		JMenuItem starten = new JMenuItem(new ActionStarten());
 		programm.add(starten);
+		
+		JMenuItem twoplayer = new JMenuItem(new ActionTwoPlayer());
+		programm.add(twoplayer);
 
 		JMenuItem netzwerk = new JMenuItem(new ActionNetzwerk());
 		programm.add(netzwerk);
 
+
+		JMenuItem beenden = new JMenuItem(new ActionBeenden());
+		programm.add(beenden);
 	}
 
 }

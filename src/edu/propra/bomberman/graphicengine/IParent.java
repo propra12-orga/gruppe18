@@ -1,3 +1,4 @@
+//Author Nadescha
 package edu.propra.bomberman.graphicengine;
 
 public interface IParent {
