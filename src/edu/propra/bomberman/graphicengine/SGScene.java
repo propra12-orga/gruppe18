@@ -8,13 +8,15 @@ import java.awt.geom.AffineTransform;
 
 /**
  * @author Nadescha
+ * Mutterknoten
  * 
  */
 public class SGScene extends SGNode implements IParent {
 	private SGGroup	child;
 
 	/**
-	 * 
+	 * Scene of evertything set in the Game
+	 * Has just one child.
 	 */
 	public SGScene() {
 		child = new SGGroup();
@@ -26,9 +28,8 @@ public class SGScene extends SGNode implements IParent {
 		this.child.addChild(child);
 	}
 
-	@Override
-	public void removeChild(Object child) {
-		this.child.removeChild(child);
+	public SGGroup getChild() {
+		return this.child;
 	}
 
 	/*
@@ -43,13 +44,15 @@ public class SGScene extends SGNode implements IParent {
 		child.PaintRecursive(transform, g2d);
 	}
 
-	public SGGroup getChild() {
-		return this.child;
-	}
 	@Override
-	public void releaseAll(){
-		if(this.child!=null){
+	public void releaseAll() {
+		if (this.child != null) {
 			this.child.releaseAll();
 		}
+	}
+
+	@Override
+	public void removeChild(Object child) {
+		this.child.removeChild(child);
 	}
 }

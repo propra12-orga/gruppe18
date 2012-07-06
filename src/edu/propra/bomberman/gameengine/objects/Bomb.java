@@ -4,10 +4,7 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-
 import javax.imageio.ImageIO;
 
 import main.Bomberman;
@@ -16,17 +13,37 @@ import edu.propra.bomberman.collisionengine.CollisionObject;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.BombUpAction;
 import edu.propra.bomberman.graphicengine.SGAnimation;
-import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class Bomb extends GameObject {
-	public static Area			collisionArea	= null;
-	public static Area			clipArea		= null;
+	public static Area				clipArea		= null;
+	public static Area				collisionArea	= null;
 	public static BufferedImage[]	images			= null;
-	private BombUpAction		action;
-	public Player				owner;
+	static {
+		collisionArea = new Area(new Rectangle(8, 6, 29, 29));
+		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		images = new BufferedImage[52];
+		try {
+			for (int x = 0; x < 52; x++) {
+				images[x] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/bombe" + x + ".png").openStream());
 
-	public Bomb(Player owner, int x, int y,String oid) {
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private BombUpAction			action;
+
+	private int						collisionCount	= 0;
+
+	private boolean					done			= false;
+
+	public Player					owner;
+
+	public boolean					playerOut		= false;
+	private boolean					removed			= false;
+
+	public Bomb(Player owner, int x, int y, String oid) {
 		this.setOid(oid);
 		this.owner = owner;
 		AffineTransform trans = new AffineTransform();
@@ -34,7 +51,7 @@ public class Bomb extends GameObject {
 		// Construct Graphics Subgraph for Player Object
 		this.go = new SGTransform();
 		((SGTransform) this.go).getTransform().setTransform(trans);
-		SGAnimation leaf = new SGAnimation(images,2000);
+		SGAnimation leaf = new SGAnimation(images, 2000);
 		leaf.setClipArea(clipArea);
 		((SGTransform) this.go).addChild(leaf);
 
@@ -44,8 +61,6 @@ public class Bomb extends GameObject {
 
 		this.absTransform = (AffineTransform) trans.clone();
 	}
-
-	private boolean	done	= false;
 
 	@Override
 	public void collisionWith(Object a) {
@@ -73,9 +88,28 @@ public class Bomb extends GameObject {
 		}
 	}
 
-	private boolean	removed			= false;
-	private int		collisionCount	= 0;
-	public boolean	playerOut		= false;
+	public BombUpAction getAction() {
+		return action;
+	}
+
+	@Override
+	public String getMessageData() {
+		int x = (int) ((SGTransform) this.go).getTransform().getTranslateX();
+		int y = (int) ((SGTransform) this.go).getTransform().getTranslateY();
+		return "Bomb " + x + " " + y + " " + this.getOid();
+	}
+
+	@Override
+	public void initializeCollisions() {
+		if (this.isAbsIntialized) {
+			this.co.setCollisionArea(collisionArea.createTransformedArea(this.absTransform));
+			this.collisionsInitialized = true;
+		} else {
+			System.err.println("FixedBlock.initializeCollisions()");
+			System.err.println("  Absolute positions are not initialized");
+		}
+
+	}
 
 	public void repositionBomb(Area colArea) {
 		Area intersection = (Area) this.getCo().getCollisionArea().clone();
@@ -130,44 +164,7 @@ public class Bomb extends GameObject {
 
 	}
 
-	@Override
-	public void initializeCollisions() {
-		if (this.isAbsIntialized) {
-			this.co.setCollisionArea(collisionArea.createTransformedArea(this.absTransform));
-			this.collisionsInitialized = true;
-		} else {
-			System.err.println("FixedBlock.initializeCollisions()");
-			System.err.println("  Absolute positions are not initialized");
-		}
-
-	}
-
-	public BombUpAction getAction() {
-		return action;
-	}
-
 	public void setAction(BombUpAction action) {
 		this.action = action;
-	}
-
-	static {
-		collisionArea = new Area(new Rectangle(8, 6, 29, 29));
-		clipArea = new Area(new Rectangle(0, 0, 40, 40));
-		images = new BufferedImage[52];
-		try {
-			for(int x=0;x<52;x++){
-				images[x] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/bombe"+x+".png").openStream());
-				
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public String getMessageData() {
-		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
-		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
-		return "Bomb "+x+" "+y+" "+this.getOid();
 	}
 }

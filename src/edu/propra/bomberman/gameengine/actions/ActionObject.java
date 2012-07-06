@@ -1,9 +1,9 @@
 package edu.propra.bomberman.gameengine.actions;
 
 public abstract class ActionObject implements Comparable<ActionObject> {
-	protected Long		time;
 	protected Object	actor;
-	String	aid;
+	String				aid;
+	protected Long		time;
 
 	public abstract void action();
 
@@ -12,9 +12,9 @@ public abstract class ActionObject implements Comparable<ActionObject> {
 		return (int) (this.time - o.time);
 	}
 
+	public abstract String getMessageData();
+
 	public long getTime() {
 		return time;
 	}
-
-	public abstract String getMessageData();
 }

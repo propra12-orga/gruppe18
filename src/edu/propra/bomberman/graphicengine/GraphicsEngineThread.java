@@ -5,12 +5,13 @@ package edu.propra.bomberman.graphicengine;
 
 /**
  * @author Nadescha
- * 
+ * Not in use
+ * should have paint the picture every 300000ms
  */
 public class GraphicsEngineThread implements Runnable {
 
-	public boolean			running;
 	public GraphicEngine	ge;
+	public boolean			running;
 
 	public GraphicsEngineThread(GraphicEngine ge) {
 		this.ge = ge;
@@ -35,7 +36,7 @@ public class GraphicsEngineThread implements Runnable {
 	}
 
 	public void stopRunning() {
-		this.running=false;
+		this.running = false;
 	}
 
 }

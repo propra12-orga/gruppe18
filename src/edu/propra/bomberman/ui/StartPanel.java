@@ -8,7 +8,11 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Nadescha
+ *Panelclass to set size for MenuButtons
+ */
 public class StartPanel extends JPanel {
 
 	public StartPanel() {
@@ -29,13 +33,11 @@ public class StartPanel extends JPanel {
 		this.add(spielen, gbc);
 		gbc.gridy = 2;
 		this.add(optionen, gbc);
-		gbc.gridy=3;
+		gbc.gridy = 3;
 		this.add(beenden, gbc);
 		gbc.gridy = 1;
 		this.add(twoplayer, gbc);
 
-		
-		
 	}
 
 	@Override

@@ -1,4 +1,5 @@
 /**
+ * Action to start a network game (Declaration of what you can do) 
  * 
  */
 package edu.propra.bomberman.ui;

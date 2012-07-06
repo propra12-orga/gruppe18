@@ -8,28 +8,34 @@ import edu.propra.bomberman.gameengine.objects.*;
 
 public class RandomMapGenerator {
 
+	public static void main(String[] args) {
+		RandomMapGenerator mapgen = new RandomMapGenerator();
+		mapgen.RandomMap();
+	}
+
+	int			EisBlock	= 4;
+	int			Ende1		= 3;
+	int			Start1		= 1;
+	int			StatBlock	= 5;
+	int			Wand		= 6;
+	int			Start2		= 2;
+	boolean		Start1bel	= false;
+	boolean		Start2bel	= false;
+	boolean		Wandbel		= false;
+
+	int[]		AltObjekt	= { EisBlock, StatBlock };
+	boolean		Endebel		= false;
+	int			i, x, y, z;
+	// Hilfsarrays für einmal und mehrmals zu erstellende Objekte
+	boolean[]	ObjBel		= { Start1bel, Start2bel, Endebel, Wandbel };
+	int[]		Objekt		= { Start1, Start2, Ende1, Wand };
+
 	/**
 	 * @version 2.1
 	 */
-	
-	// Platzhalter für die zu erstellenden Objekte
-	int Start1 = 1;
-	int Start2 = 2;
-	int Ende1 = 3;
-	int EisBlock = 4;
-	int StatBlock = 5;
-	int Wand = 6;
-	// boolean, um bei erstelltem Objekt auf true zu setzen
-	boolean Start1bel = false;
-	boolean Start2bel = false;
-	boolean Endebel = false;
-	boolean Wandbel = false;
-	// Hilfsarrays für einmal und mehrmals zu erstellende Objekte
-	boolean[] ObjBel = { Start1bel, Start2bel, Endebel, Wandbel };
-	int[] Objekt = { Start1, Start2, Ende1, Wand };
-	int[] AltObjekt = { EisBlock, StatBlock };
-	int i, x, y, z;
 
+	// Platzhalter für die zu erstellenden Objekte
+	// boolean, um bei erstelltem Objekt auf true zu setzen
 
 	/**
 	 * Die beiden obigen Werte sollen über Spielereingabe entgegengenommen
@@ -55,21 +61,19 @@ public class RandomMapGenerator {
 		 * Einmal gebrauchte Objekte werden sofort durch Zufallszahlen einer
 		 * Position zu geordnet
 		 */
-		GameObjectGroup root=new GameObjectGroup(0, 0, "oid"+SGameEngine.get().ObjectCounter);
+		GameObjectGroup root = new GameObjectGroup(0, 0, "oid" + SGameEngine.get().ObjectCounter);
 		SGameEngine.get().addObject(root, null);
-	
-
 
 		x = (int) (Math.random() * 19.0 * 1.0);
 		y = (int) (Math.random() * 14.0 * 1.0);
-		Wall Wand = new Wall(0, 0,"oid"+SGameEngine.get().ObjectCounter);
-		SGameEngine.get().addObject(Wand,root);
+		Wall Wand = new Wall(0, 0, "oid" + SGameEngine.get().ObjectCounter);
+		SGameEngine.get().addObject(Wand, root);
 		used[x][y] = 6;
 		System.out.println("Wall " + "x:" + x + " y:" + y);
-	
-		GameObjectGroup container=new GameObjectGroup(25, 25, "oid"+SGameEngine.get().ObjectCounter);
+
+		GameObjectGroup container = new GameObjectGroup(25, 25, "oid" + SGameEngine.get().ObjectCounter);
 		SGameEngine.get().addObject(container, root);
-	
+
 		// StartPoint Start1 = new StartPoint(x, y,"Spieler 1");
 		// SGameEngine.get().addObject(Start1);
 		x = (int) (Math.random() * 19.0 * 1.0);
@@ -86,14 +90,13 @@ public class RandomMapGenerator {
 		used[x][y] = 2;
 		System.out.println("Startpoint2 " + "x:" + x + " y:" + y);
 
-		Exit Ende1 = new Exit(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter);
-		 SGameEngine.get().addObject(Ende1,container);
+		Exit Ende1 = new Exit(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter);
+		SGameEngine.get().addObject(Ende1, container);
 		x = (int) (Math.random() * 8.0 * 1.0);
 		y = (int) (Math.random() * 9.0 * 1.0);
 		// Endebel = true;
 		used[x][y] = 3;
 		System.out.println("Exit " + "x:" + x + " y:" + y);
-
 
 		/**
 		 * @Param Zufällige Werte für die Objekte FixedBlock und IceBlock. x,
@@ -104,9 +107,8 @@ public class RandomMapGenerator {
 		 *            sind die zerstörbaren
 		 */
 
-	
 		for (int counter = 0; counter <= 90; counter++) {
-			
+
 			x = (int) (Math.random() * 19.0 * 1.0);
 			y = (int) (Math.random() * 14.0 * 1.0);
 			z = (int) (Math.random() * 2.0 * 1.0);
@@ -115,75 +117,68 @@ public class RandomMapGenerator {
 			 *            gesetzt, dann wird in den else-Part gesprungen
 			 */
 
-			if ((z == 0) && (used[x][y])==-1) {
-				FixedBlock StatBlock = new FixedBlock(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter);
-				SGameEngine.get().addObject(StatBlock,container);
+			if ((z == 0) && (used[x][y]) == -1) {
+				FixedBlock StatBlock = new FixedBlock(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter);
+				SGameEngine.get().addObject(StatBlock, container);
 				used[x][y] = 4;
 				System.out.println("Fixed Block " + "x:" + x + " y:" + y);
 				continue;
 			}
 
-			if ((z == 1) && (used[x][y])==-1) {
-				IceBlock EisBlock = new IceBlock(x*40, y*40,"oid"+SGameEngine.get().ObjectCounter,-1);
-				 SGameEngine.get().addObject(EisBlock,container);
+			if ((z == 1) && (used[x][y]) == -1) {
+				IceBlock EisBlock = new IceBlock(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter, -1);
+				SGameEngine.get().addObject(EisBlock, container);
 				used[x][y] = 5;
 				System.out.println("Ice Block " + "x:" + x + " y:" + y);
 				continue;
 			}
 		}
-	
-System.out.println("Die Karte ist erstellt");
+
+		System.out.println("Die Karte ist erstellt");
 		for (x = 1; x < 18; x++) {
 			for (y = 1; y < 13; y++) {
 				if (used[x][y] == 1) {
-					if ((used[x+1][y+1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x + 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y-1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x - 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x+1][y-1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x + 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y+1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x - 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-				}
-				else if (used[x][y] == 2) {
-					if ((used[x+1][y+1] == (3 | 4 | 5 | 6)) == true) {
+				} else if (used[x][y] == 2) {
+					if ((used[x + 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y-1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x - 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x+1][y-1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x + 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y+1] == (3 | 4 | 5 | 6)) == true) {
+					if ((used[x - 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-				}
-				else if (used[x][y] == 3) {
-					if ((used[x+1][y+1] == (4 | 5 | 6)) == true) {
+				} else if (used[x][y] == 3) {
+					if ((used[x + 1][y + 1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y-1] == (4 | 5 | 6)) == true) {
+					if ((used[x - 1][y - 1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x+1][y-1] == (4 | 5 | 6)) == true) {
+					if ((used[x + 1][y - 1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
-					if ((used[x-1][y+1] == (4 | 5 | 6)) == true) {
+					if ((used[x - 1][y + 1] == (4 | 5 | 6)) == true) {
 						System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				}
 			}
 		}
 		return root;
-	}
-
-	public static void main(String[] args) {
-		RandomMapGenerator mapgen = new RandomMapGenerator();
-		mapgen.RandomMap();
 	}
 }

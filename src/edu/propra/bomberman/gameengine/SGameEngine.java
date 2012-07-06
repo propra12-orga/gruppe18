@@ -1,7 +1,5 @@
 package edu.propra.bomberman.gameengine;
 
-import edu.propra.bomberman.gameengine.objects.Player;
-
 public class SGameEngine {
 	static GameEngine	instance;
 
@@ -9,8 +7,5 @@ public class SGameEngine {
 		if (instance == null) instance = new GameEngine();
 		return SGameEngine.instance;
 	}
-
-
-
 
 }

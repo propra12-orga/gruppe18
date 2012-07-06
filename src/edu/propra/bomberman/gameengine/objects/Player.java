@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -19,18 +18,39 @@ import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
 public class Player extends GameObject implements Moveable {
-	public static Area				collisionArea;
 	public static Area				clipArea;
-	public static BufferedImage[][]	images;
+	public static Area				collisionArea;
 	public static BufferedImage		deathImage;
-	public boolean					death		= false;
-	private int						bombCounter	= 3;
-	private MovingData				data;
-	private int						bombMax		= 3;
-	private String					name;
-	public int bombSize=3;
+	public static BufferedImage[][]	images;
+	static {
+		//		collisionArea = new Area(new Rectangle(13, 6, 13, 28));
+		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
+		clipArea = new Area(new Rectangle(0, 0, 40, 40));
+		images = new BufferedImage[2][4];
 
-	public Player(int x, int y, String name, int type,String oid) {
+		try {
+			images[0][0] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_front.png").openStream());
+			images[0][1] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_back.png").openStream());
+			images[0][2] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_left.png").openStream());
+			images[0][3] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_right.png").openStream());
+			images[1][0] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_front.png").openStream());
+			images[1][1] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_back.png").openStream());
+			images[1][2] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_left.png").openStream());
+			images[1][3] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_right.png").openStream());
+			deathImage = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/asche.png").openStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private int						bombCounter	= 3;
+	private int						bombMax		= 3;
+	public int						bombSize	= 3;
+	private MovingData				data;
+	public boolean					death		= false;
+
+	private String					name;
+
+	public Player(int x, int y, String name, int type, String oid) {
 		this.setOid(oid);
 		this.name = name;
 
@@ -65,45 +85,9 @@ public class Player extends GameObject implements Moveable {
 
 	}
 
-	@Override
-	public void collisionWith(Object a) {
-		if (!death) {
-			if (a instanceof Explosion) {
-				this.data.block();
-				SGameEngine.get().addAction(new PlayerDeadAction(this),true);
-			} else if (a instanceof Exit) {
-				SGameEngine.get().addAction(new PlayerWonAction(this),true);
-			} else {
-				// System.out.println("Collision between "+this.toString()+" and "+
-
-			}
-		}
-	}
-
-	@Override
-	public MovingData getMovingData() {
-		return this.data;
-	}
-
-	static {
-//		collisionArea = new Area(new Rectangle(13, 6, 13, 28));
-		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
-		clipArea = new Area(new Rectangle(0, 0, 40, 40));
-		images = new BufferedImage[2][4];
-
-		try {
-			images[0][0] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_front.png").openStream());
-			images[0][1] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_back.png").openStream());
-			images[0][2] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_left.png").openStream());
-			images[0][3] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/player_right.png").openStream());
-			images[1][0] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_front.png").openStream());
-			images[1][1] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_back.png").openStream());
-			images[1][2] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_left.png").openStream());
-			images[1][3] = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/enemy_right.png").openStream());
-			deathImage = ImageIO.read(Bomberman.class.getClassLoader().getResource("resources/asche.png").openStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void bombCountUp() {
+		this.bombCounter++;
+		this.bombMax++;
 	}
 
 	public Bomb bombDown() {
@@ -112,13 +96,55 @@ public class Player extends GameObject implements Moveable {
 			data.now = true;
 			int dir = this.data.getDirection();
 			double x = 0, y = 0;
-			return new Bomb(this, (int) (this.absTransform.getTranslateX() + collisionArea.getBounds().x + x), (int) (this.absTransform.getTranslateY() + collisionArea.getBounds().y + y),"oid"+SGameEngine.get().ObjectCounter);
+			return new Bomb(this, (int) (this.absTransform.getTranslateX() + collisionArea.getBounds().x + x), (int) (this.absTransform.getTranslateY() + collisionArea.getBounds().y + y), "oid" + SGameEngine.get().ObjectCounter);
 		}
 		return null;
 	}
 
+	public void bombGrowUp() {
+		this.bombSize += 2;
+
+	}
+
 	public void bombUp() {
 		if (bombCounter <= bombMax) bombCounter++;
+	}
+
+	@Override
+	public void collisionWith(Object a) {
+		if (!death) {
+			if (a instanceof Explosion) {
+				this.data.block();
+				SGameEngine.get().addAction(new PlayerDeadAction(this), true);
+			} else if (a instanceof Exit) {
+				SGameEngine.get().addAction(new PlayerWonAction(this), true);
+			} else {
+				// System.out.println("Collision between "+this.toString()+" and "+
+
+			}
+		}
+	}
+
+	@Override
+	public void ConditionChanged(int cond) {
+
+	}
+
+	@Override
+	public String getMessageData() {
+		//mid mtype mname  parent_oid objtype objx objy oid
+		int x = (int) ((SGTransform) this.go).getTransform().getTranslateX();
+		int y = (int) ((SGTransform) this.go).getTransform().getTranslateY();
+		return "Player " + x + " " + y + " " + this.getName() + " " + this.getOid();
+	}
+
+	@Override
+	public MovingData getMovingData() {
+		return this.data;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	@Override
@@ -132,38 +158,11 @@ public class Player extends GameObject implements Moveable {
 		}
 	}
 
-	@Override
-	public void ConditionChanged(int cond) {
-
-	}
-
 	public void isDead(boolean b) {
 		this.death = b;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void bombCountUp() {
-		this.bombCounter++;
-		this.bombMax++;
-	}
-
-	@Override
-	public String getMessageData() {
-		//mid mtype mname  parent_oid objtype objx objy oid
-		int x= (int) ((SGTransform)this.go).getTransform().getTranslateX();
-		int y= (int) ((SGTransform)this.go).getTransform().getTranslateY();
-		return "Player "+x+" "+y+" "+this.getName()+" "+this.getOid();
-	}
-
-	public void bombGrowUp() {
-		this.bombSize+=2;
-		
 	}
 }

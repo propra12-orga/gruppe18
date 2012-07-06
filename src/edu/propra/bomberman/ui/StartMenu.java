@@ -4,6 +4,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+/**
+ * 
+ * @author Nadescha
+ *Class to define Menu in strip
+ */
 public class StartMenu extends JMenuBar {
 
 	public StartMenu() {

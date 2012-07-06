@@ -1,10 +1,16 @@
+// Author Nadescha
+
 package edu.propra.bomberman.graphicengine;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+/**
+ *Basicclass which yields properties any SGClass shares 
+ */  
+
 public abstract class SGNode {
-	/** Gibt den Vaterknoten dieses Knotens an
+	/**gives fatherknot of this knot 
 	 * 
 	 */
 	private SGNode	parent;
@@ -15,14 +21,15 @@ public abstract class SGNode {
 	public SGNode() {
 	}
 
-	public abstract void PaintRecursive(AffineTransform transform, Graphics2D g2d);
-
 	public SGNode getParent() {
 		return parent;
 	}
 
+	public abstract void PaintRecursive(AffineTransform transform, Graphics2D g2d);
+
+	public abstract void releaseAll();
+
 	public void setParent(SGNode parent) {
 		this.parent = parent;
 	}
-	public abstract void releaseAll();
 }

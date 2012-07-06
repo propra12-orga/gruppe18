@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author Nadescha
+ * Showa different pictures , and could auswählen which shcould be paint
  * 
  */
 public class SGConditionedImage extends SGLeaf {
-	private BufferedImage	images[];
 	private int				actIndex;
+	private BufferedImage	images[];
 
 	/**
 	 * 
@@ -24,15 +25,15 @@ public class SGConditionedImage extends SGLeaf {
 
 	}
 
-	public void setCondition(int actIndex) {
-		this.actIndex = actIndex;
-
-	}
-
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {
 
 		g2d.drawImage(images[actIndex], transform, null);
+	}
+
+	public void setCondition(int actIndex) {
+		this.actIndex = actIndex;
+
 	}
 
 }

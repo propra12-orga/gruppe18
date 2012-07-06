@@ -14,7 +14,6 @@ public class Timeout {
 		timeout(2000, 0.001);
 		timeout(2, 1);
 
-
 	}
 
 	private static void timeout(int i, double d) {

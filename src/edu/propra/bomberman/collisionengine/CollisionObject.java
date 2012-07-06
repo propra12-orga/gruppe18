@@ -14,18 +14,18 @@ public class CollisionObject {
 	}
 
 	/**
+	 * gibt privot zurueck
+	 */
+	public Object getPrivot() {
+		return privot;
+	}
+
+	/**
 	 * @param collisionArea
 	 *            the collisionArea to set
 	 */
 	public void setCollisionArea(Area collisionArea) {
 		CollisionArea = collisionArea;
-	}
-
-	/**
-	 * gibt privot zurueck
-	 */
-	public Object getPrivot() {
-		return privot;
 	}
 
 	/**
