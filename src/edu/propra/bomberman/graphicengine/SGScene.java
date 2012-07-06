@@ -8,13 +8,15 @@ import java.awt.geom.AffineTransform;
 
 /**
  * @author Nadescha
+ * Mutterknoten
  * 
  */
 public class SGScene extends SGNode implements IParent {
 	private SGGroup	child;
 
 	/**
-	 * 
+	 * Scene of evertything set in the Game
+	 * Has just one child.
 	 */
 	public SGScene() {
 		child = new SGGroup();

@@ -1,6 +1,13 @@
+//Author Nadescha, Jens
+/**
+ * For Control of gameflow and control of the other engines
+ * Contains oa GameObject Graph and an ActionTimeline 
+ */
+
 package edu.propra.bomberman.gameengine;
 
 import java.awt.Dimension;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -21,7 +28,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 
 import edu.propra.bomberman.audio.Jukebox;
 import edu.propra.bomberman.collisionengine.CollisionEngine;

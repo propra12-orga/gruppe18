@@ -15,7 +15,11 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
-
+/**
+ * Itemclass to duplicate Bombs
+ * @author Nadescha
+ *
+ */
 public class BombUpItem extends GameObject {
 	public static Area			clipArea		= null;
 	public static Area			collisionArea	= null;

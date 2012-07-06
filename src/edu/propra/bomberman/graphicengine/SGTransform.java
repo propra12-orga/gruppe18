@@ -2,7 +2,11 @@ package edu.propra.bomberman.graphicengine;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-
+/**
+ * Class to translate and rotate objects and scenegraph
+ * @author Nadescha
+ *
+ */
 public class SGTransform extends SGNode implements IParent {
 	private SGNode			child;
 	private AffineTransform	transform;

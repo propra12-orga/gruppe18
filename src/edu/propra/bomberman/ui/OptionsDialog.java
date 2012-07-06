@@ -1,4 +1,4 @@
-/**
+/** 
  * 
  */
 package edu.propra.bomberman.ui;
@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 /**
  * @author Nadescha
- * 
+ * DIalog to Show and added options
  */
 public class OptionsDialog extends JDialog implements ActionListener {
 	JTextField	hostnameText;
@@ -27,13 +27,16 @@ public class OptionsDialog extends JDialog implements ActionListener {
 
 	/**
 	 * @param arg0
+	 * Framesize
 	 */
 	public OptionsDialog(Frame arg0) {
 		super(arg0);
 		setTitle("Titel");
 		//		this.setPreferredSize(new Dimension(400,250));
 		this.getContentPane().setLayout(new GridBagLayout());
-
+ /**
+  * Textfield for Host and framesize
+  */
 		JLabel hostnameLabel = new JLabel("Hostname");
 		hostnameText = new JTextField();
 		hostnameText.setText(Options.HostName);
@@ -44,7 +47,9 @@ public class OptionsDialog extends JDialog implements ActionListener {
 		this.getContentPane().add(hostnameLabel, gbc);
 		gbc.gridx = 1;
 		this.getContentPane().add(hostnameText, gbc);
-
+/**
+ * Textfield and Size for Port
+ */
 		JLabel portnameLabel = new JLabel("Portname");
 		portnameText = new JTextField();
 		portnameText.setText(Options.PortName);
@@ -56,7 +61,9 @@ public class OptionsDialog extends JDialog implements ActionListener {
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		this.getContentPane().add(portnameText, gbc);
-
+/**
+ * Buttonaction "ok" to save choosen IP and Port
+ */
 		Ok = new JButton("Ok");
 		Ok.addActionListener(this);
 		Ok.setPreferredSize(new Dimension(50, 25));

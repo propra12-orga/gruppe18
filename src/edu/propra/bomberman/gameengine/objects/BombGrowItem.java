@@ -1,6 +1,9 @@
 package edu.propra.bomberman.gameengine.objects;
 
 import java.awt.Rectangle;
+/**
+ * Itemclass to extend explosion
+ */
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;

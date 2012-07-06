@@ -2,7 +2,9 @@
  * 
  */
 package edu.propra.bomberman.ui;
-
+/**
+ * Action to start the twoplayer
+ */
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;

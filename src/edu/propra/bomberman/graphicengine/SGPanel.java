@@ -1,4 +1,7 @@
 package edu.propra.bomberman.graphicengine;
+/**
+ * Drawscene on which everythin is paint 
+ */
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,7 +18,9 @@ public class SGPanel extends JPanel {
 
 	private SGScene				scene;
 	public boolean				updateCache			= true;
-
+/**
+ * Panelchache, everything is paint on one picture (cache) and sometimes redraw and sometimes not
+ */
 	public SGPanel() {
 		scene = new SGScene();
 

@@ -15,7 +15,11 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.PlayerWonAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
-
+/**
+ * Class too exit teh game
+ * @author Nadescha
+ *
+ */
 public class Exit extends GameObject {
 	public static Area			clipArea		= null;
 	public static Area			collisionArea	= null;

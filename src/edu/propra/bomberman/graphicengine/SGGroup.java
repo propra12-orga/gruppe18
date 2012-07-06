@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
+/**
+ * 
+ * @author Nadescha
+ *Node which has a few childs
+ */
 public class SGGroup extends SGNode implements IParent {
 	private List<SGNode>	childs;
 

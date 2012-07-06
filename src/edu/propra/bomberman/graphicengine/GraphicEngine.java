@@ -1,4 +1,9 @@
+//Author Nadescha
+
+
 package edu.propra.bomberman.graphicengine;
+
+
 
 public class GraphicEngine {
 	private GraphicsEngineThread	geT;

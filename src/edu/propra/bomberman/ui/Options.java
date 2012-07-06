@@ -1,11 +1,12 @@
-/**
+/** 
+ * 
  * 
  */
 package edu.propra.bomberman.ui;
 
 /**
  * @author Nadescha
- *
+ * 
  */
 public class Options {
 	public static String	HostName	= "localhost";

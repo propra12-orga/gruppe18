@@ -4,6 +4,7 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.objects.BombGrowItem;
 import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.GameObject;
+import edu.propra.bomberman.gameengine.objects.Skull;
 
 public class ItemDropAction extends ActionObject {
 
@@ -15,6 +16,9 @@ public class ItemDropAction extends ActionObject {
 				break;
 			case 2:
 				this.actor = new BombGrowItem(x, y, "oid" + SGameEngine.get().ObjectCounter);
+				break;
+			case 3:
+				this.actor=new Skull(x,y,"oid"+SGameEngine.get().ObjectCounter);
 				break;
 			default:
 				break;

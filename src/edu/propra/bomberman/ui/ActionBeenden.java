@@ -1,3 +1,8 @@
+/**
+ * Author Nadescha
+ * 
+ * Action to exit game
+ */
 package edu.propra.bomberman.ui;
 
 import java.awt.event.ActionEvent;

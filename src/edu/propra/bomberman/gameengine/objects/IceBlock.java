@@ -20,6 +20,7 @@ public class IceBlock extends GameObject {
 	public static Area			clipArea		= null;
 	public static Area			collisionArea	= null;
 	public static BufferedImage	image			= null;
+
 	static {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
@@ -35,7 +36,7 @@ public class IceBlock extends GameObject {
 
 	public int					type			= -1;
 
-	public int					types			= 3;
+	public int					types			= 4;
 
 	public IceBlock(int x, int y, String oid, int type) {
 		this.setOid(oid);
