@@ -69,7 +69,7 @@ public class RandomMapGenerator {
 		Wall Wand = new Wall(0, 0, "oid" + SGameEngine.get().ObjectCounter);
 		SGameEngine.get().addObject(Wand, root);
 		used[x][y] = 6;
-		System.out.println("Wall " + "x:" + x + " y:" + y);
+		//System.out.println("Wall " + "x:" + x + " y:" + y);
 
 		GameObjectGroup container = new GameObjectGroup(25, 25, "oid" + SGameEngine.get().ObjectCounter);
 		SGameEngine.get().addObject(container, root);
@@ -80,7 +80,7 @@ public class RandomMapGenerator {
 		y = (int) (Math.random() * 14.0 * 1.0);
 		// Start1bel = true;
 		used[x][y] = 1;
-		System.out.println("Startpoint1 " + "x:" + x + " y:" + y);
+		//System.out.println("Startpoint1 " + "x:" + x + " y:" + y);
 
 		// StartPoint Start2 = new StartPoint(x, y,"Spieler 2");
 		// SGameEngine.get().addObject(Start2);
@@ -88,7 +88,7 @@ public class RandomMapGenerator {
 		y = (int) (Math.random() * 14.0 * 1.0);
 		// Start2bel = true;
 		used[x][y] = 2;
-		System.out.println("Startpoint2 " + "x:" + x + " y:" + y);
+		//System.out.println("Startpoint2 " + "x:" + x + " y:" + y);
 
 		Exit Ende1 = new Exit(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter);
 		SGameEngine.get().addObject(Ende1, container);
@@ -96,7 +96,7 @@ public class RandomMapGenerator {
 		y = (int) (Math.random() * 9.0 * 1.0);
 		// Endebel = true;
 		used[x][y] = 3;
-		System.out.println("Exit " + "x:" + x + " y:" + y);
+		//System.out.println("Exit " + "x:" + x + " y:" + y);
 
 		/**
 		 * @Param Zufällige Werte für die Objekte FixedBlock und IceBlock. x,
@@ -121,7 +121,7 @@ public class RandomMapGenerator {
 				FixedBlock StatBlock = new FixedBlock(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter);
 				SGameEngine.get().addObject(StatBlock, container);
 				used[x][y] = 4;
-				System.out.println("Fixed Block " + "x:" + x + " y:" + y);
+				//System.out.println("Fixed Block " + "x:" + x + " y:" + y);
 				continue;
 			}
 
@@ -129,52 +129,52 @@ public class RandomMapGenerator {
 				IceBlock EisBlock = new IceBlock(x * 40, y * 40, "oid" + SGameEngine.get().ObjectCounter, -1);
 				SGameEngine.get().addObject(EisBlock, container);
 				used[x][y] = 5;
-				System.out.println("Ice Block " + "x:" + x + " y:" + y);
+				//System.out.println("Ice Block " + "x:" + x + " y:" + y);
 				continue;
 			}
 		}
 
-		System.out.println("Die Karte ist erstellt");
+		//System.out.println("Die Karte ist erstellt");
 		for (x = 1; x < 18; x++) {
 			for (y = 1; y < 13; y++) {
 				if (used[x][y] == 1) {
 					if ((used[x + 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x + 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				} else if (used[x][y] == 2) {
 					if ((used[x + 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x + 1][y - 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y + 1] == (3 | 4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				} else if (used[x][y] == 3) {
 					if ((used[x + 1][y + 1] == (4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y - 1] == (4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x + 1][y - 1] == (4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 					if ((used[x - 1][y + 1] == (4 | 5 | 6)) == true) {
-						System.out.println("Diese Karte ist nicht spielbar!");
+						//System.out.println("Diese Karte ist nicht spielbar!");
 					}
 				}
 			}

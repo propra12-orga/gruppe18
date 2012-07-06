@@ -3,6 +3,10 @@ package edu.propra.bomberman.networkengine.network;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombGrowAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
+import edu.propra.bomberman.gameengine.actions.PlayerDeadAction;
+import edu.propra.bomberman.gameengine.actions.PlayerWonAction;
 import edu.propra.bomberman.gameengine.actions.StartMoveAction;
 import edu.propra.bomberman.gameengine.actions.StopMoveAction;
 import edu.propra.bomberman.gameengine.objects.*;
@@ -54,17 +58,20 @@ public class ServerProtocol {
 			SGameEngine.get().addToNetStack(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5])));
 			//SGameEngine.get().addAction(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5]) + this.nE.syncTime));
 		} else if (messageParts[3].equals("PlayerDeadAction")) {
-			/*if (messageParts[4].equals(playeroid)) {
 				Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
-				if (actor.death) {
-					return "MIDXXX Broadcast PlayerDeadAction 1";
-				} else {
-					return "MIDXXX Broadcast PlayerDeadAction 0";
-				}
-			}*/
+				SGameEngine.get().addToNetStack(new PlayerDeadAction(actor));
 		} else if (messageParts[3].equals("PlayerWonAction")) {
-
-		}
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			SGameEngine.get().addToNetStack(new PlayerWonAction(actor));
+		} else if (messageParts[3].equals("PlayerBombGrowAction")){
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			GameObject item = (GameObject) SGameEngine.get().getByOID(messageParts[5]);
+			SGameEngine.get().addToNetStack(new PlayerBombGrowAction(actor,item));	
+		} else if (messageParts[3].equals("PlayerBombUpAction")){
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			GameObject item = (GameObject) SGameEngine.get().getByOID(messageParts[5]);
+			SGameEngine.get().addToNetStack(new PlayerBombUpAction(actor,item));
+		} 
 		return null;
 	}
 

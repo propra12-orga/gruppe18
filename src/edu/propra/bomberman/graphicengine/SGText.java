@@ -45,6 +45,9 @@ public class SGText extends SGLeaf {
 	 * edu.propra.bomberman.graphicengine.SGLeaf#paint(java.awt.geom.AffineTransform
 	 * , java.awt.Graphics2D)
 	 */
+	/**
+	 * Takes the font and color
+	 */
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {
 		int size = 22;

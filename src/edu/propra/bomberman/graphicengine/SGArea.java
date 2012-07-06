@@ -10,7 +10,7 @@ import java.awt.geom.Area;
 
 /**
  * @author Nadescha
- * 
+ * Area paints Map
  */
 public class SGArea extends SGLeaf {
 	private Color	color;

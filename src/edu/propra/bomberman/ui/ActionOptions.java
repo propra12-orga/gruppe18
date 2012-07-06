@@ -1,4 +1,5 @@
-/**
+/** 
+ * Declaration of the "Optionen" Button at Menu
  * 
  */
 package edu.propra.bomberman.ui;

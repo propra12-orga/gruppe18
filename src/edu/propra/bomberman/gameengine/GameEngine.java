@@ -1,6 +1,13 @@
+//Author Nadescha, Jens
+/**
+ * For Control of gameflow and control of the other engines
+ * Contains oa GameObject Graph and an ActionTimeline 
+ */
+
 package edu.propra.bomberman.gameengine;
 
 import java.awt.Dimension;
+
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
@@ -21,13 +28,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 
 import edu.propra.bomberman.audio.Jukebox;
 import edu.propra.bomberman.collisionengine.CollisionEngine;
 import edu.propra.bomberman.gameengine.actions.ActionObject;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;
 import edu.propra.bomberman.gameengine.objects.Bomb;
+import edu.propra.bomberman.gameengine.objects.BombGrowItem;
+import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
@@ -72,21 +80,40 @@ public class GameEngine {
 	private ArrayDeque<Object> netStack;
 	
 	public GameEngine() {
-		// initialize Engines
+		System.out.println("GameEngine.GameEngine()");
+		
+		System.out.println("    Initializing Engines");
 		gE = new GraphicEngine();
 		cE = new CollisionEngine();
 		cE.setGameEngine(this);
 		nE = new NetworkEngine();
 		ucE = new UserControlEngine(this);
-		setSoundEngine(new Jukebox());
+		sE = new Jukebox();
+		System.out.println("    Engines Initialized");
 
 		actionTimeline = new PriorityQueue<ActionObject>();
 		netStack=new ArrayDeque<Object>();
 		objectsRoot = null;
+		preloadClasses();
 
 	}
 
+	public void preloadClasses(){
+		System.out.println("    preloading Classes");
+		System.out.println("        "+Bomb.class.getName()+" loaded ("+Bomb.images.length+")");
+		System.out.println("        "+BombGrowItem.class.getName()+" loaded ("+BombGrowItem.image.getType()+")");
+		System.out.println("        "+BombUpItem.class.getName()+" loaded ("+BombUpItem.image.getType()+")");		
+		System.out.println("        "+Exit.class.getName()+" loaded ("+Exit.image.getType()+")");
+		System.out.println("        "+Explosion.class.getName()+" loaded ("+Explosion.image.length+")");		
+		System.out.println("        "+FixedBlock.class.getName()+" loaded ("+FixedBlock.image.getType()+")");
+		System.out.println("        "+IceBlock.class.getName()+" loaded ("+IceBlock.image.getType()+")");
+		System.out.println("        "+Player.class.getName()+" loaded ("+Player.images.length+")");
+		System.out.println("        "+Wall.class.getName()+" loaded ("+Wall.image.getType()+")");		
+	}
+	
+	
 	public void addAction(ActionObject action) {
+		//System.out.println("GameEngine.addAction(1)");
 		if (action != null) {
 			actionTimeline.add(action);
 			actionCount++;
@@ -94,11 +121,13 @@ public class GameEngine {
 	}
 
 	public void addAction(ActionObject action, boolean submit) {
+		//System.out.println("GameEngine.addAction(2)");
 		addAction(action);
 		if (submit && action != null && this.nE.networkGame) this.nE.broadcastMessage("MIDYYY Broadcast AddAction" + action.getMessageData());
 	}
 
 	public GameObjectGroup addObject(GameObject obj, GameObjectGroup parent) {
+		//System.out.println("GameEngine.addObject(1)");
 		ObjectCounter++;
 		if (parent == null) parent = this.objectsRoot;
 		if (parent == null) {
@@ -118,20 +147,25 @@ public class GameEngine {
 	}
 
 	public void addObject(GameObject obj, GameObjectGroup parent, boolean doAdd) {
+		//System.out.println("GameEngine.addObject(2)");
 		parent = this.addObject(obj, parent);
-		System.out.println("stard Send: "+System.currentTimeMillis());
-		if (doAdd && this.nE.networkGame) if (parent != null)
-			this.nE.broadcastMessage("MIDXXX Broadcast AddObject " + obj.getMessageData() + " " + parent.getOid());
-		else
-			this.nE.broadcastMessage("MIDXXX Broadcast AddObject " + obj.getMessageData() + " 0");
+		if (doAdd && this.nE.networkGame) 
+			if (parent != null)
+				this.nE.broadcastMessage("MIDXXX Broadcast AddObject " + obj.getMessageData() + " " + parent.getOid());
+			else
+				this.nE.broadcastMessage("MIDXXX Broadcast AddObject " + obj.getMessageData() + " 0");
 
 	}
 
 	public void AllPlayersConnected() {
+		System.out.println("GameEngine.AllPlayersConnected()");
 		if (this.nE.isServer()) {
 			this.nE.broadcastMessage("IDPPP Broadcast EndPlayerSelectionPhase");
 			int scene = (int) (Math.random() * (9d - 5d) + 5d);
-			this.objectsRoot = (GameObjectGroup) this.loadMap("scene" + scene + ".xml");
+			this.objectsRoot = (GameObjectGroup) SceneMapGenerator.loadMap("scene" + scene + ".xml",this);
+			objectsRoot.initializeAbsolutePositions(new AffineTransform());
+			objectsRoot.initializeCollisions();
+			
 			Player player1 = new Player(25, 25, "Player1", 0, "oid" + ObjectCounter);
 			this.setPlayer(player1, true);
 
@@ -145,6 +179,7 @@ public class GameEngine {
 	}
 
 	public void collisionBetween(Object a, Object b) {
+		//System.out.println("GameEngine.collisionBetween()");
 		if (a == b) return;
 		if (collisionStack == null) collisionStack = new ArrayDeque<Object>();
 		collisionStack.push(a);
@@ -152,13 +187,17 @@ public class GameEngine {
 	}
 
 	public void doActions() {
+		//System.out.println("GameEngine.doActions()");
 		long time = SGameEngine.get().getTime();
+		ActionObject action;
 		while (!actionTimeline.isEmpty() && actionTimeline.peek().getTime() < time) {
-			actionTimeline.poll().action();
+			action=actionTimeline.poll();
+			if(action!=null)action.action();
 		}
 	}
 
 	public void doCollisions() {
+		//System.out.println("GameEngine.doCollisions()");
 		Object a, b;
 		if (collisionStack == null) collisionStack = new ArrayDeque<Object>();
 		while (!collisionStack.isEmpty()) {
@@ -170,14 +209,18 @@ public class GameEngine {
 	}
 
 	public void doMoves() {
+		//System.out.println("GameEngine.doMoves()");
 		objectsRoot.doMoves();
 	}
 
 	public void doPreMoves() {
+		//System.out.println("GameEngine.doPreMoves()");
 		objectsRoot.doPreMoves();
 	}
+	
 	public void doNetStack(){
-		if(netStack==null)netStack=new ArrayDeque<Object>();
+		//System.out.println("GameEngine.doNetStack()");
+		if(netStack==null) netStack=new ArrayDeque<Object>();
 		Object next;
 		Object parent;
 		while(!netStack.isEmpty()){
@@ -194,6 +237,7 @@ public class GameEngine {
 		}
 	}
 	public void doRound() {
+		//System.out.println("GameEngine.doRound()");
 		if (!roundDone) return;
 		roundDone = false;
 		//dur=SGameEngine.get().getTime();
@@ -207,11 +251,12 @@ public class GameEngine {
 		this.gE.getPanel().updateCache = true;
 		this.gE.getPanel().repaint();
 		//dur=SGameEngine.get().getTime()-dur;	
-		//System.out.println(dur);
+		////System.out.println(dur);
 		roundDone = true;
 	}
 
 	public void endGame() {
+		System.out.println("GameEngine.endGame()");
 		this.gt.stopRunning();
 		try {
 			Thread.sleep(100);
@@ -229,85 +274,41 @@ public class GameEngine {
 		Bomberman.gameFrame.gameEnd();
 	}
 
-	public void explodeBomb(Bomb bomb) {
-	}
 
 	public String getActionID() {
+		//System.out.println("GameEngine.getActionID()");
 		return "aid" + actionCount;
 	}
 
 	public GameObject getByOID(String oid) {
+		//System.out.println("GameEngine.getByOID()");
 		return this.objectsRoot.getByOid(oid);
 	}
 
 	public CollisionEngine getCollisionEngine() {
+		//System.out.println("GameEngine.getCollisionEngine()");
 		return this.cE;
 	}
 
 	public GraphicEngine getGraphicEngine() {
+		//System.out.println("GameEngine.getGraphicEngine()");
 		return this.gE;
 	}
 
-	private GameObject getNewGO(Node node) {
-		if (node.getNodeName().equals("geGroup")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			GameObjectGroup group = new GameObjectGroup(x, y, "oid" + ObjectCounter);
-			return group;
-		}
-		if (node.getNodeName().equals("geFixedBlock")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			FixedBlock fb = new FixedBlock(x, y, "oid" + ObjectCounter);
-			return fb;
-		}
-		if (node.getNodeName().equals("geWall")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Wall wall = new Wall(x, y, "oid" + ObjectCounter);
-			return wall;
-		}
-		if (node.getNodeName().equals("geExit")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Exit exit = new Exit(x, y, "oid" + ObjectCounter);
-			return exit;
-		}
-		if (node.getNodeName().equals("geBomb")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			Bomb bomb = new Bomb(null, x, y, "oid" + ObjectCounter);
-			return bomb;
-		}
-
-		if (node.getNodeName().equals("geExplosion")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			int size = Integer.parseInt(node.getAttributes().getNamedItem("size").getNodeValue());
-			Explosion explosion = new Explosion(x, y, size, "oid" + ObjectCounter);
-			return explosion;
-		}
-
-		if (node.getNodeName().equals("geIceBlock")) {
-			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
-			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
-			IceBlock iceblock = new IceBlock(x, y, "oid" + ObjectCounter, -1);
-			return iceblock;
-		}
-		System.err.println("Unknown Type of Node when parsing XML");
-		return null;
-
-	}
+	
 
 	public Jukebox getSoundEngine() {
+		//System.out.println("GameEngine.getSoundEngine()");
 		return sE;
 	}
 
 	public UserControlEngine getUserControlEngine() {
+		//System.out.println("GameEngine.getUserControlEngine()");
 		return this.ucE;
 	}
 
 	public void initializeGame() {
+		System.out.println("GameEngine.initializeGame()");
 		gE.getPanel().setPreferredSize(new Dimension(800, 600));
 		SGImage background = new SGImage();
 		try {
@@ -319,74 +320,19 @@ public class GameEngine {
 		this.gE.addSGNode(background, null);
 	}
 
-	public GameObject loadMap(String filename) {
-		// TODO load from file
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(Bomberman.class.getClassLoader().getResourceAsStream(filename));
-			Node root = doc.getFirstChild();
-			Node act = root;
-			GameObjectGroup actGO = null;
-			GameObjectGroup GOroot = null;
-			int depth = 1;
-			do {
-				if (act.getNodeType() == Node.ELEMENT_NODE) {
-					if (act.getNodeName().equals("geGroup")) {
-						if (actGO == null) {
-							actGO = (GameObjectGroup) this.getNewGO(act);
-							GOroot = actGO;
-							this.addObject(actGO, null, true);
-						} else {
-							GameObjectGroup actGO2 = (GameObjectGroup) this.getNewGO(act);
-							this.addObject(actGO2, actGO, true);
-							actGO = actGO2;
-						}
-					} else {
-						this.addObject(this.getNewGO(act), actGO, true);
-					}
-
-				}
-				if (act.hasChildNodes()) {
-					act = act.getFirstChild();
-					depth++;
-					continue;
-				}
-				if (act.getNextSibling() != null) {
-					act = act.getNextSibling();
-					continue;
-				} else {
-					if (act.getNodeName().equals("geGroup")) actGO = (GameObjectGroup) actGO.getParent();
-					act = act.getParentNode().getNextSibling();
-					depth--;
-					continue;
-				}
-			} while (act != root && act != null && act != doc);
-			System.out.println("done");
-			return GOroot;
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	public void removeAction(ActionObject action) {
+		//System.out.println("GameEngine.removeAction()");
 		this.actionTimeline.remove(action);
 	}
 
 	public void removeExplosion(Explosion boom) {
+		//System.out.println("GameEngine.removeExplosion()");
 		this.removeObject(boom);
 	}
 
 	public void removeGameObject(GameObject go) {
+		//System.out.println("GameEngine.removeGameObject()");
 		this.objectsRoot.removeChildRecursive(go);
 		this.cE.DelObject(go.getCo());
 		if (go.getGo().getParent() instanceof SGGroup) {
@@ -397,6 +343,7 @@ public class GameEngine {
 	}
 
 	public void removeObject(GameObject obj) {
+		//System.out.println("GameEngine.removeObject()");
 		if (obj != null && obj.getParent() != null) {
 			((IParent) obj.getParent()).removeChild(obj);
 			this.gE.removeSGNode(obj.getGo());
@@ -405,13 +352,17 @@ public class GameEngine {
 	}
 
 	public void removePlayer(Object actor) {
+		//System.out.println("GameEngine.removePlayer()");
 		this.players--;
 		if (this.players == 0) {
 			this.addAction(new GameOverAction(this.getActionID(), SGameEngine.get().getTime()), true);
 		}
 	}
 
+	public Player you;
 	public void setPlayer(Player player, boolean submit) {
+		//System.out.println("GameEngine.setPlayer()");
+		this.you=player;
 		this.addObject(player, null, submit);
 		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
 		listener.login(this.ucE);
@@ -422,6 +373,7 @@ public class GameEngine {
 	}
 
 	public void startGame() {
+		System.out.println("GameEngine.startGame()");
 		if (this.nE.networkGame && this.nE.isServer()) {
 			this.nE.InitializeMapPhaseOver();
 		}
@@ -434,46 +386,47 @@ public class GameEngine {
 	}
 
 	public void startOnePlayer() {
+		System.out.println("GameEngine.startOnePlayer()");
 		int scene = (int) (Math.random() * (5d - 1d) + 1d);
 		//this.objectsRoot = (GameObjectGroup) this.loadMap("scene"+scene+".xml");
 		RandomMapGenerator randmap = new RandomMapGenerator();
 		this.objectsRoot = randmap.RandomMap();//.("scene"+scene+".xml");
 		Player player = new Player(25, 25, "Player 1", 0, "oid" + ObjectCounter);
-		this.addObject(player, null, false);
-		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
-		listener.login(this.ucE);
+		this.setPlayer(player, false);
 		this.players = 1;
-		// gameEngine.gE.startDrawing();
 		this.startGame();
 
 	}
 
 	public void startTwoPlayer() {
+		System.out.println("GameEngine.startTwoPlayer()");
 		int scene = (int) (Math.random() * (9d - 5d) + 5d);
-		this.objectsRoot = (GameObjectGroup) this.loadMap("scene" + scene + ".xml");
+		this.objectsRoot = (GameObjectGroup) SceneMapGenerator.loadMap("scene" + scene + ".xml",this);
+		this.objectsRoot.initializeAbsolutePositions(new AffineTransform());
+		this.objectsRoot.initializeCollisions();
 		Player player = new Player(25, 25, "Player1", 0, "oid" + ObjectCounter);
-		this.addObject(player, null, false);
-		PlayerListener playerListener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_ENTER);
-		playerListener.login(this.ucE);
+		this.setPlayer(player, false);
 
 		Player enemy = new Player(735, 535, "Player2", 1, "oid" + ObjectCounter);
 		this.addObject(enemy, null, false);
-		PlayerListener enemyListener = new PlayerListener(enemy, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_SPACE);
+		PlayerListener enemyListener = new PlayerListener(enemy, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_E);
 		enemyListener.login(this.ucE);
 		this.players = 2;
-		// gameEngine.gE.startDrawing();
+		
 		this.startGame();
 	}
 
 	public void startTwoPlayerNetwork() {
+		System.out.println("GameEngine.startTwoPlayerNetwork()");
 		this.nE.connect();
 		this.nE.start();
 	}
 	boolean mapInit=true;
 	boolean flag=false;
 	public void addToNetStack(Object object) {
-		this.netStack.add(object);
-		System.out.println("message on stack:"+ System.currentTimeMillis());
+		//System.out.println("GameEngine.addToNetStack()");
+		if(object!=null)this.netStack.add(object);
+		//System.out.println("message on stack:"+ System.currentTimeMillis());
 		if(mapInit){
 			if(object instanceof GameObject || object instanceof String){
 				if(flag){
@@ -494,5 +447,9 @@ public class GameEngine {
 	
 	public void calcSyncTime(long servertime,long clienttime){
 		syncTime=clienttime-servertime;
+	}
+
+	public NetworkEngine getNetworkEngine() {
+		return this.nE;
 	}
 }

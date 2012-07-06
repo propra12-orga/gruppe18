@@ -1,10 +1,16 @@
+// Author Nadescha
+
 package edu.propra.bomberman.graphicengine;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
+/**
+ *Basicclass which yields properties any SGClass shares 
+ */  
+
 public abstract class SGNode {
-	/** Gibt den Vaterknoten dieses Knotens an
+	/**gives fatherknot of this knot 
 	 * 
 	 */
 	private SGNode	parent;

@@ -1,6 +1,9 @@
 package edu.propra.bomberman.gameengine.objects;
 
 import java.awt.Rectangle;
+/**
+ * Itemclass to extend explosion
+ */
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.image.BufferedImage;
@@ -53,7 +56,13 @@ public class BombGrowItem extends GameObject {
 	@Override
 	public void collisionWith(Object a) {
 		if (a instanceof Player) {
-			SGameEngine.get().addAction(new PlayerBombGrowAction((Player) a, this));
+			if(SGameEngine.get().getNetworkEngine().isNetworkGame()){
+				if(a == SGameEngine.get().you){
+					SGameEngine.get().addAction(new PlayerBombGrowAction((Player) a, this),true);
+				}
+			}else{
+				SGameEngine.get().addAction(new PlayerBombGrowAction((Player) a, this),false);
+			}
 		}
 	}
 

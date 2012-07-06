@@ -20,6 +20,7 @@ public class IceBlock extends GameObject {
 	public static Area			clipArea		= null;
 	public static Area			collisionArea	= null;
 	public static BufferedImage	image			= null;
+
 	static {
 		collisionArea = new Area(new Rectangle(0, 0, 40, 40));
 		clipArea = new Area(new Rectangle(0, 0, 40, 40));
@@ -35,18 +36,20 @@ public class IceBlock extends GameObject {
 
 	public int					type			= -1;
 
-	public int					types			= 3;
+	public int					types			= 4;
 
 	public IceBlock(int x, int y, String oid, int type) {
 		this.setOid(oid);
-
+		this.type=type;
 		if (type == -1) {
 			int rand = (int) (Math.random() * (chance - 1) + 1d);
 			if (rand == chance - 1) {
 				this.type = (int) (Math.random() * (types - 1) + 1d);
+			}else{
+				this.type = 0;	
 			}
 		}
-		System.out.println("itemtype: " + this.type);
+		//System.out.println("itemtype: " + this.type);
 
 		AffineTransform trans = new AffineTransform();
 		trans.setToTranslation(x, y);
@@ -70,7 +73,7 @@ public class IceBlock extends GameObject {
 		if (a instanceof Explosion) {
 			counter--;
 			if (counter == 0) {
-				SGameEngine.get().addAction(new IceBlockDestroyedAction(this, SGameEngine.get().getActionID(), type));
+				SGameEngine.get().addAction(new IceBlockDestroyedAction(this, SGameEngine.get().getActionID(), type),false);
 			}
 		}
 	}

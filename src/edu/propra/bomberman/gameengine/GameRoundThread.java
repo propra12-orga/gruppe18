@@ -1,5 +1,9 @@
 package edu.propra.bomberman.gameengine;
-
+/**
+ * 
+ * @author Nadescha
+ *Thread which tells teh gameineginge to do teh next calculation step
+ */
 public class GameRoundThread implements Runnable {
 
 	private GameEngine	ge;

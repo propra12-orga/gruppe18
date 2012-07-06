@@ -1,3 +1,4 @@
+//Author Alex
 package edu.propra.bomberman.collisionengine;
 
 import java.awt.Rectangle;
@@ -12,6 +13,7 @@ import edu.propra.bomberman.gameengine.objects.BombGrowItem;
 import edu.propra.bomberman.gameengine.objects.BombUpItem;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
+import edu.propra.bomberman.gameengine.objects.Skull;
 
 public class CollisionEngine {
 
@@ -92,7 +94,7 @@ public class CollisionEngine {
 		Iterator<CollisionObject> it = this.objects.iterator();
 		while (it.hasNext()) {
 			partnerObj = it.next();
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem) && !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)&& !(partnerObj.getPrivot() instanceof Skull)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						tempIntersection = (Area) partnerObj.getCollisionArea().clone();
@@ -104,9 +106,9 @@ public class CollisionEngine {
 		}
 		//transLength must be used
 		if (!intersection.isEmpty()) {
-			//System.out.println("Trans before = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
+			////System.out.println("Trans before = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
 			if (dir == 90) { //right x>0 y=0			|| dir==270){//horizontal
-				//System.out.print("Moving right - ");
+				////System.out.print("Moving right - ");
 				if (intersection.getBounds().height < oldObject.getCollisionArea().getBounds2D().getHeight() / 2) {
 					//ecke  
 					if (intersection.getBounds().y == oldObject.getCollisionArea().getBounds().y) {
@@ -115,22 +117,22 @@ public class CollisionEngine {
 						} else {
 							trans.translate(-intersection.getBounds().height, intersection.getBounds().height);
 						}
-						//System.out.println("Ecke unten");
+						////System.out.println("Ecke unten");
 					} else {
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
 							trans.setToTranslation(0, -trans.getTranslateX());
 						} else {
 							trans.translate(-intersection.getBounds().height, -intersection.getBounds().height);
 						}
-						//System.out.println("Ecke oben");
+						////System.out.println("Ecke oben");
 					}
 				} else {
 					trans.translate(-trans.getTranslateX(), 0);
-					//System.out.println("Kante");
+					////System.out.println("Kante");
 				}
 			}
 			if (dir == 270) { //left				|| dir==270){//horizontal
-				//System.out.print("moving left - ");
+				////System.out.print("moving left - ");
 				if (intersection.getBounds().height < oldObject.getCollisionArea().getBounds2D().getHeight() / 2) {
 					//ecke
 					if (intersection.getBounds().y == oldObject.getCollisionArea().getBounds().y) {
@@ -139,23 +141,23 @@ public class CollisionEngine {
 						} else {
 							trans.translate(intersection.getBounds().height, intersection.getBounds().height);
 						}
-						//	System.out.println("Ecke unten");
+						//	//System.out.println("Ecke unten");
 					} else {
 						if (intersection.getBounds().getBounds().height > -trans.getTranslateX()) {
 							trans.setToTranslation(0, trans.getTranslateX());
 						} else {
 							trans.translate(intersection.getBounds().height, -intersection.getBounds().height);
 						}
-						//System.out.println("Ecke oben");
+						////System.out.println("Ecke oben");
 					}
 				} else {
 					trans.translate(-trans.getTranslateX(), 0);
-					//System.out.println("Kante");
+					////System.out.println("Kante");
 				}
 			}
 
 			if (dir == 180) { //down				|| dir==270){//horizontal
-				//System.out.print("moving down - ");
+				////System.out.print("moving down - ");
 				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth() * 4 / 5) {
 					//ecke
 					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
@@ -166,7 +168,7 @@ public class CollisionEngine {
 							trans.translate(intersection.getBounds().width, -intersection.getBounds().width);
 						}
 
-						//System.out.println("Ecke rechts");
+						////System.out.println("Ecke rechts");
 					} else {
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
 							trans.setToTranslation(-trans.getTranslateY(), 0);
@@ -174,16 +176,16 @@ public class CollisionEngine {
 							trans.translate(-intersection.getBounds().width, -intersection.getBounds().width);
 						}
 
-						//System.out.println("Ecke links");
+						////System.out.println("Ecke links");
 					}
 				} else {
 					trans.translate(0, -trans.getTranslateY());
-					//System.out.println("Kante");
+					////System.out.println("Kante");
 				}
 			}
 
 			if (dir == 0) { //up				|| dir==270){//horizontal
-				//(System.out.print("mmoving up - ");
+				//(//System.out.print("mmoving up - ");
 				if (intersection.getBounds().width < oldObject.getCollisionArea().getBounds2D().getWidth() * 4 / 5) {
 					//ecke
 					if (intersection.getBounds().x == oldObject.getCollisionArea().getBounds().x) {
@@ -193,7 +195,7 @@ public class CollisionEngine {
 						} else {
 							trans.translate(intersection.getBounds().width, intersection.getBounds().width);
 						}
-						//	System.out.println("Ecke rechts");
+						//	//System.out.println("Ecke rechts");
 					} else {
 						//links
 						if (intersection.getBounds().getBounds().height > trans.getTranslateX()) {
@@ -201,15 +203,15 @@ public class CollisionEngine {
 						} else {
 							trans.translate(-intersection.getBounds().width, intersection.getBounds().width);
 						}
-						//System.out.println("Ecke links");
+						////System.out.println("Ecke links");
 					}
 				} else {
 					trans.translate(0, -trans.getTranslateY());
-					//	System.out.println("Kante");
+					//	//System.out.println("Kante");
 				}
 			}
 
-			//if (!intersection.isEmpty()) System.out.println("Trans after = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
+			//if (!intersection.isEmpty()) //System.out.println("Trans after = x:" + trans.getTranslateX() + " y:" + trans.getTranslateY());
 			undone.transform(trans);
 			//check references
 			oldObject.setCollisionArea(undone);
@@ -247,7 +249,7 @@ public class CollisionEngine {
 		while (it.hasNext()) {
 			partnerObj = it.next();
 			// TODO create interface for objects which aren't blocking others
-			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem) && !(partnerObj.getPrivot() instanceof BombGrowItem)) {
+			if (partnerObj != oldObject && !(partnerObj.getPrivot() instanceof Exit) && !(partnerObj.getPrivot() instanceof Explosion) && !(partnerObj.getPrivot() instanceof BombUpItem)&& !(partnerObj.getPrivot() instanceof BombGrowItem)&& !(partnerObj.getPrivot() instanceof Skull)) {
 				if (!((partnerObj.getPrivot() instanceof Bomb) && !((Bomb) partnerObj.getPrivot()).playerOut)) {
 					if (partnerObj.getCollisionArea().getBounds().intersects(oldObject.getCollisionArea().getBounds())) {
 						intersection = (Area) partnerObj.getCollisionArea().clone();

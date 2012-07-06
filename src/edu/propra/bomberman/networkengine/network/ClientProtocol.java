@@ -1,12 +1,18 @@
-package edu.propra.bomberman.networkengine.network;
 
+
+package edu.propra.bomberman.networkengine.network;
 import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.actions.GameOverAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombGrowAction;
+import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
+import edu.propra.bomberman.gameengine.actions.PlayerDeadAction;
+import edu.propra.bomberman.gameengine.actions.PlayerWonAction;
 import edu.propra.bomberman.gameengine.actions.StartMoveAction;
 import edu.propra.bomberman.gameengine.actions.StopMoveAction;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.FixedBlock;
+import edu.propra.bomberman.gameengine.objects.GameObject;
 import edu.propra.bomberman.gameengine.objects.GameObjectGroup;
 import edu.propra.bomberman.gameengine.objects.IceBlock;
 import edu.propra.bomberman.gameengine.objects.Player;
@@ -38,8 +44,8 @@ public class ClientProtocol {
 			//SGameEngine.get().addAction(new BombDownAction(actor, Long.parseLong(messageParts[8]) + this.nE.syncTime, messageParts[4], Integer.parseInt(messageParts[5]), Integer.parseInt(messageParts[6])), false);
 		} else if (messageParts[3].equals("StartMoveAction")) {
 			Object actor = SGameEngine.get().getByOID(messageParts[5]);
-			
-			SGameEngine.get().addToNetStack(new StartMoveAction(Integer.parseInt(messageParts[4]), actor, Long.parseLong(messageParts[6]),Integer.parseInt(messageParts[7]),Integer.parseInt(messageParts[8])));
+
+			SGameEngine.get().addToNetStack(new StartMoveAction(Integer.parseInt(messageParts[4]), actor, Long.parseLong(messageParts[6]), Integer.parseInt(messageParts[7]), Integer.parseInt(messageParts[8])));
 			//((Player) actor).absTransform.setToTranslation(Integer.parseInt(messageParts[7]), Integer.parseInt(messageParts[8]));
 			//((SGTransform) ((Player) actor).getGo()).getTransform().setToTranslation(Integer.parseInt(messageParts[7]), Integer.parseInt(messageParts[8]));
 			//SGameEngine.get().addAction(new StartMoveAction(Integer.parseInt(messageParts[4]), actor, Long.parseLong(messageParts[6]) + this.nE.syncTime), false);
@@ -50,19 +56,22 @@ public class ClientProtocol {
 			//((SGTransform) ((Player) actor).getGo()).getTransform().setToTranslation(Integer.parseInt(messageParts[6]), Integer.parseInt(messageParts[7]));
 			//SGameEngine.get().addAction(new StopMoveAction(actor, Long.parseLong(messageParts[5]) + this.nE.syncTime), false);
 		} else if (messageParts[3].equals("GameOverAction")) {
-			SGameEngine.get().addToNetStack(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5]) ));
+			SGameEngine.get().addToNetStack(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5])));
 			//SGameEngine.get().addAction(new GameOverAction(messageParts[4], Long.parseLong(messageParts[5]) + this.nE.syncTime));
 		} else if (messageParts[3].equals("PlayerDeadAction")) {
-			if (messageParts[4].equals(playeroid)) {
-				Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
-				if (actor.death) {
-					return "MIDXXX Broadcast PlayerDeadAction 1";
-				} else {
-					return "MIDXXX Broadcast PlayerDeadAction 0";
-				}
-			}
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			SGameEngine.get().addToNetStack(new PlayerDeadAction(actor));
 		} else if (messageParts[3].equals("PlayerWonAction")) {
-
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			SGameEngine.get().addToNetStack(new PlayerWonAction(actor));
+		} else if (messageParts[3].equals("PlayerBombGrowAction")) {
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			GameObject item = (GameObject) SGameEngine.get().getByOID(messageParts[5]);
+			SGameEngine.get().addToNetStack(new PlayerBombGrowAction(actor, item));
+		} else if (messageParts[3].equals("PlayerBombUpAction")) {
+			Player actor = (Player) SGameEngine.get().getByOID(messageParts[4]);
+			GameObject item = (GameObject) SGameEngine.get().getByOID(messageParts[5]);
+			SGameEngine.get().addToNetStack(new PlayerBombUpAction(actor, item));
 		}
 		return null;
 	}
@@ -75,7 +84,11 @@ public class ClientProtocol {
 				//SGameEngine.get().addObject(new GameObjectGroup(Integer.parseInt(messageParts[4]), Integer.parseInt(messageParts[5]), messageParts[6]), null, false);
 			} else {
 				SGameEngine.get().addToNetStack(new GameObjectGroup(Integer.parseInt(messageParts[4]), Integer.parseInt(messageParts[5]), messageParts[6]));
-				SGameEngine.get().addToNetStack((GameObjectGroup) SGameEngine.get().getByOID(messageParts[7]));
+				if(messageParts[7].equals("0")){
+					SGameEngine.get().addToNetStack(messageParts[7]);	
+				}else{
+					SGameEngine.get().addToNetStack((GameObjectGroup) SGameEngine.get().getByOID(messageParts[7]));
+				}
 				//SGameEngine.get().addObject(new GameObjectGroup(Integer.parseInt(messageParts[4]), Integer.parseInt(messageParts[5]), messageParts[6]), (GameObjectGroup) SGameEngine.get().getByOID(messageParts[7]), false);
 			}
 		} else if (messageParts[3].equals("FixedBlock")) {
@@ -159,7 +172,7 @@ public class ClientProtocol {
 			if (messageParts[2].equals("AddPlayer")) return PlayerOID(messageParts);
 			if (messageParts[2].equals("EndMapInitializationPhase")) return EndMapInitializationPhaseBroadcast(messageParts);
 		} else if (GamePhase) {
-			if (messageParts[2].equals("AddObject")) return AddObject(messageParts);
+			//if (messageParts[2].equals("AddObject")) return AddObject(messageParts);
 			//if(messageParts[2].equals("RemoveObject"))return RemoveObject(messageParts);
 			if (messageParts[2].equals("AddAction")) return AddAction(messageParts);
 			//if(messageParts[2].equals("RemoveAction"))return RemoveAction(messageParts);

@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import main.Bomberman;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
+import edu.propra.bomberman.gameengine.SGameEngine;
+import edu.propra.bomberman.gameengine.actions.PlayerDeadAction;
 import edu.propra.bomberman.graphicengine.SGAnimation;
 import edu.propra.bomberman.graphicengine.SGArea;
 import edu.propra.bomberman.graphicengine.SGImage;
@@ -172,15 +174,18 @@ public class Explosion extends GameObject {
 	public void collisionWith(Object a) {
 		if (a instanceof FixedBlock || a instanceof IceBlock ) {
 			reduceCollision(a);
-			// System.out.println("Movement Collision between "+this.toString()+" and FixedBlock "+
-			// a.toString());
 		} else if (a instanceof Player) {
-			// System.out.println("Movement Collision between "+this.toString()+" and Player "+
-			// a.toString());
-		} else {
-			// System.out.println("Collision between "+this.toString()+" and "+
-			// a.toString());
-		}
+			
+			if(SGameEngine.get().getNetworkEngine().isNetworkGame()){
+				if(a == SGameEngine.get().you){
+					((Player)a).getData().block();
+					SGameEngine.get().addAction(new PlayerDeadAction((Player) a), true);
+				}
+			}else {
+				((Player)a).getData().block();
+				SGameEngine.get().addAction(new PlayerDeadAction((Player) a), false);
+			}
+		} 
 	}
 
 	@Override

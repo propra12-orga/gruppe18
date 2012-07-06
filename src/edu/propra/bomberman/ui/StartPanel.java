@@ -8,7 +8,11 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
+/**
+ * 
+ * @author Nadescha
+ *Panelclass to set size for MenuButtons
+ */
 public class StartPanel extends JPanel {
 
 	public StartPanel() {

@@ -15,7 +15,11 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 import edu.propra.bomberman.gameengine.actions.PlayerBombUpAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
-
+/**
+ * Itemclass to duplicate Bombs
+ * @author Nadescha
+ *
+ */
 public class BombUpItem extends GameObject {
 	public static Area			clipArea		= null;
 	public static Area			collisionArea	= null;
@@ -53,7 +57,13 @@ public class BombUpItem extends GameObject {
 	@Override
 	public void collisionWith(Object a) {
 		if (a instanceof Player) {
-			SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this));
+			if(SGameEngine.get().getNetworkEngine().isNetworkGame()){
+				if(a == SGameEngine.get().you){
+					SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this),true);
+				}
+			}else{
+				SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this),false);
+			}
 		}
 	}
 

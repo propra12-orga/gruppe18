@@ -11,7 +11,7 @@ import edu.propra.bomberman.gameengine.SGameEngine;
 
 /**
  * @author Nadescha
- * 
+ * Leafnode which runs animations
  */
 public class SGAnimation extends SGLeaf {
 
@@ -25,7 +25,7 @@ public class SGAnimation extends SGLeaf {
 	private long			startTime;
 
 	/**
-	 * 
+	 * Every time when Video starts , start time is shown, starttime is used too calculate the animation
 	 */
 	public SGAnimation(BufferedImage[] images, long aniTime) {
 		this.startTime = 0;
@@ -46,6 +46,9 @@ public class SGAnimation extends SGLeaf {
 	 * @see
 	 * edu.propra.bomberman.graphicengine.SGLeaf#paint(java.awt.geom.AffineTransform
 	 * , java.awt.Graphics2D)
+	 */
+	/**
+	 * Paints the pictures of animation 
 	 */
 	@Override
 	public void paint(AffineTransform transform, Graphics2D g2d) {

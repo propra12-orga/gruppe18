@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author Nadescha
+ * Showa different pictures , and could auswählen which shcould be paint
  * 
  */
 public class SGConditionedImage extends SGLeaf {

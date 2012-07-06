@@ -11,7 +11,7 @@ import java.awt.geom.Area;
 
 /**
  * @author Nadescha
- * 
+ * Bottom of tree ,were paint
  */
 public class SGLeaf extends SGNode {
 	private AffineTransform	actTrans;

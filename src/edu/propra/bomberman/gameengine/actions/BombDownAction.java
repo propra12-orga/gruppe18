@@ -35,7 +35,7 @@ public class BombDownAction extends ActionObject {
 	public void action() {
 		if (bomb == null && x > -9999) bomb = new Bomb(((Player) actor), x, y, oid);
 		if (bomb != null) {
-			System.out.println("Bomb at: " + x + " , " + y);
+			//System.out.println("Bomb at: " + x + " , " + y);
 			GameEngine ge = SGameEngine.get();
 			ge.addObject(bomb, null, false);
 			bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000, SGameEngine.get().getActionID(), ((Player) actor).bombSize));
