@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 import main.Bomberman;
 
 import edu.propra.bomberman.collisionengine.CollisionObject;
+import edu.propra.bomberman.gameengine.SGameEngine;
+import edu.propra.bomberman.gameengine.actions.PlayerWonAction;
 import edu.propra.bomberman.graphicengine.SGImage;
 import edu.propra.bomberman.graphicengine.SGTransform;
 
@@ -50,10 +52,14 @@ public class Exit extends GameObject {
 
 	@Override
 	public void collisionWith(Object a) {
-		if (a instanceof Exit) {
-			//
-		} else {
-			//
+		if (a instanceof Player) {
+			if(SGameEngine.get().getNetworkEngine().isNetworkGame()) {
+				if(a == SGameEngine.get().you){			
+					SGameEngine.get().addAction(new PlayerWonAction((Player) a), true);
+				}
+			}else{
+				SGameEngine.get().addAction(new PlayerWonAction((Player) a), false);
+			}
 		}
 	}
 

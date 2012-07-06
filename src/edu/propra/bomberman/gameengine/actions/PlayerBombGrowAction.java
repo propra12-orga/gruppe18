@@ -22,8 +22,7 @@ public class PlayerBombGrowAction extends ActionObject {
 
 	@Override
 	public String getMessageData() {
-		// TODO Auto-generated method stub
-		return null;
+		return " PlayerBombGrowAction "+((Player)actor).getOid()+" "+((GameObject)item).getOid()+" "+time;
 	}
 
 }

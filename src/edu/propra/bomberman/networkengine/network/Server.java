@@ -5,6 +5,8 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.io.*;
 
+import edu.propra.bomberman.ui.Options;
+
 public class Server implements Runnable {
 	private int					ActClients	= 0;
 	ArrayDeque<ServerClient>	clients;
@@ -65,7 +67,7 @@ public class Server implements Runnable {
 	public void connect() {
 		try {
 			//serverSocket = new ServerSocket(4444, 1, InetAddress.getLocalHost());
-			serverSocket = new ServerSocket(4444);
+			serverSocket = new ServerSocket(Integer.parseInt(Options.PortName));
 		} catch (IOException e) {
 			System.err.println("Could not listen on port: 4444.");
 			System.exit(-1);

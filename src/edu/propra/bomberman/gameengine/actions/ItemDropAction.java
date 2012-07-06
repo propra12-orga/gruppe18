@@ -25,7 +25,7 @@ public class ItemDropAction extends ActionObject {
 	public void action() {
 
 		SGameEngine.get().addObject((GameObject) this.actor, null, true);
-		System.out.println("Item dropped");
+		//System.out.println("Item dropped");
 	}
 
 	@Override

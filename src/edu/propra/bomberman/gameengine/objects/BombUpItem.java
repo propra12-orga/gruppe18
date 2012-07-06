@@ -53,7 +53,13 @@ public class BombUpItem extends GameObject {
 	@Override
 	public void collisionWith(Object a) {
 		if (a instanceof Player) {
-			SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this));
+			if(SGameEngine.get().getNetworkEngine().isNetworkGame()){
+				if(a == SGameEngine.get().you){
+					SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this),true);
+				}
+			}else{
+				SGameEngine.get().addAction(new PlayerBombUpAction((Player) a, this),false);
+			}
 		}
 	}
 

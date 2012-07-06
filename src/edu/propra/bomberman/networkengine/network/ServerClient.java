@@ -71,7 +71,7 @@ public class ServerClient implements Runnable {
 	}
 
 	public void setState(int state) {
-		System.out.println("Phase " + state);
+		//System.out.println("Phase " + state);
 		if (state == 0) {
 			this.bp.ConnectionPhase = true;
 			this.bp.GameEndPhase = false;
@@ -118,6 +118,6 @@ public class ServerClient implements Runnable {
 		if (message == null || message.length() == 0) return;
 		System.out.println("--> : " + message);
 		out.println(message);
-		System.out.println("Message gone: "+System.currentTimeMillis());
+		//System.out.println("Message gone: "+System.currentTimeMillis());
 	}
 }

@@ -83,7 +83,7 @@ public class Bomb extends GameObject {
 		} else if (a instanceof Wall) {
 			if (!removed) repositionBomb(((Wall) a).getCo().getCollisionArea());
 		} else {
-			// System.out.println("Collision between "+this.toString()+" and "+
+			// //System.out.println("Collision between "+this.toString()+" and "+
 			// a.toString());
 		}
 	}

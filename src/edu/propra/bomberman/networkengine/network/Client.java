@@ -9,6 +9,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
 
+import edu.propra.bomberman.ui.Options;
+
 public class Client implements Runnable {
 	ClientProtocol	bp;
 	BufferedReader	in	= null;
@@ -28,13 +30,16 @@ public class Client implements Runnable {
 	public boolean connect() {
 		boolean connected = false;
 		try {
-			socket = new Socket(InetAddress.getLocalHost(), 4444);
-			//socket = new Socket(InetAddress.getByName("192.168.1.102"), 4444);
+			if(Options.HostName.equals("localhost")){
+				socket = new Socket(InetAddress.getLocalHost(), Integer.parseInt(Options.PortName));
+			}else{
+				socket = new Socket(Options.HostName, Integer.parseInt(Options.PortName));
+			}
 			connected = true;
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
 		} catch (ConnectException e) {
-			System.out.println("Keine Verbindung möglich");
+			//System.out.println("Keine Verbindung möglich");
 			connected = false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -51,11 +56,11 @@ public class Client implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Client is listening");
+		//System.out.println("Client is listening");
 		try {
 			while (listen) {
 				String input = in.readLine();
-				System.out.println("Message received: "+System.currentTimeMillis());
+				//System.out.println("Message received: "+System.currentTimeMillis());
 				String output = this.receiveMessage(input);
 				this.submitMessage(output);
 			}

@@ -47,20 +47,20 @@ public class Quantizer {
 				//Concatenate with a ! every 100th Step detected if modulo equals zero
 			}
 			if (getFraction() == 1) {
-				System.out.println(a + "s");
+				//System.out.println(a + "s");
 
 				format = "_sec";
 				//Print out current trace
 			}
 			if (getFraction() == 0.001) {
-				System.out.println(a + "ms");
-				System.out.println("Time is running out!" + emp);
+				//System.out.println(a + "ms");
+				//System.out.println("Time is running out!" + emp);
 				format = "_millisec";
 				//Print out current trace
 
 			}
 			if (a >= delay || reset == true) {
-				System.out.println("Quantizer stopped at " + a + format);
+				//System.out.println("Quantizer stopped at " + a + format);
 				break;
 				//Print out position and break the loop
 			}

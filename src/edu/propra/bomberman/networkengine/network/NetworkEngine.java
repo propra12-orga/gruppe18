@@ -67,7 +67,7 @@ public class NetworkEngine {
 	}
 
 	public void maxClientsReached() {
-		System.out.println("MaxClientsReached");
+		//System.out.println("MaxClientsReached");
 		//server.listening=false;
 		//STOPING CONNECTION PHASE
 		server.ChangeState(1);
@@ -109,6 +109,10 @@ public class NetworkEngine {
 		if (server != null) new Thread(server).start();
 		this.networkGame = true;
 		System.out.println("Network is running");
+	}
+
+	public boolean isNetworkGame() {
+		return networkGame;
 	}
 
 }

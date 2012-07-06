@@ -18,7 +18,7 @@ public class IceBlockDestroyedAction extends ActionObject {
 	@Override
 	public void action() {
 		SGameEngine.get().removeObject((GameObject) this.actor);
-		if (type != -1) {
+		if (type != -1 && type!=0) {
 			SGameEngine.get().addAction(new ItemDropAction(type, (int) ((IceBlock) actor).absTransform.getTranslateX(), (int) ((IceBlock) actor).absTransform.getTranslateY()), false);
 		}
 	}

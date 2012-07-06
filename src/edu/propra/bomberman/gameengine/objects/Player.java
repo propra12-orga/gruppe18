@@ -79,9 +79,9 @@ public class Player extends GameObject implements Moveable {
 
 		this.absTransform = (AffineTransform) trans.clone();
 		// Initialize Data to make Player Object moveable
-		data = new MovingData(this);
-		data.setActTrans(leaf.getActTrans());
-		data.setSpeed(5);
+		setData(new MovingData(this));
+		getData().setActTrans(leaf.getActTrans());
+		getData().setSpeed(5);
 
 	}
 
@@ -93,8 +93,8 @@ public class Player extends GameObject implements Moveable {
 	public Bomb bombDown() {
 		if (bombCounter > 0) {
 			bombCounter--;
-			data.now = true;
-			int dir = this.data.getDirection();
+			getData().now = true;
+			int dir = this.getData().getDirection();
 			double x = 0, y = 0;
 			return new Bomb(this, (int) (this.absTransform.getTranslateX() + collisionArea.getBounds().x + x), (int) (this.absTransform.getTranslateY() + collisionArea.getBounds().y + y), "oid" + SGameEngine.get().ObjectCounter);
 		}
@@ -112,17 +112,6 @@ public class Player extends GameObject implements Moveable {
 
 	@Override
 	public void collisionWith(Object a) {
-		if (!death) {
-			if (a instanceof Explosion) {
-				this.data.block();
-				SGameEngine.get().addAction(new PlayerDeadAction(this), true);
-			} else if (a instanceof Exit) {
-				SGameEngine.get().addAction(new PlayerWonAction(this), true);
-			} else {
-				// System.out.println("Collision between "+this.toString()+" and "+
-
-			}
-		}
 	}
 
 	@Override
@@ -140,7 +129,7 @@ public class Player extends GameObject implements Moveable {
 
 	@Override
 	public MovingData getMovingData() {
-		return this.data;
+		return this.getData();
 	}
 
 	public String getName() {
@@ -164,5 +153,13 @@ public class Player extends GameObject implements Moveable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public MovingData getData() {
+		return data;
+	}
+
+	public void setData(MovingData data) {
+		this.data = data;
 	}
 }

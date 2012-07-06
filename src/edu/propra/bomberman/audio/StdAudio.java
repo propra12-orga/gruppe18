@@ -92,7 +92,7 @@ public final class StdAudio {
 			// the sound card decides to push out its samples.
 			buffer = new byte[SAMPLE_BUFFER_SIZE * BYTES_PER_SAMPLE / 3];
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			System.exit(1);
 		}
 
@@ -243,7 +243,7 @@ public final class StdAudio {
 				ais.read(data);
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			throw new RuntimeException("Could not read " + filename);
 		}
 
@@ -277,7 +277,7 @@ public final class StdAudio {
 				throw new RuntimeException("File format not supported: " + filename);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			//System.out.println(e);
 			System.exit(1);
 		}
 	}
