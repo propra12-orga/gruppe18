@@ -172,6 +172,7 @@ public class GameEngine {
 			//TODO Make this for individualPlayer
 			this.nE.broadcastMessage("MIDQQQ Broadcast AddPlayer oid" + ObjectCounter);
 			Player player2 = new Player(735, 535, "Player2", 1, "oid" + ObjectCounter);
+			this.addPlayer(player2);
 			this.addObject(player2, null, true);
 			this.players = 2;
 		}
@@ -363,6 +364,7 @@ public class GameEngine {
 	public void setPlayer(Player player, boolean submit) {
 		//System.out.println("GameEngine.setPlayer()");
 		this.you=player;
+		this.addPlayer(player);
 		this.addObject(player, null, submit);
 		PlayerListener listener = new PlayerListener(player, KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT, KeyEvent.VK_SPACE);
 		listener.login(this.ucE);
@@ -401,6 +403,7 @@ public class GameEngine {
 	public void startTwoPlayer() {
 		System.out.println("GameEngine.startTwoPlayer()");
 		int scene = (int) (Math.random() * (9d - 5d) + 5d);
+		scene=5;
 		this.objectsRoot = (GameObjectGroup) SceneMapGenerator.loadMap("scene" + scene + ".xml",this);
 		this.objectsRoot.initializeAbsolutePositions(new AffineTransform());
 		this.objectsRoot.initializeCollisions();
@@ -408,6 +411,7 @@ public class GameEngine {
 		this.setPlayer(player, false);
 
 		Player enemy = new Player(735, 535, "Player2", 1, "oid" + ObjectCounter);
+		this.addPlayer(enemy);
 		this.addObject(enemy, null, false);
 		PlayerListener enemyListener = new PlayerListener(enemy, KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_E);
 		enemyListener.login(this.ucE);
@@ -451,5 +455,10 @@ public class GameEngine {
 
 	public NetworkEngine getNetworkEngine() {
 		return this.nE;
+	}
+	
+	public ArrayList<Player> playerList=new ArrayList<Player>();
+	public void addPlayer(Player player){
+		this.playerList.add(player);
 	}
 }

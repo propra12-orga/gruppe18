@@ -10,8 +10,8 @@ import edu.propra.bomberman.graphicengine.SGTransform;
 public class BombDownAction extends ActionObject {
 	Bomb	bomb;
 	String	oid;
-	int		x	= -10000, y = -10000;
-
+	int		x	= -10000, y = -10000,bombize= 3;
+	
 	public BombDownAction(Object actor, long time, String aid) {
 		this.actor = actor;
 		this.time = time;
@@ -38,7 +38,11 @@ public class BombDownAction extends ActionObject {
 			//System.out.println("Bomb at: " + x + " , " + y);
 			GameEngine ge = SGameEngine.get();
 			ge.addObject(bomb, null, false);
-			bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000, SGameEngine.get().getActionID(), ((Player) actor).bombSize));
+			if(actor==null){
+				bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000, SGameEngine.get().getActionID(), this.bombize));		
+			}else{
+				bomb.setAction(new BombUpAction(bomb, this.getTime() + 2000, SGameEngine.get().getActionID(), ((Player) actor).bombSize));
+			}
 			((SGAnimation) ((SGTransform) bomb.getGo()).getChild()).start();
 			ge.addAction(bomb.getAction());
 			ge.addAction(new CheckBombLeaveAction(bomb, this.getTime() + 50));

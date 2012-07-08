@@ -12,6 +12,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import edu.propra.bomberman.gameengine.actions.ActionObject;
+import edu.propra.bomberman.gameengine.actions.AddObjectAction;
+import edu.propra.bomberman.gameengine.actions.BombDownAction;
 import edu.propra.bomberman.gameengine.objects.Bomb;
 import edu.propra.bomberman.gameengine.objects.Exit;
 import edu.propra.bomberman.gameengine.objects.Explosion;
@@ -49,8 +52,13 @@ public class SceneMapGenerator {
 							actGO = actGO2;
 						}
 					} else {
-						actGO.addChild(SceneMapGenerator.getNewGO(act));
-						gE.addObject(SceneMapGenerator.getNewGO(act), actGO, true);
+						if(act.getNodeName().equals("geAction")){
+							ActionObject action=SceneMapGenerator.getNewAction(act,gE);
+							gE.addAction(action, true);
+						}else{
+							actGO.addChild(SceneMapGenerator.getNewGO(act));
+							gE.addObject(SceneMapGenerator.getNewGO(act), actGO, true);
+						}
 					}
 
 				}
@@ -83,6 +91,27 @@ public class SceneMapGenerator {
 
 	
 	
+	private static ActionObject getNewAction(Node node,GameEngine gE) {
+		String type=node.getAttributes().getNamedItem("type2").getNodeValue();
+		if(type.equals("BombDownAction")){
+			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
+			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+			long time = gE.getTime()+Integer.parseInt(node.getAttributes().getNamedItem("time").getNodeValue());
+			return new BombDownAction(null, time, gE.getActionID(), x, y);
+		}	
+		if(type.equals("AddObjectAction")){
+			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());
+			int y = Integer.parseInt(node.getAttributes().getNamedItem("y").getNodeValue());
+			long time = gE.getTime()+Integer.parseInt(node.getAttributes().getNamedItem("time").getNodeValue());
+			String object=node.getAttributes().getNamedItem("object").getNodeValue();
+			int type2=Integer.parseInt(node.getAttributes().getNamedItem("type").getNodeValue());
+			return new AddObjectAction(time, gE.getActionID(), x, y,type2,object);
+		}	
+		return null;
+	}
+
+
+
 	private static GameObject getNewGO(Node node) {
 		if (node.getNodeName().equals("geGroup")) {
 			int x = Integer.parseInt(node.getAttributes().getNamedItem("x").getNodeValue());

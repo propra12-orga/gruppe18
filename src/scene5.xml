@@ -91,8 +91,7 @@
 		<geIceBlock x="120" y="240" />
 
 		<geIceBlock x="280" y="240" />
-		<geIceBlock x="360" y="240" />
-
+	
 		<geIceBlock x="520" y="240" />
 
 		<geIceBlock x="680" y="240" />
@@ -126,7 +125,6 @@
 
 		<geIceBlock x="240" y="280" />
 
-		<geIceBlock x="400" y="280" />
 
 		<geIceBlock x="560" y="280" />
 
@@ -136,7 +134,6 @@
 		<geIceBlock x="120" y="320" />
 
 		<geIceBlock x="280" y="320" />
-		<geIceBlock x="360" y="320" />
 		<geIceBlock x="440" y="320" />
 
 		<geIceBlock x="600" y="320" />
@@ -228,4 +225,49 @@
 		<geIceBlock x="640" y="520" />
 		
 	</geGroup>
+	<geAction type2="BombDownAction" x="345" y="305" time="2000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="3000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="4000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="5000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="6000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="7000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="8000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="9000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="10000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="11000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="12000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="13000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="14000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="15000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="16000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="17000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="18000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="19000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="20000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="21000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="22000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="23000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="24000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="25000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="26000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="27000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="28000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="29000" />
+
+	<geAction type2="BombDownAction" x="345" y="305" time="30000" />
+	<geAction type2="BombDownAction" x="425" y="305" time="31000" />
+	<geAction type2="BombDownAction" x="385" y="265" time="32000" />
+	<geAction type2="BombDownAction" x="385" y="345" time="33000" />
+	
+	<geAction type2="AddObjectAction" object="IceBlock"  x="345" y="305" time="34000" type="0" />
+	<geAction type2="AddObjectAction" object="IceBlock"  x="425" y="305" time="35000" type="0" />
+	<geAction type2="AddObjectAction" object="IceBlock"  x="385" y="265" time="36000" type="3" />
+	<geAction type2="AddObjectAction" object="IceBlock"  x="385" y="345" time="37000" type="1"/>
+	
 </geGroup>

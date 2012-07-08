@@ -73,7 +73,7 @@ public class Bomb extends GameObject {
 				removed = true;
 				SGameEngine.get().removeObject(this);
 				SGameEngine.get().removeAction(this.action);
-				this.owner.bombUp();
+				if(this.owner!=null)this.owner.bombUp();
 				done = true;
 			}
 		} else if (a instanceof FixedBlock) {
@@ -125,7 +125,7 @@ public class Bomb extends GameObject {
 			removed = true;
 			SGameEngine.get().removeObject(this);
 			SGameEngine.get().removeAction(this.action);
-			this.owner.bombUp();
+			if(this.owner!=null)this.owner.bombUp();
 			collisionCount = 0;
 		} else if (Math.abs(diffX) < Math.abs(diffY) || diffX == 0) {
 			// move vertical
